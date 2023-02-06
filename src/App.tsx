@@ -96,6 +96,10 @@ function App(): JSX.Element {
   );
 }
 
+function MainApp(): JSX.Element {
+  return <App />;
+}
+
 const styles = StyleSheet.create({
   sectionContainer: {
     marginTop: 32,
@@ -115,4 +119,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default MainApp;
