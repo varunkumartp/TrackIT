@@ -1,8 +1,9 @@
-import {View, Text, TextInput, Pressable, Keyboard} from 'react-native';
+import {View, Text, TextInput, Pressable, Keyboard, Alert} from 'react-native';
 import React, {createRef, useContext, useState} from 'react';
 
 import DatePicker from 'react-native-date-picker';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import ButtonGroup from './ButtonGroup';
 
@@ -10,16 +11,18 @@ import {ThemeContext} from '../../../contexts/ThemeContext';
 import {Theme} from '../../../globals/Theme';
 import {FormStyles} from '../../../globals/Form.Styles';
 import AccountsList from './AccountsList';
-import {createTransactions} from '../../../database/transactions';
+import {deleteTransaction, editTransaction} from '../../../database/transactions';
+// import {createTransactions} from '../../../database/transactions';
 
-type FormProps = NativeStackScreenProps<RootStackParamList, 'Form'>;
+type EditFormProps = NativeStackScreenProps<RootStackParamList, 'EditForm'>;
 
-const Form = ({route, navigation}: FormProps) => {
+const EditForm = ({route, navigation}: EditFormProps) => {
   const {data} = route.params;
   const {theme} = useContext(ThemeContext);
   let activeColor = Theme[theme.mode];
   const [type, setType] = useState(data.TYPE);
   const [open, setOpen] = useState(false);
+  const [editMode, setEditMode] = useState(false);
   const [debitAccount, setDebitAccount] = useState<FormAccount>({
     ID: data.DEBIT_ID,
     NAME: data.DEBIT_NAME,
@@ -29,10 +32,10 @@ const Form = ({route, navigation}: FormProps) => {
     NAME: data.CREDIT_NAME,
   });
   const [creditList, setCreditList] = useState(false);
-  const [debitList, setDebitList] = useState(true);
+  const [debitList, setDebitList] = useState(false);
   const [input, setInput] = useState<inputData>({
-    DATE: new Date(),
-    AMOUNT_LOC: data.AMOUNT_LOC === 0 ? '' : data.AMOUNT_LOC.toString(),
+    DATE: new Date(data.DATE),
+    AMOUNT_LOC: data.AMOUNT_LOC.toString(),
     DESCRIPTION: data.DESCRIPTION,
     NOTES: '',
   });
@@ -47,17 +50,32 @@ const Form = ({route, navigation}: FormProps) => {
   };
 
   const creditHandler = (account: Accounts) => {
-    setCreditAccount(account);
+    setCreditAccount({ID: account.ID, NAME: account.NAME});
     amountRef.current?.focus();
   };
 
   const debitHandler = (account: Accounts) => {
-    setDebitAccount(account);
+    setDebitAccount({ID: account.ID, NAME: account.NAME});
     creditRef.current?.focus();
   };
 
-  const submitHandler = () => {
-    createTransactions({
+  const deleteHandler = () => {
+    Alert.alert('Delete Transaction', 'Do you want to delete this transaction?', [
+      {
+        text: 'No',
+      },
+      {
+        text: 'Yes',
+        onPress: () => {
+          deleteTransaction(data.ID);
+          navigation.navigate('BottomTab');
+        },
+      },
+    ]);
+  };
+
+  const edithandler = () => {
+    editTransaction(data.ID, {
       ...input,
       DEBIT: type === 'EXPENSE' ? creditAccount.ID : debitAccount.ID,
       CREDIT: type === 'EXPENSE' ? debitAccount.ID : creditAccount.ID,
@@ -106,13 +124,14 @@ const Form = ({route, navigation}: FormProps) => {
             <TextInput
               style={{...FormStyles.input, color: activeColor.text}}
               onPressIn={() => {
+                setEditMode(true);
                 setOpen(true);
                 setDebitList(false);
                 setCreditList(false);
               }}
               value={input.DATE.toLocaleDateString()}
               showSoftInputOnFocus={false}
-              onContentSizeChange={() => debitRef.current?.focus()}
+              onContentSizeChange={() => editMode && debitRef.current?.focus()}
             />
           </View>
           {/* Debit Account */}
@@ -126,12 +145,13 @@ const Form = ({route, navigation}: FormProps) => {
               value={debitAccount.NAME}
               showSoftInputOnFocus={false}
               onPressIn={() => {
+                setEditMode(true);
                 Keyboard.dismiss();
                 setCreditList(false);
-                setDebitList(true);
+                setDebitList(true && editMode);
               }}
               onFocus={() => {
-                setDebitList(true);
+                setDebitList(true && editMode);
               }}
             />
           </View>
@@ -146,12 +166,13 @@ const Form = ({route, navigation}: FormProps) => {
               value={creditAccount.NAME}
               showSoftInputOnFocus={false}
               onPressIn={() => {
+                setEditMode(true);
                 Keyboard.dismiss();
-                setCreditList(true);
+                setCreditList(true && editMode);
                 setDebitList(false);
               }}
               onFocus={() => {
-                setCreditList(true);
+                setCreditList(true && editMode);
               }}
             />
           </View>
@@ -160,15 +181,16 @@ const Form = ({route, navigation}: FormProps) => {
             <Text style={{...FormStyles.text, color: activeColor.text}}>Amount</Text>
             <TextInput
               ref={amountRef}
+              value={input.AMOUNT_LOC}
               style={{...FormStyles.input, color: activeColor.text}}
               keyboardType={'number-pad'}
               onChangeText={value => setInput({...input, AMOUNT_LOC: value})}
               onPressIn={() => {
+                setEditMode(true);
                 setCreditList(false);
                 setDebitList(false);
               }}
               onSubmitEditing={() => descriptionRef.current?.focus()}
-              value={input.AMOUNT_LOC}
             />
           </View>
           {/* Description */}
@@ -176,13 +198,14 @@ const Form = ({route, navigation}: FormProps) => {
             <Text style={{...FormStyles.text, color: activeColor.text}}>Description</Text>
             <TextInput
               ref={descriptionRef}
+              value={input.DESCRIPTION}
               style={{...FormStyles.input, color: activeColor.text}}
               onChangeText={value => setInput({...input, DESCRIPTION: value})}
               onPressIn={() => {
+                setEditMode(true);
                 setCreditList(false);
                 setDebitList(false);
               }}
-              value={input.DESCRIPTION}
             />
           </View>
           {/* Notes */}
@@ -192,32 +215,62 @@ const Form = ({route, navigation}: FormProps) => {
               style={{...FormStyles.input, color: activeColor.text}}
               onChangeText={value => setInput({...input, NOTES: value})}
               onPressIn={() => {
+                setEditMode(true);
                 setCreditList(false);
                 setDebitList(false);
               }}
-              value={input.NOTES}
             />
           </View>
-          <View style={FormStyles.buttonField}>
-            <Pressable
-              style={{
-                ...FormStyles.pressable,
-                backgroundColor: activeColor.theme,
-                flex: 2,
-              }}
-              onPress={() => submitHandler()}>
-              <Text style={{...FormStyles.buttonText, color: activeColor.text}}>Submit</Text>
-            </Pressable>
-            <Pressable
-              style={{
-                ...FormStyles.pressable,
-                backgroundColor: activeColor.theme,
-                flex: 1,
-              }}
-              onPress={() => navigation.navigate('BottomTab')}>
-              <Text style={{...FormStyles.buttonText, color: activeColor.text}}>Cancel</Text>
-            </Pressable>
-          </View>
+          {editMode && (
+            <View style={FormStyles.buttonField}>
+              <Pressable
+                style={{
+                  ...FormStyles.pressable,
+                  backgroundColor: activeColor.theme,
+                  flex: 2,
+                }}
+                onPress={() => edithandler()}>
+                <Text style={{...FormStyles.buttonText, color: activeColor.text}}>Update</Text>
+              </Pressable>
+              <Pressable
+                style={{
+                  ...FormStyles.pressable,
+                  backgroundColor: activeColor.theme,
+                  flex: 1,
+                }}
+                onPress={() => navigation.navigate('BottomTab')}>
+                <Text style={{...FormStyles.buttonText, color: activeColor.text}}>Cancel</Text>
+              </Pressable>
+            </View>
+          )}
+          {!editMode && (
+            <View style={FormStyles.buttonField}>
+              <Pressable
+                style={{
+                  ...FormStyles.pressable,
+                  backgroundColor: activeColor.theme,
+                  flex: 1,
+                  justifyContent: 'center',
+                  flexDirection: 'row',
+                }}
+                onPress={() => navigation.navigate('Form', {data: data})}>
+                <Icon name="clone" size={15} color={activeColor.text} />
+                <Text style={{...FormStyles.buttonText, color: activeColor.text}}>Copy</Text>
+              </Pressable>
+              <Pressable
+                style={{
+                  ...FormStyles.pressable,
+                  backgroundColor: activeColor.theme,
+                  flex: 1,
+                  justifyContent: 'center',
+                  flexDirection: 'row',
+                }}
+                onPress={() => deleteHandler()}>
+                <Icon name="trash-alt" size={15} color={activeColor.text} />
+                <Text style={{...FormStyles.buttonText, color: activeColor.text}}>Delete</Text>
+              </Pressable>
+            </View>
+          )}
         </View>
       </View>
       {creditList && (
@@ -240,4 +293,4 @@ const Form = ({route, navigation}: FormProps) => {
   );
 };
 
-export default Form;
+export default EditForm;

@@ -1,4 +1,8 @@
-("fb9cf303-e5f0-2e35-44e0-320c8afdd326",""Asset",1,100000,NULL"),
+import sqlite3
+import os.path
+
+accounts = [
+("fb9cf303-e5f0-2e35-44e0-320c8afdd326","Asset",1,100000,None),
 ("10a28d91-9a7d-51b3-9e8f-6da4d8bf999d","Cash",1,101000,"fb9cf303-e5f0-2e35-44e0-320c8afdd326"),
 ("2ce40963-dd20-c5cb-fb27-c292678860ee","Account",1,102000,"fb9cf303-e5f0-2e35-44e0-320c8afdd326"),
 ("a9949447-f475-3988-27ae-45712220341a","State Bank of India",1,102001,"2ce40963-dd20-c5cb-fb27-c292678860ee"),
@@ -19,14 +23,14 @@
 ("ba595d9e-e900-e525-6d4e-af57863aecc4","Index Funds",1,104008,"250377b2-4dda-bf29-e24e-74a4c2100bc8"),
 ("d10ce63d-9104-157c-da5b-3db904deed10","Liquid Funds",1,104009,"250377b2-4dda-bf29-e24e-74a4c2100bc8"),
 ("4cae8fe5-2b61-0f82-101f-efa35dc87185","ELSS",1,104010,"250377b2-4dda-bf29-e24e-74a4c2100bc8"),
-("597de23d-4413-1e79-e005-176cdd4c1a78",""Liability",-1,200000,NULL"),
+("597de23d-4413-1e79-e005-176cdd4c1a78","Liability",-1,200000,None),
 ("e5fa2e6f-77f2-4dd0-94fb-061494eb7174","Credit Card",-1,201000,"597de23d-4413-1e79-e005-176cdd4c1a78"),
 ("0083375c-44c1-287c-82fa-55476d9fa052","SBI CC",-1,201001,"e5fa2e6f-77f2-4dd0-94fb-061494eb7174"),
 ("dccf80a7-f49b-a4bb-8eea-69a4dc3e31bd","Amazon Pay CC",-1,201002,"e5fa2e6f-77f2-4dd0-94fb-061494eb7174"),
 ("ab42e3f2-a6a7-52ef-0a44-a4370d715d68","Loan",-1,202000,"597de23d-4413-1e79-e005-176cdd4c1a78"),
 ("57c76ac9-4fff-5607-2109-64243f08f7b4","Car",-1,202001,"ab42e3f2-a6a7-52ef-0a44-a4370d715d68"),
 ("a588a32a-7f2d-75af-658f-11d2c1867376","Laptop",-1,202002,"ab42e3f2-a6a7-52ef-0a44-a4370d715d68"),
-("22a3aa48-56e7-3582-cb27-23aae9c13501",""Income",-1,400000,NULL"),
+("22a3aa48-56e7-3582-cb27-23aae9c13501","Income",-1,400000,None),
 ("c96e58c4-a61f-69ad-57d7-7f89df56da24","Salary",-1,401000,"22a3aa48-56e7-3582-cb27-23aae9c13501"),
 ("7c933c86-39e6-e28e-8daa-eab79aabd96d","Salary",-1,401001,"c96e58c4-a61f-69ad-57d7-7f89df56da24"),
 ("4de29e2b-0ec6-0421-340e-7eb27cab415c","Sodexo",-1,401002,"c96e58c4-a61f-69ad-57d7-7f89df56da24"),
@@ -37,7 +41,7 @@
 ("31fe4602-dbd3-e979-da91-723ddbe363b9","Petty Cash",-1,402002,"8b998734-1651-c9e1-ec2f-bc48cbe7c808"),
 ("6295657b-bbfc-d27f-911c-3cca1c1f06d2","Cashback",-1,403000,"22a3aa48-56e7-3582-cb27-23aae9c13501"),
 ("02291e43-1aff-40aa-0030-49b95e6cdbe4","Dues",-1,404000,"22a3aa48-56e7-3582-cb27-23aae9c13501"),
-("8fd90572-0200-2c09-17e6-c7262617b985",""Expense",1,500000,NULL"),
+("8fd90572-0200-2c09-17e6-c7262617b985","Expense",1,500000,None),
 ("1efa7ede-86ff-b850-cbac-0f646d057d38","Food",1,501000,"8fd90572-0200-2c09-17e6-c7262617b985"),
 ("864dd077-13ac-b46f-1b68-fbe8a7f31f59","Lunch",1,501001,"1efa7ede-86ff-b850-cbac-0f646d057d38"),
 ("e4d1be29-2dea-425c-53e6-5eed3cdf6508","Dinner",1,501002,"1efa7ede-86ff-b850-cbac-0f646d057d38"),
@@ -122,3 +126,18 @@
 ("315ea5ae-57ce-2dd9-de7a-7c876382775a","Parking",1,520005,"08c472f4-4a0e-98e9-f3aa-30537f282c29"),
 ("bfd54301-0b96-cadf-6923-c0c07676e759","Groceries",1,520006,"08c472f4-4a0e-98e9-f3aa-30537f282c29"),
 ("2aba3b23-f2f4-f7e9-0c3d-7f68291ec0ee","Interest Expense",1,521000,"8fd90572-0200-2c09-17e6-c7262617b985")
+]
+
+def getPath():
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    return os.path.join(BASE_DIR, "TrackIt.db")
+
+
+db = sqlite3.connect(getPath())
+cursor = db.cursor()
+
+for account in accounts:
+    cursor.execute(f"update ACCOUNTS SET NUMBER={account[3]} where ID='{account[0]}'")
+
+db.commit()
+db.close()

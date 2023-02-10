@@ -1,6 +1,5 @@
 import {View, Text} from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
-import AddButton from './AddButton';
 import {ThemeContext} from '../../contexts/ThemeContext';
 import {Theme} from '../../globals/Theme';
 import {readTransactions} from '../../database/transactions';
@@ -8,8 +7,17 @@ import {FlatList} from 'react-native';
 import TransactionsGroup from './TransactionsGroup';
 import {useIsFocused} from '@react-navigation/native';
 import MonthFilter from './MonthFilter';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-const Transactions = () => {
+type FilteredTransactionsProps = NativeStackScreenProps<
+  RootStackParamList,
+  'FilteredTransactions'
+>;
+
+const FilteredTransactions = ({
+  route,
+  navigation,
+}: FilteredTransactionsProps) => {
   const focused = useIsFocused();
   const {theme} = useContext(ThemeContext);
   let activeColor = Theme[theme.mode];
@@ -21,7 +29,7 @@ const Transactions = () => {
   });
 
   useEffect(() => {
-    readTransactions(setRows, setLoading, date);
+    readTransactions(setRows, setLoading, date, route.params.id);
   }, [date, focused]);
 
   return (
@@ -36,13 +44,11 @@ const Transactions = () => {
             renderItem={({item}) => (
               <TransactionsGroup data={item.data} title={item.title} />
             )}
-            ListFooterComponent={() => <View style={{padding: 50}} />}
           />
         )}
       </View>
-      <AddButton />
     </View>
   );
 };
 
-export default Transactions;
+export default FilteredTransactions;

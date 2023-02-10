@@ -1,4 +1,4 @@
-import {View, Text} from 'react-native';
+import {View, Text, Pressable} from 'react-native';
 import React, {useContext} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {ThemeContext} from '../../contexts/ThemeContext';
@@ -9,10 +9,12 @@ import Accounts from '../Accounts/Accounts';
 import Stats from '../Stats/Stats';
 import Transactions from '../Transactions/Transactions';
 import Settings from '../Settings/Settings';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
+type BottomTabProps = NativeStackScreenProps<RootStackParamList, 'BottomTab'>;
 
-const BottomTab = () => {
+const BottomTab = ({route, navigation}: BottomTabProps) => {
   const {theme} = useContext(ThemeContext);
   let activeColor = Theme[theme.mode];
 
@@ -85,7 +87,20 @@ const BottomTab = () => {
       <Tab.Screen
         name="Accounts"
         component={Accounts}
-        options={{header: () => null}}
+        options={{
+          title: 'Accounts',
+          headerStyle: {
+            backgroundColor: activeColor.theme,
+          },
+          headerTintColor: activeColor.text,
+          headerRight: () => (
+            <Pressable
+              style={{marginRight: 15}}
+              onPress={() => navigation.navigate('AccountForm')}>
+              <FontAwesome5 name="plus" size={20} color={activeColor.text} />
+            </Pressable>
+          ),
+        }}
       />
       <Tab.Screen
         name="More"

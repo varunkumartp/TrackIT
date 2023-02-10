@@ -1,12 +1,65 @@
 export const Theme: Theme = {
   dark: {
-    text: '#a8a8a9', // Text colors
-    theme: '#000000', // Theme Color
-    background: '#464648', // background color
+    text: '#a8a8a9',
+    theme: '#000000',
+    background: '#505050',
+    red: '#f55',
+    blue: '#007acc',
+  },
+  darkTeal: {
+    text: '#a8a8a9',
+    theme: '#000000',
+    background: '#006060',
+    red: '#f55',
+    blue: '#00ccff',
   },
   light: {
-    text: '#575756',
-    theme: '#ffffff',
+    text: '#000',
+    theme: '#fff',
     background: '#b9b9b7',
+    red: '#f00',
+    blue: '#00f',
+  },
+  green: {
+    text: '#000',
+    theme: '#00a333',
+    background: '#fff',
+    red: '#f00',
+    blue: '#00f',
+  },
+  red: {
+    text: '#000',
+    theme: '#f00',
+    background: '#fff',
+    red: '#f00',
+    blue: '#00f',
+  },
+  teal: {
+    text: '#000',
+    theme: '#009090',
+    background: '#fff',
+    red: '#f00',
+    blue: '#00f',
+  },
+  roseGold: {
+    text: '#000',
+    theme: '#ff6E79',
+    background: '#fff',
+    red: '#f00',
+    blue: '#00f',
+  },
+  orange: {
+    text: '#000',
+    theme: '#ff8800',
+    background: '#fff',
+    red: '#f00',
+    blue: '#00f',
+  },
+  gold: {
+    text: '#000',
+    theme: '#ffb500',
+    background: '#fff',
+    red: '#f00',
+    blue: '#00f',
   },
 };

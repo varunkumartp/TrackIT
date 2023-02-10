@@ -1,3 +1,4 @@
+import {readTransactions} from './../database/transactions';
 export {};
 
 declare global {
@@ -10,7 +11,10 @@ declare global {
 
   type RootStackParamList = {
     BottomTab: undefined;
-    Form: {type: string};
+    Form: {data: transactions};
+    EditForm: {data: transactions};
+    FilteredTransactions: {id: string; account: string};
+    AccountForm: undefined;
   };
 
   /**************** Accounts Database **************/
@@ -18,7 +22,13 @@ declare global {
     ID: string;
     NAME: string;
     SIGN: number;
+    NUMBER: number;
     PARENT_ID: string;
+  }
+
+  interface FormAccount {
+    ID: string;
+    NAME: string;
   }
 
   interface Theme {
@@ -26,19 +36,55 @@ declare global {
       theme: string;
       text: string;
       background: string;
+      red: string;
+      blue: string;
     };
+  }
+
+  interface AccountsGroup {
+    ID: string;
+    PARENT_ID: string;
+    PARENT_NAME: string;
+    NAME: string;
+    NUMBER: number;
+    AMOUNT: number;
+  }
+
+  interface AccountsTab {
+    title: string;
+    data: AccountsGroup[];
   }
 
   /**************** Transactions Form **************/
   interface inputData {
-    date: Date;
-    amount: string;
-    notes: string;
-    description: string;
+    DATE: Date;
+    AMOUNT_LOC: string;
+    NOTES: string;
+    DESCRIPTION: string;
   }
 
   interface formTransaction extends inputData {
-    credit: string;
-    debit: string;
+    CREDIT: string;
+    DEBIT: string;
+    TYPE: string;
   }
+
+  interface transactions {
+    ID: string;
+    DATE: string;
+    DESCRIPTION: string;
+    DEBIT_ID: string;
+    CREDIT_ID: string;
+    DEBIT_NAME: string;
+    CREDIT_NAME: string;
+    DEBIT_DIR: number;
+    CREDIT_DIR: number;
+    DEBIT_PARENT: string;
+    CREDIT_PARENT: string;
+    TYPE: string;
+    SYMBOL: string;
+    AMOUNT_LOC: number;
+  }
+
+  type readTransactions = {title: string; data: transactions[]}[];
 }
