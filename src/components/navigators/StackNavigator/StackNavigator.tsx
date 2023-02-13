@@ -3,14 +3,14 @@ import {useContext} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import {ThemeContext} from '../../contexts/ThemeContext';
+import {ThemeContext} from '../../../contexts/ThemeContext';
 
-import {Theme} from '../../globals/Theme';
+import {Theme} from '../../../globals/Theme';
 import BottomTab from '../BottomTab/BottomTab';
-import Form from '../Transactions/Form/Form';
-import FilteredTransactions from '../Transactions/FilteredTransactions';
-import AccountForm from '../Accounts/AccountForm';
-import EditForm from '../Transactions/Form/EditForm';
+import Form from '../../Transactions/Form/Form';
+import FilteredTransactions from '../../Transactions/FilteredTransactions';
+import AccountForm from '../../Accounts/AccountForm';
+import EditForm from '../../Transactions/Form/EditForm';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -28,11 +28,7 @@ function StackNavigator(): JSX.Element {
           },
           headerTintColor: activeColor.text,
         }}>
-        <Stack.Screen
-          name="BottomTab"
-          component={BottomTab}
-          options={{header: () => null}}
-        />
+        <Stack.Screen name="BottomTab" component={BottomTab} options={{header: () => null}} />
         <Stack.Screen
           name="Form"
           component={Form}

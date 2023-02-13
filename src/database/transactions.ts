@@ -7,6 +7,7 @@ const getDate = (date: Date) => {
 };
 
 export const createTransactions = async (data: formTransaction) => {
+  console.log(data);
   await db.transaction(tx =>
     tx.executeSql(
       `INSERT INTO TRANSACTIONS 
@@ -37,25 +38,23 @@ export const readTransactions = async (
   await db.transaction(tx =>
     tx.executeSql(
       `SELECT 
-        T.ID,T.DATE,T.DESCRIPTION,
-        T.DEBIT_ID, T.DEBIT_NAME, T.DEBIT_DIR, AD.NAME AS DEBIT_PARENT,  
-        T.CREDIT_ID, T.CREDIT_NAME, T.CREDIT_DIR, AC.NAME AS CREDIT_PARENT,  
-        T.TYPE,
-        T.SYMBOL,
-        T.AMOUNT_LOC
+        *,
+    		(select NAME FROM ACCOUNTS AS DP WHERE DP.ID = T.DEBIT_PARENT) AS DEBIT_PARENT, 
+        (select NAME FROM ACCOUNTS AS CP WHERE CP.ID = T.CREDIT_PARENT) AS CREDIT_PARENT
         FROM TRANSACTIONS_VIEW AS T
-        LEFT OUTER JOIN ACCOUNTS AS AD
-        LEFT OUTER JOIN ACCOUNTS AS AC
-        where AD.ID = T.DEBIT_PARENT AND
-            AC.ID = T.CREDIT_PARENT AND
-            strftime('%m', date) = '${date.month.toString().padStart(2, '0')}' AND
-            strftime('%Y', date) = '${date.year}'
-            ${
-              accountID === undefined
-                ? ''
-                : `and (DEBIT_ID = '${accountID}' OR CREDIT_ID = '${accountID}')`
-            } 
-            order by DATE desc;`,
+        WHERE 
+        ${
+          date.month !== 0
+            ? `strftime('%m', DATE) = '${date.month.toString().padStart(2, '0')}' AND`
+            : ''
+        }
+            strftime('%Y', DATE) = '${date.year}'
+        ${
+          accountID === undefined
+            ? ''
+            : `and (DEBIT_ID = '${accountID}' OR CREDIT_ID = '${accountID}')`
+        } 
+         order by DATE desc;`,
       [],
       (tx, results) => {
         let arr: readTransactions = [];

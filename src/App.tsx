@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 import {ThemeContext} from './contexts/ThemeContext';
-import StackNavigator from './components/StackNavigator/StackNavigator';
+import StackNavigator from './components/navigators/StackNavigator/StackNavigator';
 
 function MainApp(): JSX.Element {
   const [theme, setTheme] = useState({mode: 'dark'});

@@ -12,12 +12,7 @@ interface AccountsListProps {
   setModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const AccountsList = ({
-  type,
-  header,
-  onChange,
-  setModal,
-}: AccountsListProps) => {
+const AccountsList = ({type, header, onChange, setModal}: AccountsListProps) => {
   const {theme} = useContext(ThemeContext);
   let activeColor = Theme[theme.mode];
   const [selected, setSelected] = useState<string>();
@@ -46,22 +41,13 @@ const AccountsList = ({
         borderColor: activeColor.theme,
       }}>
       <View style={{...ListStyles.header, backgroundColor: activeColor.theme}}>
-        <Text style={{...ListStyles.headerText, color: activeColor.text}}>
-          {header}
-        </Text>
-        <View
-          style={{...ListStyles.header, backgroundColor: activeColor.theme}}>
+        <Text style={{...ListStyles.headerText, color: activeColor.text}}>{header}</Text>
+        <View style={{...ListStyles.header, backgroundColor: activeColor.theme}}>
           <Pressable onPress={() => console.log('Editing')}>
-            <Icon
-              name="pencil"
-              style={{...ListStyles.headerText, color: activeColor.text}}
-            />
+            <Icon name="pencil" style={{...ListStyles.headerText, color: activeColor.text}} />
           </Pressable>
           <Pressable onPress={() => setModal(false)}>
-            <Icon
-              name="close"
-              style={{...ListStyles.headerText, color: activeColor.text}}
-            />
+            <Icon name="close" style={{...ListStyles.headerText, color: activeColor.text}} />
           </Pressable>
         </View>
       </View>
@@ -82,16 +68,12 @@ const AccountsList = ({
               onPress={() => accountHandler(item)}
               style={{
                 ...ListStyles.options,
-                backgroundColor:
-                  item.ID === selected
-                    ? activeColor.text
-                    : activeColor.background,
+                backgroundColor: item.ID === selected ? activeColor.text : activeColor.background,
               }}>
               <Text
                 style={{
                   ...ListStyles.text,
-                  color:
-                    item.ID === selected ? activeColor.theme : activeColor.text,
+                  color: item.ID === selected ? activeColor.theme : activeColor.text,
                 }}>
                 {item.NAME}
               </Text>
@@ -107,12 +89,8 @@ const AccountsList = ({
             flex: 1,
           }}
           renderItem={({item}) => (
-            <Pressable
-              onPress={() => subAccountHandler(item)}
-              style={ListStyles.options}>
-              <Text style={{...ListStyles.text, color: activeColor.text}}>
-                {item.NAME}
-              </Text>
+            <Pressable onPress={() => subAccountHandler(item)} style={ListStyles.options}>
+              <Text style={{...ListStyles.text, color: activeColor.text}}>{item.NAME}</Text>
             </Pressable>
           )}
           keyExtractor={item => item.ID}

@@ -2,8 +2,8 @@
   "migIndex": 1,
   "data": [
     {
-      "path": "android/app/src/main/assets/TrackIT.db",
-      "sha1": "904a2ec5d54a6aa929ac29e507609bdd6c1b3697"
+      "path": "android/app/src/main/assets/TrackITv2.db",
+      "sha1": "22887aea86744798bfab8881ab9b71b76fceeb65"
     }
   ]
 }

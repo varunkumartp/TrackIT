@@ -1,14 +1,15 @@
 import {View, Text, Pressable} from 'react-native';
 import React, {useContext} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {ThemeContext} from '../../contexts/ThemeContext';
-import {Theme} from '../../globals/Theme';
+import {ThemeContext} from '../../../contexts/ThemeContext';
+import {Theme} from '../../../globals/Theme';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Accounts from '../Accounts/Accounts';
-import Stats from '../Stats/Stats';
-import Transactions from '../Transactions/Transactions';
-import Settings from '../Settings/Settings';
+import Accounts from '../../Accounts/Accounts';
+import Stats from '../../Stats/Stats';
+import StatsNavigator from '../StatsNavigator/StatsNavigator';
+import Transactions from '../../Transactions/Transactions';
+import Settings from '../../Settings/Settings';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
@@ -20,7 +21,7 @@ const BottomTab = ({route, navigation}: BottomTabProps) => {
 
   return (
     <Tab.Navigator
-      initialRouteName="Transactions"
+      initialRouteName="StatsNavigator"
       screenOptions={({route}) => ({
         tabBarIcon: ({focused}) => {
           switch (route.name) {
@@ -40,7 +41,7 @@ const BottomTab = ({route, navigation}: BottomTabProps) => {
                   color={focused ? activeColor.text : activeColor.background}
                 />
               );
-            case 'Stats':
+            case 'StatsNavigator':
               return (
                 <Ionicons
                   name={'stats-chart'}
@@ -74,15 +75,14 @@ const BottomTab = ({route, navigation}: BottomTabProps) => {
           borderTopWidth: 0,
         },
       })}>
+      <Tab.Screen name="Transactions" component={Transactions} options={{header: () => null}} />
       <Tab.Screen
-        name="Transactions"
-        component={Transactions}
-        options={{header: () => null}}
-      />
-      <Tab.Screen
-        name="Stats"
-        component={Stats}
-        options={{header: () => null}}
+        name="StatsNavigator"
+        component={StatsNavigator}
+        options={{
+          title: 'Stats',
+          header: () => null,
+        }}
       />
       <Tab.Screen
         name="Accounts"
@@ -94,19 +94,13 @@ const BottomTab = ({route, navigation}: BottomTabProps) => {
           },
           headerTintColor: activeColor.text,
           headerRight: () => (
-            <Pressable
-              style={{marginRight: 15}}
-              onPress={() => navigation.navigate('AccountForm')}>
+            <Pressable style={{marginRight: 15}} onPress={() => navigation.navigate('AccountForm')}>
               <FontAwesome5 name="plus" size={20} color={activeColor.text} />
             </Pressable>
           ),
         }}
       />
-      <Tab.Screen
-        name="More"
-        component={Settings}
-        options={{header: () => null}}
-      />
+      <Tab.Screen name="More" component={Settings} options={{header: () => null}} />
     </Tab.Navigator>
   );
 };

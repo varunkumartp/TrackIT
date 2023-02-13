@@ -2,9 +2,10 @@ import {readTransactions} from './../database/transactions';
 export {};
 
 declare global {
+  /**************** Navigators **************/
   type BottomTabParamList = {
     Transactions: undefined;
-    Stats: undefined;
+    StatsNavigator: undefined;
     Accounts: undefined;
     More: undefined;
   };
@@ -15,6 +16,21 @@ declare global {
     EditForm: {data: transactions};
     FilteredTransactions: {id: string; account: string};
     AccountForm: undefined;
+  };
+
+  type StatsStackParamList = {
+    Stats: undefined;
+    SubStats: {
+      PARENT_ID: string;
+      PARENT_NAME: string;
+      date: {
+        month: number;
+        year: number;
+      };
+      value: string;
+      type: string;
+    };
+    // SubStats: undefined;
   };
 
   /**************** Accounts Database **************/
@@ -87,4 +103,14 @@ declare global {
   }
 
   type readTransactions = {title: string; data: transactions[]}[];
+
+  /**************** Stats **************/
+
+  interface AccountSum {
+    ACCOUNT_ID: string;
+    ACCOUNT_NAME: string;
+    AMOUNT: number;
+    SYMBOL: string;
+    color: string;
+  }
 }
