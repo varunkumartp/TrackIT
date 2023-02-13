@@ -28,6 +28,14 @@ export const expenseHeaderSum = async (
   setAccountSum: React.Dispatch<React.SetStateAction<AccountSum[]>>,
   setExpenseSum: React.Dispatch<React.SetStateAction<number>>,
 ) => {
+  const dateFilter =
+    date.month === -1
+      ? `DATE BETWEEN '${date.year - 1}-04-01' and '${date.year}-04-01'`
+      : date.month !== 0
+      ? `strftime('%m', DATE) = '${date.month.toString().padStart(2, '0')}' AND
+               strftime('%Y', DATE) = '${date.year}'`
+      : `strftime('%Y', DATE) = '${date.year}'`;
+
   await db.transaction(tx =>
     tx.executeSql(
       `SELECT ACCOUNT_ID,ACCOUNT_NAME, SYMBOL, SUM(AMOUNT) AS AMOUNT FROM
@@ -38,12 +46,7 @@ export const expenseHeaderSum = async (
         FROM SUB_EXPENSE_LEDGERS AS SEL
         LEFT OUTER JOIN ACCOUNTS AS A
         WHERE A.ID = SEL.ACCOUNT_PARENT AND
-        ${
-          date.month !== 0
-            ? `strftime('%m', DATE) = '${date.month.toString().padStart(2, '0')}' AND`
-            : ''
-        }
-        strftime('%Y', DATE) = '${date.year}'
+        ${dateFilter}
         GROUP BY SEL.ACCOUNT_PARENT
         UNION ALL
         SELECT DEBIT_ID AS ACCOUNT_ID,
@@ -53,12 +56,7 @@ export const expenseHeaderSum = async (
             from TRANSACTIONS_VIEW 
             where type='EXPENSE' and 
             DEBIT_PARENT is null AND 
-            ${
-              date.month !== 0
-                ? `strftime('%m', DATE) = '${date.month.toString().padStart(2, '0')}' AND`
-                : ''
-            }
-            strftime('%Y', DATE) = '${date.year}')
+            ${dateFilter})
             GROUP BY ACCOUNT_ID
             ORDER BY AMOUNT DESC`,
       [],
@@ -88,6 +86,14 @@ export const incomeHeaderSum = async (
   setAccountSum: React.Dispatch<React.SetStateAction<AccountSum[]>>,
   setIncomeSum: React.Dispatch<React.SetStateAction<number>>,
 ) => {
+  const dateFilter =
+    date.month === -1
+      ? `DATE BETWEEN '${date.year - 1}-04-01' and '${date.year}-04-01'`
+      : date.month !== 0
+      ? `strftime('%m', DATE) = '${date.month.toString().padStart(2, '0')}' AND
+               strftime('%Y', DATE) = '${date.year}'`
+      : `strftime('%Y', DATE) = '${date.year}'`;
+
   await db.transaction(tx =>
     tx.executeSql(
       `SELECT ACCOUNT_ID,ACCOUNT_NAME, SYMBOL, SUM(AMOUNT) AS AMOUNT FROM
@@ -98,12 +104,7 @@ export const incomeHeaderSum = async (
             FROM SUB_INCOME_LEDGERS AS SIL
             LEFT OUTER JOIN ACCOUNTS AS A
             WHERE A.ID = SIL.ACCOUNT_PARENT AND
-            ${
-              date.month !== 0
-                ? `strftime('%m', DATE) = '${date.month.toString().padStart(2, '0')}' AND`
-                : ''
-            }
-            strftime('%Y', DATE) = '${date.year}'
+            ${dateFilter}
             GROUP BY SIL.ACCOUNT_PARENT
         UNION ALL
         SELECT CREDIT_ID AS ACCOUNT_ID,
@@ -113,12 +114,7 @@ export const incomeHeaderSum = async (
             from TRANSACTIONS_VIEW 
             where type='INCOME' and 
             CREDIT_PARENT is null AND 
-            ${
-              date.month !== 0
-                ? `strftime('%m', DATE) = '${date.month.toString().padStart(2, '0')}' AND`
-                : ''
-            }
-            strftime('%Y', DATE) = '${date.year}')
+            ${dateFilter})
             GROUP BY ACCOUNT_ID
             ORDER BY AMOUNT DESC`,
       [],
@@ -150,6 +146,14 @@ export const subHeaderSum = async (
   setAccountSum: React.Dispatch<React.SetStateAction<AccountSum[]>>,
   setAmountSum: React.Dispatch<React.SetStateAction<number>>,
 ) => {
+  const dateFilter =
+    date.month === -1
+      ? `DATE BETWEEN '${date.year - 1}-04-01' and '${date.year}-04-01'`
+      : date.month !== 0
+      ? `strftime('%m', DATE) = '${date.month.toString().padStart(2, '0')}' AND
+               strftime('%Y', DATE) = '${date.year}'`
+      : `strftime('%Y', DATE) = '${date.year}'`;
+
   const mainQuery = `SELECT ACCOUNT_ID,ACCOUNT_NAME, SYMBOL, SUM(AMOUNT) AS AMOUNT FROM
         (SELECT ACCOUNT_ID,
             ACCOUNT_NAME,
@@ -157,13 +161,8 @@ export const subHeaderSum = async (
             AMOUNT 
             FROM SUB_${type}_LEDGERS 
             WHERE ACCOUNT_PARENT = '${PARENT_ID}' AND 
-            ${
-              date.month !== 0
-                ? `strftime('%m', DATE) = '${date.month.toString().padStart(2, '0')}' AND`
-                : ''
-            }
-            strftime('%Y', DATE) = '${date.year}'
-        UNION ALL `;
+            ${dateFilter}
+            UNION ALL `;
   const expenseQuery = `SELECT DEBIT_ID AS ACCOUNT_ID,
             DEBIT_NAME AS ACCOUNT_NAME ,
             SYMBOL,
@@ -171,12 +170,7 @@ export const subHeaderSum = async (
             from TRANSACTIONS_VIEW 
             where DEBIT_ID = '${PARENT_ID}' and 
             DEBIT_PARENT is null and
-            ${
-              date.month !== 0
-                ? `strftime('%m', DATE) = '${date.month.toString().padStart(2, '0')}' AND`
-                : ''
-            }
-            strftime('%Y', DATE) = '${date.year}')
+            ${dateFilter})
             GROUP BY ACCOUNT_ID
             ORDER BY AMOUNT DESC`;
   const incomeQuery = `SELECT CREDIT_ID AS ACCOUNT_ID,
@@ -186,12 +180,7 @@ export const subHeaderSum = async (
             from TRANSACTIONS_VIEW 
             where CREDIT_ID = '${PARENT_ID}' and 
             CREDIT_PARENT is null and
-            ${
-              date.month !== 0
-                ? `strftime('%m', DATE) = '${date.month.toString().padStart(2, '0')}' AND`
-                : ''
-            }
-            strftime('%Y', DATE) = '${date.year}')
+            ${dateFilter})
             GROUP BY ACCOUNT_ID
             ORDER BY AMOUNT DESC`;
   const query = mainQuery + (type === 'EXPENSE' ? expenseQuery : incomeQuery);

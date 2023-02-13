@@ -113,4 +113,10 @@ declare global {
     SYMBOL: string;
     color: string;
   }
+
+  /**************** Global **************/
+  interface DateFilter {
+    month: number;
+    year: number;
+  }
 }

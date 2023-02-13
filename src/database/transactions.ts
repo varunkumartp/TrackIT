@@ -44,16 +44,14 @@ export const readTransactions = async (
         FROM TRANSACTIONS_VIEW AS T
         WHERE 
         ${
-          date.month !== 0
-            ? `strftime('%m', DATE) = '${date.month.toString().padStart(2, '0')}' AND`
-            : ''
+          date.month === -1
+            ? `DATE BETWEEN '${date.year - 1}-04-01' and '${date.year}-04-01'`
+            : date.month !== 0
+            ? `strftime('%m', DATE) = '${date.month.toString().padStart(2, '0')}' AND
+               strftime('%Y', DATE) = '${date.year}'`
+            : `strftime('%Y', DATE) = '${date.year}'`
         }
-            strftime('%Y', DATE) = '${date.year}'
-        ${
-          accountID === undefined
-            ? ''
-            : `and (DEBIT_ID = '${accountID}' OR CREDIT_ID = '${accountID}')`
-        } 
+        ${accountID ? '' : `and (DEBIT_ID = '${accountID}' OR CREDIT_ID = '${accountID}')`} 
          order by DATE desc;`,
       [],
       (tx, results) => {

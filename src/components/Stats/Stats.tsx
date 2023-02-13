@@ -5,57 +5,34 @@ import {ThemeContext} from '../../contexts/ThemeContext';
 import {Theme} from '../../globals/Theme';
 import {PieChart} from 'react-native-chart-kit';
 import {Dimensions} from 'react-native';
-import DateFilter from './DateFilter';
+import {DateFilterDD} from '../../globals/DateFilter.component';
 import ButtonGroup from '../Transactions/Form/ButtonGroup';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {expenseHeaderSum, incomeHeaderSum} from '../../database/stats';
 import {useIsFocused} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {Dropdown} from 'react-native-element-dropdown';
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 
 type StatsProps = NativeStackScreenProps<StatsStackParamList, 'Stats'>;
 
-const data = [
-  {label: 'Period ', value: 'Periodic'},
-  {label: 'Annual ', value: 'yearly'},
-];
+const emptyAccount = {ACCOUNT_ID: '', ACCOUNT_NAME: '', AMOUNT: 0, SYMBOL: '₹', color: 'white'};
 
 const Stats = ({route, navigation}: StatsProps) => {
   const isFocused = useIsFocused();
   const {theme} = useContext(ThemeContext);
   let activeColor = Theme[theme.mode];
   const [type, setType] = useState('EXPENSE');
-  const [value, setValue] = useState('Periodic');
 
   const [date, setDate] = useState({
     month: new Date().getMonth() + 1,
     year: new Date().getFullYear(),
   });
-  const [expense, setExpense] = useState<AccountSum[]>([
-    {ACCOUNT_ID: '', ACCOUNT_NAME: '', AMOUNT: 0, SYMBOL: '₹', color: 'white'},
-  ]);
-  const [income, setIncome] = useState<AccountSum[]>([
-    {ACCOUNT_ID: '', ACCOUNT_NAME: '', AMOUNT: 0, SYMBOL: '₹', color: 'white'},
-  ]);
+  const [expense, setExpense] = useState<AccountSum[]>([emptyAccount]);
+  const [income, setIncome] = useState<AccountSum[]>([emptyAccount]);
   const [expenseSum, setExpenseSum] = useState(0);
   const [incomeSum, setIncomeSum] = useState(0);
-
-  const dropDownHandler = (type: string) => {
-    if (type === 'Periodic') {
-      setDate({
-        month: new Date().getMonth() + 1,
-        year: new Date().getFullYear(),
-      });
-    } else {
-      setDate({
-        month: 0,
-        year: date.year,
-      });
-    }
-    setValue(type);
-  };
+  const [value, setValue] = useState('Periodic');
 
   useEffect(() => {
     expenseHeaderSum(date, setExpense, setExpenseSum);
@@ -64,36 +41,8 @@ const Stats = ({route, navigation}: StatsProps) => {
 
   return (
     <View style={{flex: 1, backgroundColor: activeColor.background}}>
-      <View
-        style={{
-          flexDirection: 'row',
-          borderBottomWidth: 1,
-          borderBottomColor: activeColor.background,
-          backgroundColor: activeColor.theme,
-        }}>
-        <DateFilter date={date} setDate={setDate} value={value} />
-        <View style={{flex: 1, justifyContent: 'center'}}>
-          <Dropdown
-            selectedTextStyle={{
-              fontSize: 15,
-              fontWeight: 'bold',
-              color: activeColor.text,
-            }}
-            activeColor={activeColor.background}
-            iconColor={activeColor.text}
-            itemTextStyle={{color: activeColor.text}}
-            containerStyle={{
-              backgroundColor: activeColor.theme,
-              borderColor: activeColor.theme,
-            }}
-            data={data}
-            labelField="label"
-            valueField="value"
-            value={value}
-            onChange={item => dropDownHandler(item.value)}
-          />
-        </View>
-      </View>
+      <DateFilterDD date={date} setDate={setDate} value={value} setValue={setValue} />
+
       <ButtonGroup
         data={[
           {

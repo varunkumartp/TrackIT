@@ -3,13 +3,13 @@ import React, {Fragment, useContext, useEffect, useState} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {ThemeContext} from '../../contexts/ThemeContext';
 import {Theme} from '../../globals/Theme';
-import DateFilter from './DateFilter';
+import {DateFilter} from '../../globals/DateFilter.component';
 import {Styles} from '../../globals/Styles.Styles';
 import {subHeaderSum} from '../../database/stats';
 import {PieChart} from 'react-native-chart-kit';
 import {Dimensions} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {CompositeScreenProps, useNavigation} from '@react-navigation/native';
+import {CompositeScreenProps} from '@react-navigation/native';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
@@ -19,15 +19,14 @@ type SubStatsProps = CompositeScreenProps<
   NativeStackScreenProps<RootStackParamList>
 >;
 
+const emptyAccount = {ACCOUNT_ID: '', ACCOUNT_NAME: '', AMOUNT: 0, SYMBOL: '₹', color: 'white'};
+
 const SubStats = ({route, navigation}: SubStatsProps) => {
-  const filterNavigation = useNavigation<NativeStackScreenProps<RootStackParamList>>();
   const {PARENT_ID, PARENT_NAME, type, value} = route.params;
   const {theme} = useContext(ThemeContext);
   let activeColor = Theme[theme.mode];
   const [date, setDate] = useState(route.params.date);
-  const [subAccount, setSubAccount] = useState<AccountSum[]>([
-    {ACCOUNT_ID: '', ACCOUNT_NAME: '', AMOUNT: 0, SYMBOL: '₹', color: 'white'},
-  ]);
+  const [subAccount, setSubAccount] = useState<AccountSum[]>([emptyAccount]);
   const [amountSum, setAmountSum] = useState(0);
 
   useEffect(() => {

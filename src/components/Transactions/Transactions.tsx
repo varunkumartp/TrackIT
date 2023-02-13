@@ -1,4 +1,4 @@
-import {View, Text} from 'react-native';
+import {View} from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 import AddButton from './AddButton';
 import {ThemeContext} from '../../contexts/ThemeContext';
@@ -7,7 +7,7 @@ import {readTransactions} from '../../database/transactions';
 import {FlatList} from 'react-native';
 import TransactionsGroup from './TransactionsGroup';
 import {useIsFocused} from '@react-navigation/native';
-import DateFilter from './DateFilter';
+import { DateFilter } from '../../globals/DateFilter.component';
 
 const Transactions = () => {
   const focused = useIsFocused();
