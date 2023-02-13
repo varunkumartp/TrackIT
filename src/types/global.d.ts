@@ -13,6 +13,7 @@ declare global {
   type RootStackParamList = {
     BottomTab: undefined;
     Form: {data: transactions};
+    Calculator: {setData: React.Dispatch<React.SetStateAction<string>>};
     EditForm: {data: transactions};
     FilteredTransactions: {id: string; account: string};
     AccountForm: undefined;
@@ -30,7 +31,6 @@ declare global {
       value: string;
       type: string;
     };
-    // SubStats: undefined;
   };
 
   /**************** Accounts Database **************/
@@ -62,7 +62,7 @@ declare global {
     PARENT_ID: string;
     PARENT_NAME: string;
     NAME: string;
-    NUMBER: number;
+  NUMBER: number;
     AMOUNT: number;
   }
 
@@ -74,12 +74,12 @@ declare global {
   /**************** Transactions Form **************/
   interface inputData {
     DATE: Date;
-    AMOUNT_LOC: string;
     NOTES: string;
     DESCRIPTION: string;
   }
 
   interface formTransaction extends inputData {
+    AMOUNT_LOC: string;
     CREDIT: string;
     DEBIT: string;
     TYPE: string;

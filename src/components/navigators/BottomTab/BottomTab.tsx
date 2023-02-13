@@ -21,7 +21,7 @@ const BottomTab = ({route, navigation}: BottomTabProps) => {
 
   return (
     <Tab.Navigator
-      initialRouteName="StatsNavigator"
+      initialRouteName="Transactions"
       screenOptions={({route}) => ({
         tabBarIcon: ({focused}) => {
           switch (route.name) {

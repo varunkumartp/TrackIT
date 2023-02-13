@@ -51,8 +51,12 @@ export const readTransactions = async (
                strftime('%Y', DATE) = '${date.year}'`
             : `strftime('%Y', DATE) = '${date.year}'`
         }
-        ${accountID ? '' : `and (DEBIT_ID = '${accountID}' OR CREDIT_ID = '${accountID}')`} 
-         order by DATE desc;`,
+        ${
+          accountID === undefined
+            ? ''
+            : `and (DEBIT_ID = '${accountID}' OR CREDIT_ID = '${accountID}')`
+        } 
+         order by DATE desc`,
       [],
       (tx, results) => {
         let arr: readTransactions = [];

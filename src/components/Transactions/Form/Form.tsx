@@ -5,7 +5,7 @@ import DatePicker from 'react-native-date-picker';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 import ButtonGroup from './ButtonGroup';
-
+import Numpad from '../../../globals/Calculator/Numpad.component';
 import {ThemeContext} from '../../../contexts/ThemeContext';
 import {Theme} from '../../../globals/Theme';
 import {FormStyles} from '../../../globals/Form.Styles';
@@ -30,9 +30,10 @@ const Form = ({route, navigation}: FormProps) => {
   });
   const [creditList, setCreditList] = useState(false);
   const [debitList, setDebitList] = useState(true);
+  const [numpad, setNumpad] = useState(false);
+  const [amount, setAmount] = useState(data.AMOUNT_LOC === 0 ? '' : data.AMOUNT_LOC.toString());
   const [input, setInput] = useState<inputData>({
     DATE: new Date(),
-    AMOUNT_LOC: data.AMOUNT_LOC === 0 ? '' : data.AMOUNT_LOC.toString(),
     DESCRIPTION: data.DESCRIPTION,
     NOTES: '',
   });
@@ -59,6 +60,7 @@ const Form = ({route, navigation}: FormProps) => {
   const submitHandler = () => {
     createTransactions({
       ...input,
+      AMOUNT_LOC: amount,
       DEBIT: type === 'EXPENSE' ? creditAccount.ID : debitAccount.ID,
       CREDIT: type === 'EXPENSE' ? debitAccount.ID : creditAccount.ID,
       TYPE: type,
@@ -109,6 +111,7 @@ const Form = ({route, navigation}: FormProps) => {
                 setOpen(true);
                 setDebitList(false);
                 setCreditList(false);
+                setNumpad(false);
               }}
               value={input.DATE.toLocaleDateString()}
               showSoftInputOnFocus={false}
@@ -127,6 +130,7 @@ const Form = ({route, navigation}: FormProps) => {
               showSoftInputOnFocus={false}
               onPressIn={() => {
                 Keyboard.dismiss();
+                setNumpad(false);
                 setCreditList(false);
                 setDebitList(true);
               }}
@@ -147,6 +151,7 @@ const Form = ({route, navigation}: FormProps) => {
               showSoftInputOnFocus={false}
               onPressIn={() => {
                 Keyboard.dismiss();
+                setNumpad(false);
                 setCreditList(true);
                 setDebitList(false);
               }}
@@ -161,14 +166,17 @@ const Form = ({route, navigation}: FormProps) => {
             <TextInput
               ref={amountRef}
               style={{...FormStyles.input, color: activeColor.text}}
-              keyboardType={'number-pad'}
-              onChangeText={value => setInput({...input, AMOUNT_LOC: value})}
+              showSoftInputOnFocus={false}
               onPressIn={() => {
+                Keyboard.dismiss();
                 setCreditList(false);
                 setDebitList(false);
+                setNumpad(true);
               }}
-              onSubmitEditing={() => descriptionRef.current?.focus()}
-              value={input.AMOUNT_LOC}
+              onFocus={() => {
+                setNumpad(true);
+              }}
+              value={amount}
             />
           </View>
           {/* Description */}
@@ -179,6 +187,7 @@ const Form = ({route, navigation}: FormProps) => {
               style={{...FormStyles.input, color: activeColor.text}}
               onChangeText={value => setInput({...input, DESCRIPTION: value})}
               onPressIn={() => {
+                setNumpad(false);
                 setCreditList(false);
                 setDebitList(false);
               }}
@@ -192,6 +201,7 @@ const Form = ({route, navigation}: FormProps) => {
               style={{...FormStyles.input, color: activeColor.text}}
               onChangeText={value => setInput({...input, NOTES: value})}
               onPressIn={() => {
+                setNumpad(false);
                 setCreditList(false);
                 setDebitList(false);
               }}
@@ -234,6 +244,15 @@ const Form = ({route, navigation}: FormProps) => {
           header="Accounts"
           onChange={account => debitHandler(account)}
           setModal={setDebitList}
+        />
+      )}
+      {numpad && (
+        <Numpad
+          setModal={() => {
+            setNumpad(false);
+            descriptionRef.current?.focus();
+          }}
+          setNumber={setAmount}
         />
       )}
     </View>

@@ -1,18 +1,15 @@
 import {View, Text, TextInput, Pressable, Keyboard, Alert} from 'react-native';
 import React, {createRef, useContext, useState} from 'react';
-
 import DatePicker from 'react-native-date-picker';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-
 import ButtonGroup from './ButtonGroup';
-
 import {ThemeContext} from '../../../contexts/ThemeContext';
 import {Theme} from '../../../globals/Theme';
 import {FormStyles} from '../../../globals/Form.Styles';
 import AccountsList from './AccountsList';
 import {deleteTransaction, editTransaction} from '../../../database/transactions';
-// import {createTransactions} from '../../../database/transactions';
+import Numpad from '../../../globals/Calculator/Numpad.component';
 
 type EditFormProps = NativeStackScreenProps<RootStackParamList, 'EditForm'>;
 
@@ -33,9 +30,10 @@ const EditForm = ({route, navigation}: EditFormProps) => {
   });
   const [creditList, setCreditList] = useState(false);
   const [debitList, setDebitList] = useState(false);
+  const [numpad, setNumpad] = useState(false);
+  const [amount, setAmount] = useState(data.AMOUNT_LOC === 0 ? '' : data.AMOUNT_LOC.toString());
   const [input, setInput] = useState<inputData>({
     DATE: new Date(data.DATE),
-    AMOUNT_LOC: data.AMOUNT_LOC.toString(),
     DESCRIPTION: data.DESCRIPTION,
     NOTES: '',
   });
@@ -45,6 +43,7 @@ const EditForm = ({route, navigation}: EditFormProps) => {
   const descriptionRef = createRef<TextInput>();
 
   const typeHandler = (newType: string) => {
+    setEditMode(true);
     setType(newType);
     setCreditAccount({} as FormAccount);
   };
@@ -77,6 +76,7 @@ const EditForm = ({route, navigation}: EditFormProps) => {
   const edithandler = () => {
     editTransaction(data.ID, {
       ...input,
+      AMOUNT_LOC: amount,
       DEBIT: type === 'EXPENSE' ? creditAccount.ID : debitAccount.ID,
       CREDIT: type === 'EXPENSE' ? debitAccount.ID : creditAccount.ID,
       TYPE: type,
@@ -128,6 +128,7 @@ const EditForm = ({route, navigation}: EditFormProps) => {
                 setOpen(true);
                 setDebitList(false);
                 setCreditList(false);
+                setNumpad(false);
               }}
               value={input.DATE.toLocaleDateString()}
               showSoftInputOnFocus={false}
@@ -147,8 +148,9 @@ const EditForm = ({route, navigation}: EditFormProps) => {
               onPressIn={() => {
                 setEditMode(true);
                 Keyboard.dismiss();
+                setNumpad(false);
                 setCreditList(false);
-                setDebitList(true && editMode);
+                setDebitList(true);
               }}
               onFocus={() => {
                 setDebitList(true && editMode);
@@ -168,7 +170,8 @@ const EditForm = ({route, navigation}: EditFormProps) => {
               onPressIn={() => {
                 setEditMode(true);
                 Keyboard.dismiss();
-                setCreditList(true && editMode);
+                setNumpad(false);
+                setCreditList(true);
                 setDebitList(false);
               }}
               onFocus={() => {
@@ -181,16 +184,18 @@ const EditForm = ({route, navigation}: EditFormProps) => {
             <Text style={{...FormStyles.text, color: activeColor.text}}>Amount</Text>
             <TextInput
               ref={amountRef}
-              value={input.AMOUNT_LOC}
+              value={amount}
               style={{...FormStyles.input, color: activeColor.text}}
-              keyboardType={'number-pad'}
-              onChangeText={value => setInput({...input, AMOUNT_LOC: value})}
+              showSoftInputOnFocus={false}
               onPressIn={() => {
                 setEditMode(true);
                 setCreditList(false);
                 setDebitList(false);
+                setNumpad(true);
               }}
-              onSubmitEditing={() => descriptionRef.current?.focus()}
+              onFocus={() => {
+                setNumpad(true);
+              }}
             />
           </View>
           {/* Description */}
@@ -202,6 +207,7 @@ const EditForm = ({route, navigation}: EditFormProps) => {
               style={{...FormStyles.input, color: activeColor.text}}
               onChangeText={value => setInput({...input, DESCRIPTION: value})}
               onPressIn={() => {
+                setNumpad(false);
                 setEditMode(true);
                 setCreditList(false);
                 setDebitList(false);
@@ -215,6 +221,7 @@ const EditForm = ({route, navigation}: EditFormProps) => {
               style={{...FormStyles.input, color: activeColor.text}}
               onChangeText={value => setInput({...input, NOTES: value})}
               onPressIn={() => {
+                setNumpad(false);
                 setEditMode(true);
                 setCreditList(false);
                 setDebitList(false);
@@ -287,6 +294,15 @@ const EditForm = ({route, navigation}: EditFormProps) => {
           header="Accounts"
           onChange={account => debitHandler(account)}
           setModal={setDebitList}
+        />
+      )}
+      {numpad && (
+        <Numpad
+          setModal={() => {
+            setNumpad(false);
+            descriptionRef.current?.focus();
+          }}
+          setNumber={setAmount}
         />
       )}
     </View>

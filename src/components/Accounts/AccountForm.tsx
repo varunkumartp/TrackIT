@@ -12,7 +12,7 @@ import {
 import React, {useContext, useEffect, useState} from 'react';
 import {Styles} from '../../globals/Styles.Styles';
 import {FormStyles} from '../../globals/Form.Styles';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import {createRef} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -64,9 +64,7 @@ const AccountForm = () => {
   return (
     <View style={{flex: 1, backgroundColor: activeColor.background}}>
       <View style={FormStyles.fields}>
-        <Text style={{...FormStyles.text, color: activeColor.text}}>
-          Account Name
-        </Text>
+        <Text style={{...FormStyles.text, color: activeColor.text}}>Account Name</Text>
         <TextInput
           style={{...FormStyles.input, color: activeColor.text}}
           value={account.NAME}
@@ -76,9 +74,7 @@ const AccountForm = () => {
         />
       </View>
       <View style={FormStyles.fields}>
-        <Text style={{...FormStyles.text, color: activeColor.text}}>
-          Account Group
-        </Text>
+        <Text style={{...FormStyles.text, color: activeColor.text}}>Account Group</Text>
         <TextInput
           ref={groupRef}
           style={{...FormStyles.input, color: activeColor.text}}
@@ -96,9 +92,7 @@ const AccountForm = () => {
             backgroundColor: activeColor.theme,
           }}
           onPress={() => submitHandler()}>
-          <Text style={{...FormStyles.buttonText, color: activeColor.text}}>
-            Submit
-          </Text>
+          <Text style={{...FormStyles.buttonText, color: activeColor.text}}>Submit</Text>
         </Pressable>
         <Pressable
           style={{
@@ -106,9 +100,7 @@ const AccountForm = () => {
             backgroundColor: activeColor.theme,
           }}
           onPress={() => navigation.goBack()}>
-          <Text style={{...FormStyles.buttonText, color: activeColor.text}}>
-            Cancel
-          </Text>
+          <Text style={{...FormStyles.buttonText, color: activeColor.text}}>Cancel</Text>
         </Pressable>
       </View>
 
@@ -125,14 +117,9 @@ const AccountForm = () => {
               flexDirection: 'row',
               justifyContent: 'space-between',
             }}>
-            <Text style={{...Styles.text, color: activeColor.text}}>
-              Accounts
-            </Text>
+            <Text style={{...Styles.text, color: activeColor.text}}>Accounts</Text>
             <Pressable onPress={() => setModal(false)}>
-              <Icon
-                name="close"
-                style={{...Styles.text, color: activeColor.text}}
-              />
+              <Icon name="window-close" style={{...Styles.text, color: activeColor.text}} />
             </Pressable>
           </View>
           <FlatList
@@ -140,9 +127,7 @@ const AccountForm = () => {
             data={accountsGroup}
             renderItem={({item}) => (
               <TouchableOpacity onPress={() => groupHandler(item)}>
-                <Text style={{...Styles.text, color: activeColor.text}}>
-                  {item.NAME}
-                </Text>
+                <Text style={{...Styles.text, color: activeColor.text}}>{item.NAME}</Text>
               </TouchableOpacity>
             )}
           />
