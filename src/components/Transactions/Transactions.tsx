@@ -7,7 +7,7 @@ import {readTransactions} from '../../database/transactions';
 import {FlatList} from 'react-native';
 import TransactionsGroup from './TransactionsGroup';
 import {useIsFocused} from '@react-navigation/native';
-import MonthFilter from './MonthFilter';
+import DateFilter from './DateFilter';
 
 const Transactions = () => {
   const focused = useIsFocused();
@@ -26,16 +26,22 @@ const Transactions = () => {
 
   return (
     <View style={{flex: 1, backgroundColor: activeColor.background}}>
-      <MonthFilter date={date} setDate={setDate} setLoading={setLoading} />
+      <View
+        style={{
+          flexDirection: 'row',
+          borderBottomWidth: 1,
+          borderBottomColor: activeColor.background,
+          backgroundColor: activeColor.theme,
+        }}>
+        <DateFilter date={date} setDate={setDate} value={'Periodic'} />
+      </View>
       <View style={{flex: 1}}>
         {!loading && (
           <FlatList
             keyboardShouldPersistTaps={'handled'}
             data={rows}
             windowSize={10}
-            renderItem={({item}) => (
-              <TransactionsGroup data={item.data} title={item.title} />
-            )}
+            renderItem={({item}) => <TransactionsGroup data={item.data} title={item.title} />}
             ListFooterComponent={() => <View style={{padding: 50}} />}
           />
         )}

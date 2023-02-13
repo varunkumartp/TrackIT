@@ -33,7 +33,6 @@ const TransactionHeader = React.memo(({date}: TransactionHeaderProp) => {
 const TransactionItem = React.memo(({data}: TransactionItemProp) => {
   const {theme} = useContext(ThemeContext);
   let activeColor = Theme[theme.mode];
-
   return (
     <View style={ItemStyles.accounts}>
       <View
@@ -51,7 +50,8 @@ const TransactionItem = React.memo(({data}: TransactionItemProp) => {
               color: activeColor.text,
               textAlign: 'left',
             }}>
-            {data.DEBIT_PARENT} - {data.DEBIT_NAME}
+            {data.DEBIT_PARENT === null ? '' : `${data.DEBIT_PARENT} - `}
+            {data.DEBIT_NAME}
           </Text>
           <Text
             style={{
@@ -70,7 +70,8 @@ const TransactionItem = React.memo(({data}: TransactionItemProp) => {
               color: activeColor.text,
               textAlign: 'left',
             }}>
-            {data.CREDIT_PARENT} - {data.CREDIT_NAME}
+            {data.CREDIT_PARENT === null ? '' : `${data.CREDIT_PARENT} - `}
+            {data.CREDIT_NAME}
           </Text>
           <Text
             style={{
