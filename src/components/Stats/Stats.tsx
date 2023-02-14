@@ -98,12 +98,12 @@ const Stats = ({route, navigation}: StatsProps) => {
                 ...AccountsStyles.account,
                 borderBottomWidth: 2,
                 backgroundColor: activeColor.background,
-                borderBottomColor: activeColor.text,
+                borderBottomColor: activeColor.text1,
               }}>
               <Text
                 style={{
                   ...AccountsStyles.text,
-                  color: activeColor.text,
+                  color: activeColor.text1,
                 }}>
                 <Icon name={'circle'} color={item.color} size={15} />
                 {'  '}
@@ -120,7 +120,7 @@ const Stats = ({route, navigation}: StatsProps) => {
                 <Text
                   style={{
                     ...AccountsStyles.text,
-                    color: activeColor.text,
+                    color: activeColor.text1,
                   }}>
                   {item.SYMBOL} {item.AMOUNT}
                 </Text>
@@ -135,7 +135,7 @@ const Stats = ({route, navigation}: StatsProps) => {
                       type: type,
                     })
                   }>
-                  <Icon name={'chevron-right'} size={15} color={activeColor.text} />
+                  <Icon name={'chevron-right'} size={15} color={activeColor.text1} />
                 </TouchableOpacity>
               </View>
             </View>

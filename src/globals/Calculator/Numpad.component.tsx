@@ -36,13 +36,13 @@ const Buttons = ({value, symbol, buttonHandler}: Buttons) => {
       onPress={() => buttonHandler()}>
       {symbol === undefined ? (
         <Text
-          style={{textAlign: 'center', fontWeight: 'bold', fontSize: 20, color: activeColor.text}}>
+          style={{textAlign: 'center', fontWeight: 'bold', fontSize: 20, color: activeColor.text1}}>
           {value}
         </Text>
       ) : (
         <Icon
           name={symbol}
-          style={{textAlign: 'center', fontWeight: 'bold', fontSize: 20, color: activeColor.text}}
+          style={{textAlign: 'center', fontWeight: 'bold', fontSize: 20, color: activeColor.text1}}
         />
       )}
     </TouchableHighlight>
@@ -91,19 +91,29 @@ const Numpad = ({setModal, setNumber}: NumpadProps) => {
         break;
       case 'equal':
         setState(initialState);
-        setNumber(prev =>
-          Math.abs(evil(prev)) === Infinity || evil(prev) === -Infinity
-            ? '0'
-            : evil(prev).toString(),
-        );
+        setNumber(prev => {
+          console.log(prev);
+          if (prev === '') {
+            return '';
+          } else {
+            return Math.abs(evil(prev)) === Infinity || evil(prev) === -Infinity
+              ? '0'
+              : evil(prev).toString();
+          }
+        });
         break;
       case 'done':
         setState(initialState);
-        setNumber(prev =>
-          Math.abs(evil(prev)) === Infinity || evil(prev) === -Infinity
-            ? '0'
-            : evil(prev).toString(),
-        );
+        setNumber(prev => {
+          console.log(prev);
+          if (prev === '') {
+            return '';
+          } else {
+            return Math.abs(evil(prev)) === Infinity || evil(prev) === -Infinity
+              ? '0'
+              : evil(prev).toString();
+          }
+        });
         setModal();
         break;
       case 'clear':
@@ -119,13 +129,16 @@ const Numpad = ({setModal, setNumber}: NumpadProps) => {
         borderColor: activeColor.theme,
       }}>
       <View style={{...ListStyles.header, backgroundColor: activeColor.theme}}>
-        <Text style={{...ListStyles.headerText, color: activeColor.text}}>Amount</Text>
+        <Text style={{...ListStyles.headerText, color: activeColor.text1}}>Amount</Text>
         <View style={{...ListStyles.header, backgroundColor: activeColor.theme}}>
           <Pressable onPress={() => console.log('Editing')}>
-            <Icon name="globe" style={{...ListStyles.headerText, color: activeColor.text}} />
+            <Icon name="globe" style={{...ListStyles.headerText, color: activeColor.text1}} />
           </Pressable>
           <Pressable onPress={() => setModal()}>
-            <Icon name="window-close" style={{...ListStyles.headerText, color: activeColor.text}} />
+            <Icon
+              name="window-close"
+              style={{...ListStyles.headerText, color: activeColor.text1}}
+            />
           </Pressable>
         </View>
       </View>

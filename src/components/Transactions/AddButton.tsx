@@ -32,7 +32,7 @@ const AddButton = () => {
       <View
         style={{
           ...AddButtonStyles.viewStyle,
-          backgroundColor: activeColor.text,
+          backgroundColor: activeColor.text1,
         }}></View>
       <Pressable
         style={AddButtonStyles.button}

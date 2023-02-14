@@ -1,4 +1,4 @@
-import {View, Text, Pressable} from 'react-native';
+import {Pressable} from 'react-native';
 import React, {useContext} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {ThemeContext} from '../../../contexts/ThemeContext';
@@ -6,10 +6,9 @@ import {Theme} from '../../../globals/Theme';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Accounts from '../../Accounts/Accounts';
-import Stats from '../../Stats/Stats';
+import SettingsNavigator from '../SettingsNavigator/SettingsNavigator';
 import StatsNavigator from '../StatsNavigator/StatsNavigator';
 import Transactions from '../../Transactions/Transactions';
-import Settings from '../../Settings/Settings';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
@@ -21,7 +20,7 @@ const BottomTab = ({route, navigation}: BottomTabProps) => {
 
   return (
     <Tab.Navigator
-      initialRouteName="Transactions"
+      initialRouteName="SettingsNavigator"
       screenOptions={({route}) => ({
         tabBarIcon: ({focused}) => {
           switch (route.name) {
@@ -30,7 +29,7 @@ const BottomTab = ({route, navigation}: BottomTabProps) => {
                 <FontAwesome5
                   name={'book'}
                   size={20}
-                  color={focused ? activeColor.text : activeColor.background}
+                  color={focused ? activeColor.text1 : activeColor.text2}
                 />
               );
             case 'Accounts':
@@ -38,7 +37,7 @@ const BottomTab = ({route, navigation}: BottomTabProps) => {
                 <FontAwesome5
                   name={'coins'}
                   size={20}
-                  color={focused ? activeColor.text : activeColor.background}
+                  color={focused ? activeColor.text1 : activeColor.text2}
                 />
               );
             case 'StatsNavigator':
@@ -46,15 +45,15 @@ const BottomTab = ({route, navigation}: BottomTabProps) => {
                 <Ionicons
                   name={'stats-chart'}
                   size={20}
-                  color={focused ? activeColor.text : activeColor.background}
+                  color={focused ? activeColor.text1 : activeColor.text2}
                 />
               );
-            case 'More':
+            case 'SettingsNavigator':
               return (
                 <FontAwesome5
                   name={'ellipsis-h'}
                   size={20}
-                  color={focused ? activeColor.text : activeColor.background}
+                  color={focused ? activeColor.text1 : activeColor.text2}
                 />
               );
             default:
@@ -62,13 +61,13 @@ const BottomTab = ({route, navigation}: BottomTabProps) => {
                 <FontAwesome5
                   name={'book'}
                   size={20}
-                  color={focused ? activeColor.text : activeColor.background}
+                  color={focused ? activeColor.text1 : activeColor.text2}
                 />
               );
           }
         },
-        tabBarActiveTintColor: activeColor.text,
-        tabBarInactiveTintColor: activeColor.background,
+        tabBarActiveTintColor: activeColor.text1,
+        tabBarInactiveTintColor: activeColor.text2,
         tabBarActiveBackgroundColor: activeColor.theme,
         tabBarInactiveBackgroundColor: activeColor.theme,
         tabBarStyle: {
@@ -92,15 +91,19 @@ const BottomTab = ({route, navigation}: BottomTabProps) => {
           headerStyle: {
             backgroundColor: activeColor.theme,
           },
-          headerTintColor: activeColor.text,
+          headerTintColor: activeColor.text1,
           headerRight: () => (
             <Pressable style={{marginRight: 15}} onPress={() => navigation.navigate('AccountForm')}>
-              <FontAwesome5 name="plus" size={20} color={activeColor.text} />
+              <FontAwesome5 name="plus" size={20} color={activeColor.text1} />
             </Pressable>
           ),
         }}
       />
-      <Tab.Screen name="More" component={Settings} options={{header: () => null}} />
+      <Tab.Screen
+        name="SettingsNavigator"
+        component={SettingsNavigator}
+        options={{title: 'More', header: () => null}}
+      />
     </Tab.Navigator>
   );
 };

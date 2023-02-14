@@ -25,7 +25,7 @@ const TransactionHeader = React.memo(({date}: TransactionHeaderProp) => {
 
   return (
     <View style={{...HeaderStyles.header, backgroundColor: activeColor.theme}}>
-      <Text style={{...HeaderStyles.headerText, color: activeColor.text}}>{date}</Text>
+      <Text style={{...HeaderStyles.headerText, color: activeColor.text1}}>{date}</Text>
     </View>
   );
 });
@@ -40,14 +40,14 @@ const TransactionItem = React.memo(({data}: TransactionItemProp) => {
           alignItems: 'center',
           borderBottomWidth: 1,
         }}>
-        <Text style={{...ItemStyles.headerText, color: activeColor.text}}>{data.DESCRIPTION}</Text>
+        <Text style={{...ItemStyles.headerText, color: activeColor.text1}}>{data.DESCRIPTION}</Text>
       </View>
       <View style={{marginVertical: 5}}>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <Text
             style={{
               ...ItemStyles.text,
-              color: activeColor.text,
+              color: activeColor.text1,
               textAlign: 'left',
             }}>
             {data.DEBIT_PARENT === null ? '' : `${data.DEBIT_PARENT} - `}
@@ -67,7 +67,7 @@ const TransactionItem = React.memo(({data}: TransactionItemProp) => {
           <Text
             style={{
               ...ItemStyles.text,
-              color: activeColor.text,
+              color: activeColor.text1,
               textAlign: 'left',
             }}>
             {data.CREDIT_PARENT === null ? '' : `${data.CREDIT_PARENT} - `}

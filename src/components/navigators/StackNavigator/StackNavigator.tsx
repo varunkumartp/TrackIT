@@ -26,7 +26,7 @@ function StackNavigator(): JSX.Element {
           headerStyle: {
             backgroundColor: activeColor.theme,
           },
-          headerTintColor: activeColor.text,
+          headerTintColor: activeColor.text1,
         }}>
         <Stack.Screen name="BottomTab" component={BottomTab} options={{header: () => null}} />
         <Stack.Screen

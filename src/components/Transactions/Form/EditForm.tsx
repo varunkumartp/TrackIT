@@ -120,9 +120,9 @@ const EditForm = ({route, navigation}: EditFormProps) => {
         <View style={FormStyles.parentContainer}>
           {/* Date */}
           <View style={FormStyles.fields}>
-            <Text style={{...FormStyles.text, color: activeColor.text}}>Date</Text>
+            <Text style={{...FormStyles.text, color: activeColor.text1}}>Date</Text>
             <TextInput
-              style={{...FormStyles.input, color: activeColor.text}}
+              style={{...FormStyles.input, color: activeColor.text1}}
               onPressIn={() => {
                 setEditMode(true);
                 setOpen(true);
@@ -137,12 +137,12 @@ const EditForm = ({route, navigation}: EditFormProps) => {
           </View>
           {/* Debit Account */}
           <View style={FormStyles.fields}>
-            <Text style={{...FormStyles.text, color: activeColor.text}}>
+            <Text style={{...FormStyles.text, color: activeColor.text1}}>
               {type === 'EXPENSE' || type === 'INCOME' ? 'Account' : 'Debit Account'}
             </Text>
             <TextInput
               ref={debitRef}
-              style={{...FormStyles.input, color: activeColor.text}}
+              style={{...FormStyles.input, color: activeColor.text1}}
               value={debitAccount.NAME}
               showSoftInputOnFocus={false}
               onPressIn={() => {
@@ -159,12 +159,12 @@ const EditForm = ({route, navigation}: EditFormProps) => {
           </View>
           {/* Credit Account */}
           <View style={FormStyles.fields}>
-            <Text style={{...FormStyles.text, color: activeColor.text}}>
+            <Text style={{...FormStyles.text, color: activeColor.text1}}>
               {type === 'EXPENSE' || type === 'INCOME' ? 'Category' : 'Credit Account'}
             </Text>
             <TextInput
               ref={creditRef}
-              style={{...FormStyles.input, color: activeColor.text}}
+              style={{...FormStyles.input, color: activeColor.text1}}
               value={creditAccount.NAME}
               showSoftInputOnFocus={false}
               onPressIn={() => {
@@ -181,11 +181,11 @@ const EditForm = ({route, navigation}: EditFormProps) => {
           </View>
           {/* Amount */}
           <View style={FormStyles.fields}>
-            <Text style={{...FormStyles.text, color: activeColor.text}}>Amount</Text>
+            <Text style={{...FormStyles.text, color: activeColor.text1}}>Amount</Text>
             <TextInput
               ref={amountRef}
               value={amount}
-              style={{...FormStyles.input, color: activeColor.text}}
+              style={{...FormStyles.input, color: activeColor.text1}}
               showSoftInputOnFocus={false}
               onPressIn={() => {
                 setEditMode(true);
@@ -200,11 +200,11 @@ const EditForm = ({route, navigation}: EditFormProps) => {
           </View>
           {/* Description */}
           <View style={FormStyles.fields}>
-            <Text style={{...FormStyles.text, color: activeColor.text}}>Description</Text>
+            <Text style={{...FormStyles.text, color: activeColor.text1}}>Description</Text>
             <TextInput
               ref={descriptionRef}
               value={input.DESCRIPTION}
-              style={{...FormStyles.input, color: activeColor.text}}
+              style={{...FormStyles.input, color: activeColor.text1}}
               onChangeText={value => setInput({...input, DESCRIPTION: value})}
               onPressIn={() => {
                 setNumpad(false);
@@ -216,9 +216,9 @@ const EditForm = ({route, navigation}: EditFormProps) => {
           </View>
           {/* Notes */}
           <View style={{...FormStyles.fields}}>
-            <Text style={{...FormStyles.text, color: activeColor.text}}>Notes</Text>
+            <Text style={{...FormStyles.text, color: activeColor.text1}}>Notes</Text>
             <TextInput
-              style={{...FormStyles.input, color: activeColor.text}}
+              style={{...FormStyles.input, color: activeColor.text1}}
               onChangeText={value => setInput({...input, NOTES: value})}
               onPressIn={() => {
                 setNumpad(false);
@@ -237,7 +237,7 @@ const EditForm = ({route, navigation}: EditFormProps) => {
                   flex: 2,
                 }}
                 onPress={() => edithandler()}>
-                <Text style={{...FormStyles.buttonText, color: activeColor.text}}>Update</Text>
+                <Text style={{...FormStyles.buttonText, color: activeColor.text1}}>Update</Text>
               </Pressable>
               <Pressable
                 style={{
@@ -246,7 +246,7 @@ const EditForm = ({route, navigation}: EditFormProps) => {
                   flex: 1,
                 }}
                 onPress={() => navigation.navigate('BottomTab')}>
-                <Text style={{...FormStyles.buttonText, color: activeColor.text}}>Cancel</Text>
+                <Text style={{...FormStyles.buttonText, color: activeColor.text1}}>Cancel</Text>
               </Pressable>
             </View>
           )}
@@ -261,8 +261,8 @@ const EditForm = ({route, navigation}: EditFormProps) => {
                   flexDirection: 'row',
                 }}
                 onPress={() => navigation.navigate('Form', {data: data})}>
-                <Icon name="clone" size={15} color={activeColor.text} />
-                <Text style={{...FormStyles.buttonText, color: activeColor.text}}>Copy</Text>
+                <Icon name="clone" size={15} color={activeColor.text1} />
+                <Text style={{...FormStyles.buttonText, color: activeColor.text1}}>Copy</Text>
               </Pressable>
               <Pressable
                 style={{
@@ -273,8 +273,8 @@ const EditForm = ({route, navigation}: EditFormProps) => {
                   flexDirection: 'row',
                 }}
                 onPress={() => deleteHandler()}>
-                <Icon name="trash-alt" size={15} color={activeColor.text} />
-                <Text style={{...FormStyles.buttonText, color: activeColor.text}}>Delete</Text>
+                <Icon name="trash-alt" size={15} color={activeColor.text1} />
+                <Text style={{...FormStyles.buttonText, color: activeColor.text1}}>Delete</Text>
               </Pressable>
             </View>
           )}

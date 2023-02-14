@@ -41,13 +41,13 @@ const AccountsList = ({type, header, onChange, setModal}: AccountsListProps) => 
         borderColor: activeColor.theme,
       }}>
       <View style={{...ListStyles.header, backgroundColor: activeColor.theme}}>
-        <Text style={{...ListStyles.headerText, color: activeColor.text}}>{header}</Text>
+        <Text style={{...ListStyles.headerText, color: activeColor.text1}}>{header}</Text>
         <View style={{...ListStyles.header, backgroundColor: activeColor.theme}}>
           <Pressable onPress={() => console.log('Editing')}>
-            <Icon name="pencil" style={{...ListStyles.headerText, color: activeColor.text}} />
+            <Icon name="pencil" style={{...ListStyles.headerText, color: activeColor.text1}} />
           </Pressable>
           <Pressable onPress={() => setModal(false)}>
-            <Icon name="close" style={{...ListStyles.headerText, color: activeColor.text}} />
+            <Icon name="close" style={{...ListStyles.headerText, color: activeColor.text1}} />
           </Pressable>
         </View>
       </View>
@@ -68,12 +68,12 @@ const AccountsList = ({type, header, onChange, setModal}: AccountsListProps) => 
               onPress={() => accountHandler(item)}
               style={{
                 ...ListStyles.options,
-                backgroundColor: item.ID === selected ? activeColor.text : activeColor.background,
+                backgroundColor: item.ID === selected ? activeColor.text1 : activeColor.background,
               }}>
               <Text
                 style={{
                   ...ListStyles.text,
-                  color: item.ID === selected ? activeColor.theme : activeColor.text,
+                  color: item.ID === selected ? activeColor.theme : activeColor.text1,
                 }}>
                 {item.NAME}
               </Text>
@@ -90,7 +90,7 @@ const AccountsList = ({type, header, onChange, setModal}: AccountsListProps) => 
           }}
           renderItem={({item}) => (
             <Pressable onPress={() => subAccountHandler(item)} style={ListStyles.options}>
-              <Text style={{...ListStyles.text, color: activeColor.text}}>{item.NAME}</Text>
+              <Text style={{...ListStyles.text, color: activeColor.text1}}>{item.NAME}</Text>
             </Pressable>
           )}
           keyExtractor={item => item.ID}

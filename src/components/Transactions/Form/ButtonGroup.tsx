@@ -25,7 +25,7 @@ const ButtonGroup = ({data, defaultKey, typeHandler}: ButtonGroupProps) => {
           key={el.key}
           style={{
             ...ButtonGroupStyles.pressable,
-            backgroundColor: activeColor[type !== el.key ? 'theme' : 'text'],
+            backgroundColor: activeColor[type !== el.key ? 'theme' : 'text1'],
           }}
           onPress={() => {
             setType(el.key);
@@ -34,7 +34,7 @@ const ButtonGroup = ({data, defaultKey, typeHandler}: ButtonGroupProps) => {
           <Text
             style={{
               ...ButtonGroupStyles.pressableText,
-              color: activeColor[type === el.key ? 'background' : 'text'],
+              color: activeColor[type === el.key ? 'text2' : 'text1'],
             }}>
             {el.value}
           </Text>

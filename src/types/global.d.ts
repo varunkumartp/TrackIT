@@ -7,7 +7,7 @@ declare global {
     Transactions: undefined;
     StatsNavigator: undefined;
     Accounts: undefined;
-    More: undefined;
+    SettingsNavigator: undefined;
   };
 
   type RootStackParamList = {
@@ -33,6 +33,16 @@ declare global {
     };
   };
 
+  type SettingsStackParamList = {
+    Settings: undefined;
+    Configuration: undefined;
+    Accounts: undefined;
+    Passcode: undefined;
+    Styling: undefined;
+    PCManager: undefined;
+    Backup: undefined;
+  };
+
   /**************** Accounts Database **************/
   interface Accounts {
     ID: string;
@@ -50,7 +60,8 @@ declare global {
   interface Theme {
     [key: string]: {
       theme: string;
-      text: string;
+      text1: string;
+      text2: string;
       background: string;
       red: string;
       blue: string;
@@ -62,7 +73,7 @@ declare global {
     PARENT_ID: string;
     PARENT_NAME: string;
     NAME: string;
-  NUMBER: number;
+    NUMBER: number;
     AMOUNT: number;
   }
 

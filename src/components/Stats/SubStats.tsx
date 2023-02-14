@@ -44,7 +44,7 @@ const SubStats = ({route, navigation}: SubStatsProps) => {
           backgroundColor: activeColor.theme,
         }}>
         <View>
-          <Text style={{...Styles.text, color: activeColor.text}}>{PARENT_NAME} </Text>
+          <Text style={{...Styles.text, color: activeColor.text1}}>{PARENT_NAME} </Text>
         </View>
         <View>
           <DateFilter date={date} setDate={setDate} value={value} />
@@ -64,7 +64,7 @@ const SubStats = ({route, navigation}: SubStatsProps) => {
         ) : (
           <Fragment>
             <View>
-              <Text style={{...Styles.text, color: activeColor.text}}>
+              <Text style={{...Styles.text, color: activeColor.text1}}>
                 Total - {subAccount[0].SYMBOL} {amountSum}
               </Text>
             </View>
@@ -94,12 +94,12 @@ const SubStats = ({route, navigation}: SubStatsProps) => {
                 ...AccountsStyles.account,
                 borderBottomWidth: 2,
                 backgroundColor: activeColor.background,
-                borderBottomColor: activeColor.text,
+                borderBottomColor: activeColor.text1,
               }}>
               <Text
                 style={{
                   ...AccountsStyles.text,
-                  color: activeColor.text,
+                  color: activeColor.text1,
                 }}>
                 <Icon name={'circle'} color={item.color} size={15} />
                 {'  '}
@@ -111,7 +111,7 @@ const SubStats = ({route, navigation}: SubStatsProps) => {
                 <Text
                   style={{
                     ...AccountsStyles.text,
-                    color: activeColor.text,
+                    color: activeColor.text1,
                   }}>
                   {item.SYMBOL} {item.AMOUNT}
                 </Text>
@@ -123,7 +123,7 @@ const SubStats = ({route, navigation}: SubStatsProps) => {
                       id: item.ACCOUNT_ID,
                     })
                   }>
-                  <Icon name={'chevron-right'} size={15} color={activeColor.text} />
+                  <Icon name={'chevron-right'} size={15} color={activeColor.text1} />
                 </TouchableOpacity>
               </View>
             </View>

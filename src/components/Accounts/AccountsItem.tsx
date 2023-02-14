@@ -10,13 +10,12 @@ export const AccountItem = ({data}: {data: AccountsGroup}) => {
     <View
       style={{
         ...AccountsStyles.account,
-        backgroundColor:
-          activeColor[data.NUMBER % 1000 === 0 ? 'theme' : 'background'],
+        backgroundColor: activeColor[data.NUMBER % 1000 === 0 ? 'theme' : 'background'],
       }}>
       <Text
         style={{
           ...AccountsStyles.text,
-          color: activeColor.text,
+          color: activeColor.text1,
           fontSize: data.NUMBER % 1000 === 0 ? 15 : 12,
         }}>
         {data.NAME}
@@ -24,10 +23,7 @@ export const AccountItem = ({data}: {data: AccountsGroup}) => {
       <Text
         style={{
           ...AccountsStyles.text,
-          color:
-            activeColor[
-              data.AMOUNT === 0 ? 'text' : data.AMOUNT < 0 ? 'red' : 'blue'
-            ],
+          color: activeColor[data.AMOUNT === 0 ? 'text' : data.AMOUNT < 0 ? 'red' : 'blue'],
           fontSize: data.NUMBER % 1000 === 0 ? 15 : 12,
         }}>
         {data.AMOUNT}

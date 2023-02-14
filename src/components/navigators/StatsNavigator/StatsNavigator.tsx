@@ -21,7 +21,7 @@ const StatsNavigator = () => {
         headerStyle: {
           backgroundColor: activeColor.theme,
         },
-        headerTintColor: activeColor.text,
+        headerTintColor: activeColor.text1,
       }}>
       <StatsStack.Screen name="Stats" component={Stats} />
       <StatsStack.Screen name="SubStats" component={SubStats} />

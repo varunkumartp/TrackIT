@@ -19,7 +19,7 @@ const Button = ({onPress, text}: ButtonProps) => {
 
   return (
     <TouchableOpacity onPress={onPress} style={{backgroundColor: activeColor.background}}>
-      <Text style={{color: activeColor.text, fontSize: 24}}>{text}</Text>
+      <Text style={{color: activeColor.text1, fontSize: 24}}>{text}</Text>
     </TouchableOpacity>
   );
 };

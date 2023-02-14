@@ -76,9 +76,9 @@ export const DateFilter = ({date, value, setDate}: DateFilterProp) => {
   return (
     <View style={{flex: 3, flexDirection: 'row'}}>
       <Pressable onPress={() => addhandler()}>
-        <Text style={{...Styles.text, color: activeColor.text}}>&#10094;</Text>
+        <Text style={{...Styles.text, color: activeColor.text1}}>&#10094;</Text>
       </Pressable>
-      <Text style={{...Styles.text, color: activeColor.text}}>
+      <Text style={{...Styles.text, color: activeColor.text1}}>
         {value === 'FY'
           ? getFiscalYear(date)
           : value === 'Periodic'
@@ -86,7 +86,7 @@ export const DateFilter = ({date, value, setDate}: DateFilterProp) => {
           : date.year}
       </Text>
       <Pressable onPress={() => subtractHandler()}>
-        <Text style={{...Styles.text, color: activeColor.text}}>&#10095;</Text>
+        <Text style={{...Styles.text, color: activeColor.text1}}>&#10095;</Text>
       </Pressable>
     </View>
   );
@@ -131,11 +131,11 @@ export const DateFilterDD = ({date, setDate, value, setValue}: DateFilterDDProp)
             fontSize: 15,
             textAlign: 'right',
             fontWeight: 'bold',
-            color: activeColor.text,
+            color: activeColor.text1,
           }}
           activeColor={activeColor.background}
-          iconColor={activeColor.text}
-          itemTextStyle={{color: activeColor.text}}
+          iconColor={activeColor.text1}
+          itemTextStyle={{color: activeColor.text1}}
           containerStyle={{
             backgroundColor: activeColor.theme,
             borderColor: activeColor.theme,

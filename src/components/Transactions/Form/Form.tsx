@@ -104,9 +104,9 @@ const Form = ({route, navigation}: FormProps) => {
         <View style={FormStyles.parentContainer}>
           {/* Date */}
           <View style={FormStyles.fields}>
-            <Text style={{...FormStyles.text, color: activeColor.text}}>Date</Text>
+            <Text style={{...FormStyles.text, color: activeColor.text1}}>Date</Text>
             <TextInput
-              style={{...FormStyles.input, color: activeColor.text}}
+              style={{...FormStyles.input, color: activeColor.text1}}
               onPressIn={() => {
                 setOpen(true);
                 setDebitList(false);
@@ -120,12 +120,12 @@ const Form = ({route, navigation}: FormProps) => {
           </View>
           {/* Debit Account */}
           <View style={FormStyles.fields}>
-            <Text style={{...FormStyles.text, color: activeColor.text}}>
+            <Text style={{...FormStyles.text, color: activeColor.text1}}>
               {type === 'EXPENSE' || type === 'INCOME' ? 'Account' : 'Debit Account'}
             </Text>
             <TextInput
               ref={debitRef}
-              style={{...FormStyles.input, color: activeColor.text}}
+              style={{...FormStyles.input, color: activeColor.text1}}
               value={debitAccount.NAME}
               showSoftInputOnFocus={false}
               onPressIn={() => {
@@ -141,12 +141,12 @@ const Form = ({route, navigation}: FormProps) => {
           </View>
           {/* Credit Account */}
           <View style={FormStyles.fields}>
-            <Text style={{...FormStyles.text, color: activeColor.text}}>
+            <Text style={{...FormStyles.text, color: activeColor.text1}}>
               {type === 'EXPENSE' || type === 'INCOME' ? 'Category' : 'Credit Account'}
             </Text>
             <TextInput
               ref={creditRef}
-              style={{...FormStyles.input, color: activeColor.text}}
+              style={{...FormStyles.input, color: activeColor.text1}}
               value={creditAccount.NAME}
               showSoftInputOnFocus={false}
               onPressIn={() => {
@@ -162,10 +162,10 @@ const Form = ({route, navigation}: FormProps) => {
           </View>
           {/* Amount */}
           <View style={FormStyles.fields}>
-            <Text style={{...FormStyles.text, color: activeColor.text}}>Amount</Text>
+            <Text style={{...FormStyles.text, color: activeColor.text1}}>Amount</Text>
             <TextInput
               ref={amountRef}
-              style={{...FormStyles.input, color: activeColor.text}}
+              style={{...FormStyles.input, color: activeColor.text1}}
               showSoftInputOnFocus={false}
               onPressIn={() => {
                 Keyboard.dismiss();
@@ -181,10 +181,10 @@ const Form = ({route, navigation}: FormProps) => {
           </View>
           {/* Description */}
           <View style={FormStyles.fields}>
-            <Text style={{...FormStyles.text, color: activeColor.text}}>Description</Text>
+            <Text style={{...FormStyles.text, color: activeColor.text1}}>Description</Text>
             <TextInput
               ref={descriptionRef}
-              style={{...FormStyles.input, color: activeColor.text}}
+              style={{...FormStyles.input, color: activeColor.text1}}
               onChangeText={value => setInput({...input, DESCRIPTION: value})}
               onPressIn={() => {
                 setNumpad(false);
@@ -196,9 +196,9 @@ const Form = ({route, navigation}: FormProps) => {
           </View>
           {/* Notes */}
           <View style={{...FormStyles.fields}}>
-            <Text style={{...FormStyles.text, color: activeColor.text}}>Notes</Text>
+            <Text style={{...FormStyles.text, color: activeColor.text1}}>Notes</Text>
             <TextInput
-              style={{...FormStyles.input, color: activeColor.text}}
+              style={{...FormStyles.input, color: activeColor.text1}}
               onChangeText={value => setInput({...input, NOTES: value})}
               onPressIn={() => {
                 setNumpad(false);
@@ -216,7 +216,7 @@ const Form = ({route, navigation}: FormProps) => {
                 flex: 2,
               }}
               onPress={() => submitHandler()}>
-              <Text style={{...FormStyles.buttonText, color: activeColor.text}}>Submit</Text>
+              <Text style={{...FormStyles.buttonText, color: activeColor.text1}}>Submit</Text>
             </Pressable>
             <Pressable
               style={{
@@ -225,7 +225,7 @@ const Form = ({route, navigation}: FormProps) => {
                 flex: 1,
               }}
               onPress={() => navigation.navigate('BottomTab')}>
-              <Text style={{...FormStyles.buttonText, color: activeColor.text}}>Cancel</Text>
+              <Text style={{...FormStyles.buttonText, color: activeColor.text1}}>Cancel</Text>
             </Pressable>
           </View>
         </View>
