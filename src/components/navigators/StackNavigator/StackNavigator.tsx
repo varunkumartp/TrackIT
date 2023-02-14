@@ -11,6 +11,7 @@ import Form from '../../Transactions/Form/Form';
 import FilteredTransactions from '../../Transactions/FilteredTransactions';
 import AccountForm from '../../Accounts/AccountForm';
 import EditForm from '../../Transactions/Form/EditForm';
+import AccountEditForm from '../../Settings/Screens/Accounts/AccountEditForm';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -48,7 +49,12 @@ function StackNavigator(): JSX.Element {
         <Stack.Screen
           name="AccountForm"
           component={AccountForm}
-          options={{title: 'New Transaction', animation: 'slide_from_bottom'}}
+          options={{title: 'New Account', animation: 'slide_from_bottom'}}
+        />
+        <Stack.Screen
+          name="AccountEditForm"
+          component={AccountEditForm}
+          options={{title: 'Edit Account', animation: 'slide_from_bottom'}}
         />
         <Stack.Screen
           name="FilteredTransactions"

@@ -17,6 +17,7 @@ declare global {
     EditForm: {data: transactions};
     FilteredTransactions: {id: string; account: string};
     AccountForm: undefined;
+    AccountEditForm: {data: AccountsGroup};
   };
 
   type StatsStackParamList = {

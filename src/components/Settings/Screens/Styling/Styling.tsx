@@ -1,10 +1,10 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React, {useContext} from 'react';
-import {ThemeContext} from '../../../contexts/ThemeContext';
+import {ThemeContext} from '../../../../contexts/ThemeContext';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {Theme} from '../../../globals/Theme';
+import {Theme} from '../../../../globals/Theme';
 import {RadioButton} from 'react-native-paper';
-import {Styles} from '../../../globals/Styles.Styles';
+import {Styles} from '../../../../globals/Styles.Styles';
 const Styling = () => {
   const {theme, updateTheme} = useContext(ThemeContext);
   let activeColor = Theme[theme.mode];
@@ -49,6 +49,7 @@ const StylingStyles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     borderWidth: 2,
+    borderRadius: 25,
     marginHorizontal: 15,
     marginVertical: 2,
   },

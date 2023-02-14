@@ -25,45 +25,15 @@ const BottomTab = ({route, navigation}: BottomTabProps) => {
         tabBarIcon: ({focused}) => {
           switch (route.name) {
             case 'Transactions':
-              return (
-                <FontAwesome5
-                  name={'book'}
-                  size={20}
-                  color={focused ? activeColor.text1 : activeColor.text2}
-                />
-              );
+              return <FontAwesome5 name={'book'} size={20} color={focused ? activeColor.text1 : activeColor.text2} />;
             case 'Accounts':
-              return (
-                <FontAwesome5
-                  name={'coins'}
-                  size={20}
-                  color={focused ? activeColor.text1 : activeColor.text2}
-                />
-              );
+              return <FontAwesome5 name={'coins'} size={20} color={focused ? activeColor.text1 : activeColor.text2} />;
             case 'StatsNavigator':
-              return (
-                <Ionicons
-                  name={'stats-chart'}
-                  size={20}
-                  color={focused ? activeColor.text1 : activeColor.text2}
-                />
-              );
+              return <Ionicons name={'stats-chart'} size={20} color={focused ? activeColor.text1 : activeColor.text2} />;
             case 'SettingsNavigator':
-              return (
-                <FontAwesome5
-                  name={'ellipsis-h'}
-                  size={20}
-                  color={focused ? activeColor.text1 : activeColor.text2}
-                />
-              );
+              return <FontAwesome5 name={'ellipsis-h'} size={20} color={focused ? activeColor.text1 : activeColor.text2} />;
             default:
-              return (
-                <FontAwesome5
-                  name={'book'}
-                  size={20}
-                  color={focused ? activeColor.text1 : activeColor.text2}
-                />
-              );
+              return <FontAwesome5 name={'book'} size={20} color={focused ? activeColor.text1 : activeColor.text2} />;
           }
         },
         tabBarActiveTintColor: activeColor.text1,
@@ -92,18 +62,9 @@ const BottomTab = ({route, navigation}: BottomTabProps) => {
             backgroundColor: activeColor.theme,
           },
           headerTintColor: activeColor.text1,
-          headerRight: () => (
-            <Pressable style={{marginRight: 15}} onPress={() => navigation.navigate('AccountForm')}>
-              <FontAwesome5 name="plus" size={20} color={activeColor.text1} />
-            </Pressable>
-          ),
         }}
       />
-      <Tab.Screen
-        name="SettingsNavigator"
-        component={SettingsNavigator}
-        options={{title: 'More', header: () => null}}
-      />
+      <Tab.Screen name="SettingsNavigator" component={SettingsNavigator} options={{title: 'More', header: () => null}} />
     </Tab.Navigator>
   );
 };

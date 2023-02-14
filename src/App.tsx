@@ -3,12 +3,13 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 import {ThemeContext} from './contexts/ThemeContext';
 import StackNavigator from './components/navigators/StackNavigator/StackNavigator';
-import { getData } from './database/asyncStorage';
+import {getData, setData} from './database/asyncStorage';
 
 function MainApp(): JSX.Element {
   const [theme, setTheme] = useState({mode: 'Dark'});
   const updateTheme = (newTheme: {mode: string}) => {
     setTheme(newTheme);
+    setData('Theme', newTheme);
   };
 
   const fetchTheme = async () => {

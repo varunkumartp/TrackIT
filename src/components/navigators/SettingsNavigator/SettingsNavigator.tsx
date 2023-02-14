@@ -2,14 +2,21 @@ import {View, Text} from 'react-native';
 import React, {useContext, useState} from 'react';
 import {ThemeContext} from '../../../contexts/ThemeContext';
 import {Theme} from '../../../globals/Theme';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createNativeStackNavigator, NativeStackScreenProps} from '@react-navigation/native-stack';
 import Settings from '../../Settings/Settings';
 import {version as app_version} from '../../../../package.json';
-import Styling from '../../Settings/Screens/Styling';
+import Styling from '../../Settings/Screens/Styling/Styling';
+import Accounts from '../../Settings/Screens/Accounts/Accounts';
+import {Pressable} from 'react-native';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import {CompositeScreenProps} from '@react-navigation/native';
+import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
+
+type SettingsNavigatorProp = CompositeScreenProps<NativeStackScreenProps<BottomTabParamList, 'SettingsNavigator'>, NativeStackScreenProps<RootStackParamList>>;
 
 const SettingsStack = createNativeStackNavigator<SettingsStackParamList>();
 
-const SettingsNavigator = () => {
+const SettingsNavigator = ({route, navigation}: SettingsNavigatorProp) => {
   const {theme} = useContext(ThemeContext);
   //   const [categoryForm, setCategoryForm] = useState(false);
   //   const [subCategoryForm, setSubCategoryForm] = useState(false);
@@ -17,7 +24,7 @@ const SettingsNavigator = () => {
 
   return (
     <SettingsStack.Navigator
-      initialRouteName="Settings"
+      initialRouteName="Accounts"
       screenOptions={{
         headerStyle: {
           backgroundColor: activeColor.theme,
@@ -38,6 +45,18 @@ const SettingsNavigator = () => {
         component={Styling}
         options={{
           title: 'Theme',
+        }}
+      />
+      <SettingsStack.Screen
+        name="Accounts"
+        component={Accounts}
+        options={{
+          title: 'Accounts Settings',
+          headerRight: () => (
+            <Pressable  onPress={() => navigation.navigate('AccountForm')}>
+              <FontAwesome5 name="plus" size={20} color={activeColor.text1} />
+            </Pressable>
+          ),
         }}
       />
     </SettingsStack.Navigator>

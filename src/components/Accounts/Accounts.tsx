@@ -14,15 +14,13 @@ const Accounts = () => {
   const {theme} = useContext(ThemeContext);
   let activeColor = Theme[theme.mode];
   const [rows, setRows] = useState<AccountsGroup[]>([]);
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   useEffect(() => {
     getAccountsTab(setRows);
   }, [focused]);
 
   return (
-    <View
-      style={{...Styles.container, backgroundColor: activeColor.background}}>
+    <View style={{...Styles.container, backgroundColor: activeColor.background}}>
       <FlatList
         style={{flex: 1}}
         keyboardShouldPersistTaps={'handled'}
