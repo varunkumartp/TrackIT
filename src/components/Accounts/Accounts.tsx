@@ -1,4 +1,4 @@
-import {View, FlatList, Text, TouchableOpacity} from 'react-native';
+import {View, FlatList, TouchableOpacity} from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 import {ThemeContext} from '../../contexts/ThemeContext';
 import {Theme} from '../../globals/Theme';

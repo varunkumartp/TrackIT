@@ -8,20 +8,25 @@ import {Theme} from '../../globals/Theme';
 
 type SettingsProps = NativeStackScreenProps<SettingsStackParamList, 'Settings'>;
 
-const Settings = ({route, navigation}: SettingsProps) => {
+const Settings = ({navigation}: SettingsProps) => {
   const {theme} = useContext(ThemeContext);
   let activeColor = Theme[theme.mode];
 
   return (
-    <View style={{...SettingsStyles.parentContainer, backgroundColor: activeColor.background}}>
+    <View
+      style={{
+        ...SettingsStyles.parentContainer,
+        backgroundColor: activeColor.background,
+      }}>
       <View style={SettingsStyles.rowContainer}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('Configuration')}
+          onPress={() => navigation.navigate('ConfigNavigator')}
           style={SettingsStyles.container}>
           <Text style={SettingsStyles.containerIcon}>
             <Ionicons name={'settings'} size={50} color={activeColor.text1} />
           </Text>
-          <Text style={{...SettingsStyles.containerText, color: activeColor.text1}}>
+          <Text
+            style={{...SettingsStyles.containerText, color: activeColor.text1}}>
             Configuration
           </Text>
         </TouchableOpacity>
@@ -32,35 +37,56 @@ const Settings = ({route, navigation}: SettingsProps) => {
           <Text style={SettingsStyles.containerIcon}>
             <FontAwesome5 name={'coins'} size={50} color={activeColor.text1} />
           </Text>
-          <Text style={{...SettingsStyles.containerText, color: activeColor.text1}}>Accounts</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Passcode')}
-          style={SettingsStyles.container}>
-          <Text style={SettingsStyles.containerIcon}>
-            <FontAwesome5 name={'unlock-alt'} size={50} color={activeColor.text1} />
+          <Text
+            style={{...SettingsStyles.containerText, color: activeColor.text1}}>
+            Accounts
           </Text>
-          <Text style={{...SettingsStyles.containerText, color: activeColor.text1}}>Passcode</Text>
         </TouchableOpacity>
-      </View>
-      <View style={SettingsStyles.rowContainer}>
         <TouchableOpacity
           onPress={() => navigation.navigate('Styling')}
           style={SettingsStyles.container}>
           <Text style={SettingsStyles.containerIcon}>
-            <Ionicons name={'color-palette'} size={50} color={activeColor.text1} />
+            <Ionicons
+              name={'color-palette'}
+              size={50}
+              color={activeColor.text1}
+            />
           </Text>
-          <Text style={{...SettingsStyles.containerText, color: activeColor.text1}}>Styling</Text>
+          <Text
+            style={{...SettingsStyles.containerText, color: activeColor.text1}}>
+            Styling
+          </Text>
+        </TouchableOpacity>
+      </View>
+      {/* <View style={SettingsStyles.rowContainer}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Passcode')}
+          style={SettingsStyles.container}>
+          <Text style={SettingsStyles.containerIcon}>
+            <FontAwesome5
+              name={'unlock-alt'}
+              size={50}
+              color={activeColor.text1}
+            />
+          </Text>
+          <Text
+            style={{...SettingsStyles.containerText, color: activeColor.text1}}>
+            Passcode
+          </Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           onPress={() => navigation.navigate('PCManager')}
           style={SettingsStyles.container}>
           <Text style={SettingsStyles.containerIcon}>
-            <FontAwesome5 name={'desktop'} size={50} color={activeColor.text1} />
+            <FontAwesome5
+              name={'desktop'}
+              size={50}
+              color={activeColor.text1}
+            />
           </Text>
-          <Text style={{...SettingsStyles.containerText, color: activeColor.text1}}>
+          <Text
+            style={{...SettingsStyles.containerText, color: activeColor.text1}}>
             PC Manager
           </Text>
         </TouchableOpacity>
@@ -71,9 +97,12 @@ const Settings = ({route, navigation}: SettingsProps) => {
           <Text style={SettingsStyles.containerIcon}>
             <Ionicons name={'refresh'} size={50} color={activeColor.text1} />
           </Text>
-          <Text style={{...SettingsStyles.containerText, color: activeColor.text1}}>Backup</Text>
+          <Text
+            style={{...SettingsStyles.containerText, color: activeColor.text1}}>
+            Backup
+          </Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
     </View>
   );
 };

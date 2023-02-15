@@ -1,10 +1,5 @@
 import {db} from './database';
 
-interface dateFilter {
-  month: number;
-  year: number;
-}
-
 const colors = [
   '#f97263',
   '#ff964c',
@@ -24,7 +19,7 @@ const colors = [
 ];
 
 export const expenseHeaderSum = async (
-  date: dateFilter,
+  date: DateFilter,
   setAccountSum: React.Dispatch<React.SetStateAction<AccountSum[]>>,
   setExpenseSum: React.Dispatch<React.SetStateAction<number>>,
 ) => {
@@ -65,11 +60,20 @@ export const expenseHeaderSum = async (
         let sum: number = 0;
         if (results.rows.length === 0) {
           setAccountSum([
-            {ACCOUNT_ID: '', ACCOUNT_NAME: '', AMOUNT: 0, SYMBOL: '₹', color: 'white'},
+            {
+              ACCOUNT_ID: '',
+              ACCOUNT_NAME: '',
+              AMOUNT: 0,
+              SYMBOL: '₹',
+              color: 'white',
+            },
           ]);
         } else {
           for (let i = 0; i < results.rows.length; i++) {
-            arr.push({...results.rows.item(i), color: colors[i % colors.length]});
+            arr.push({
+              ...results.rows.item(i),
+              color: colors[i % colors.length],
+            });
             sum = sum + results.rows.item(i).AMOUNT;
           }
           setAccountSum(arr);
@@ -82,7 +86,7 @@ export const expenseHeaderSum = async (
 };
 
 export const incomeHeaderSum = async (
-  date: dateFilter,
+  date: DateFilter,
   setAccountSum: React.Dispatch<React.SetStateAction<AccountSum[]>>,
   setIncomeSum: React.Dispatch<React.SetStateAction<number>>,
 ) => {
@@ -123,11 +127,20 @@ export const incomeHeaderSum = async (
         let sum: number = 0;
         if (results.rows.length === 0) {
           setAccountSum([
-            {ACCOUNT_ID: '', ACCOUNT_NAME: '', AMOUNT: 0, SYMBOL: '₹', color: 'white'},
+            {
+              ACCOUNT_ID: '',
+              ACCOUNT_NAME: '',
+              AMOUNT: 0,
+              SYMBOL: '₹',
+              color: 'white',
+            },
           ]);
         } else {
           for (let i = 0; i < results.rows.length; i++) {
-            arr.push({...results.rows.item(i), color: colors[i % colors.length]});
+            arr.push({
+              ...results.rows.item(i),
+              color: colors[i % colors.length],
+            });
             sum = sum + results.rows.item(i).AMOUNT;
           }
           setIncomeSum(sum);
@@ -140,7 +153,7 @@ export const incomeHeaderSum = async (
 };
 
 export const subHeaderSum = async (
-  date: dateFilter,
+  date: DateFilter,
   PARENT_ID: string,
   type: string,
   setAccountSum: React.Dispatch<React.SetStateAction<AccountSum[]>>,
@@ -193,11 +206,20 @@ export const subHeaderSum = async (
         let sum: number = 0;
         if (results.rows.length === 0) {
           setAccountSum([
-            {ACCOUNT_ID: '', ACCOUNT_NAME: '', AMOUNT: 0, SYMBOL: '₹', color: 'white'},
+            {
+              ACCOUNT_ID: '',
+              ACCOUNT_NAME: '',
+              AMOUNT: 0,
+              SYMBOL: '₹',
+              color: 'white',
+            },
           ]);
         } else {
           for (let i = 0; i < results.rows.length; i++) {
-            arr.push({...results.rows.item(i), color: colors[i % colors.length]});
+            arr.push({
+              ...results.rows.item(i),
+              color: colors[i % colors.length],
+            });
             sum = sum + results.rows.item(i).AMOUNT;
           }
           setAmountSum(sum);

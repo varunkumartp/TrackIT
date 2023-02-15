@@ -1,5 +1,5 @@
 import {useContext} from 'react';
-import {Dimensions, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {Text, TouchableOpacity} from 'react-native';
 import {ThemeContext} from '../../contexts/ThemeContext';
 import {Theme} from '../Theme';
 
@@ -10,15 +10,14 @@ interface ButtonProps {
   theme?: string;
 }
 
-const screen = Dimensions.get('window');
-const buttonWidth = screen.width / 4;
-
 const Button = ({onPress, text}: ButtonProps) => {
   const {theme} = useContext(ThemeContext);
   let activeColor = Theme[theme.mode];
 
   return (
-    <TouchableOpacity onPress={onPress} style={{backgroundColor: activeColor.background}}>
+    <TouchableOpacity
+      onPress={onPress}
+      style={{backgroundColor: activeColor.background}}>
       <Text style={{color: activeColor.text1, fontSize: 24}}>{text}</Text>
     </TouchableOpacity>
   );

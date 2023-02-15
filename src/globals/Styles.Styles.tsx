@@ -7,7 +7,6 @@ export const Styles = StyleSheet.create({
   text: {
     fontSize: 20,
     margin: 10,
-    // fontStyle: 'italic',
     fontWeight: 'bold',
   },
   listItem: {

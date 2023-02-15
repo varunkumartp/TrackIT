@@ -7,18 +7,17 @@ import {
   View,
   Pressable,
   TouchableOpacity,
-  Keyboard,
 } from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 import {Styles} from '../../../../globals/Styles.Styles';
 import {FormStyles} from '../../../../globals/Form.Styles';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {createRef} from 'react';
-import {CompositeScreenProps, useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp, NativeStackScreenProps} from '@react-navigation/native-stack';
+import {CompositeScreenProps} from '@react-navigation/native';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {Theme} from '../../../../globals/Theme';
 import {ThemeContext} from '../../../../contexts/ThemeContext';
-import {createAccounts, editAccount, getAccountsGroup} from '../../../../database/accounts';
+import {editAccount, getAccountsGroup} from '../../../../database/accounts';
 
 type AccountEditFormProps = CompositeScreenProps<
   NativeStackScreenProps<RootStackParamList, 'AccountEditForm'>,

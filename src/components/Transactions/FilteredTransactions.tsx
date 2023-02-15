@@ -1,4 +1,4 @@
-import {View, Text} from 'react-native';
+import {View} from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 import {ThemeContext} from '../../contexts/ThemeContext';
 import {Theme} from '../../globals/Theme';
@@ -11,7 +11,7 @@ import {DateFilterDD} from '../../globals/DateFilter.component';
 
 type FilteredTransactionsProps = NativeStackScreenProps<RootStackParamList, 'FilteredTransactions'>;
 
-const FilteredTransactions = ({route, navigation}: FilteredTransactionsProps) => {
+const FilteredTransactions = ({route}: FilteredTransactionsProps) => {
   const focused = useIsFocused();
   const {theme} = useContext(ThemeContext);
   let activeColor = Theme[theme.mode];

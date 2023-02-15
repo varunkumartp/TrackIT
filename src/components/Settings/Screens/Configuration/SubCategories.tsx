@@ -1,94 +1,92 @@
-import {View, Text, FlatList, Modal} from 'react-native';
-import React, {Fragment, useContext, useState} from 'react';
+import {
+  View,
+  Text,
+  FlatList,
+  Modal,
+  TouchableOpacity,
+} from 'react-native';
+import React, {useContext, useEffect, useState} from 'react';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {ThemeContext} from '../../../../contexts/ThemeContext';
 import {Theme} from '../../../../globals/Theme';
-import {TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {
-  deleteAccount,
-  deleteAccountTransactions,
-} from '../../../../database/accounts';
-import {ModalStyles} from '../../../../globals/Modal.Styles';
-import {AccountsStyles} from '../../../../globals/Accounts.Styles';
+  checkCategories,
+  deleteCategories,
+  deleteCategoriesTransactions,
+  getSubCategories,
+} from '../../../../database/configuration';
+import { ModalStyles } from '../../../../globals/Modal.Styles';
+import AddButton from './AddButton';
+import {useIsFocused} from '@react-navigation/native';
+import CategoriesItem from './CategoriesItem';
+type SubCategoriesProp = NativeStackScreenProps<
+  ConfigStackParamList,
+  'SubCategories'
+>;
 
-const AccountHeader = ({header}: {header: string}) => {
+const SubCategories = ({route, navigation}: SubCategoriesProp) => {
+  const focused = useIsFocused();
   const {theme} = useContext(ThemeContext);
   let activeColor = Theme[theme.mode];
-
-  return (
-    <View
-      style={{
-        ...AccountsStyles.headerAccount,
-        backgroundColor: activeColor.theme,
-      }}>
-      <Text
-        style={{
-          ...AccountsStyles.headerText,
-          color: activeColor.text1,
-        }}>
-        {header}
-      </Text>
-    </View>
-  );
-};
-
-const AccountItem = ({
-  data,
-  setAccount,
-}: {
-  data: AccountsGroup;
-  setAccount: React.Dispatch<React.SetStateAction<AccountsTab[]>>;
-}) => {
-  const {theme} = useContext(ThemeContext);
-  let activeColor = Theme[theme.mode];
+  const [categories, setCategories] = useState<Accounts[]>([]);
+  const [count, setCount] = useState(-1);
   const [modal1, setModal1] = useState(false); // Modal with delete transactions
   const [modal2, setModal2] = useState(false); // Simple Yes No Modal
-  const navigation =
-    useNavigation<
-      CompositeNavigationProp<
-        NativeStackNavigationProp<SettingsStackParamList, 'Accounts'>,
-        NativeStackNavigationProp<RootStackParamList>
-      >
-    >();
-  const editHandler = (data: AccountsGroup) => {
-    navigation.navigate('AccountEditForm', {data: data});
+  const [deleteID, setDeleteID] = useState('');
+  const formHandler = (ID: string, name: string) => {
+    navigation.navigate('SubCategoryForm', {
+      ID: ID,
+      name: name,
+      type: route.params.type,
+    });
   };
 
+  const deleteSubCategoryHandler = () => {
+    setModal2(false);
+    deleteCategories(deleteID);
+    setDeleteID('');
+    getSubCategories(route.params.ID, route.params.type, setCategories);
+  };
+
+  const deleteTXSubCategoryHandler = () => {
+    setModal1(false);
+    deleteCategoriesTransactions(deleteID);
+    deleteSubCategoryHandler();
+  };
+
+  useEffect(() => {
+    getSubCategories(route.params.ID, route.params.type, setCategories);
+  }, [focused]);
+
+  useEffect(() => {
+    if (count === 0) {
+      setModal2(true);
+    } else if (count > 0) {
+      setModal1(true);
+    }
+    setCount(-1);
+  }, [count]);
+
   return (
-    <View
-      style={{
-        ...AccountsStyles.headerAccount,
-        backgroundColor:
-          activeColor[data.NUMBER % 1000 === 0 ? 'theme' : 'background'],
-      }}>
-      <Text
-        style={{
-          ...AccountsStyles.text,
-          color: activeColor.text1,
-          fontSize: data.NUMBER % 1000 === 0 ? 15 : 12,
-        }}>
-        {data.NAME}
-      </Text>
-      {data.NUMBER % 1000 !== 0 && (
-        <View style={{flexDirection: 'row'}}>
-          <TouchableOpacity
-            style={{padding: 10}}
-            onPress={() =>
-              data.AMOUNT !== 0 && data.AMOUNT !== null
-                ? setModal1(true)
-                : setModal2(true)
-            }>
-            <Icon name={'trash-alt'} size={20} color={activeColor.red} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{padding: 10}}
-            onPress={() => editHandler(data)}>
-            <Icon name={'pencil-alt'} size={20} color={activeColor.text1} />
-          </TouchableOpacity>
-        </View>
-      )}
+    <View style={{flex: 1, backgroundColor: activeColor.background}}>
+      <FlatList
+        data={categories}
+        keyboardShouldPersistTaps="handled"
+        keyExtractor={item => item.ID}
+        ListFooterComponent={() => <View style={{padding: 50}} />}
+        renderItem={({item}) => (
+          <CategoriesItem
+            data={item}
+            type={route.params.type}
+            formhandler={formHandler}
+            categoryHandler={(ID, name) => {}}
+            check={ID => {
+              setDeleteID(ID);
+              checkCategories(ID, route.params.type, setCount);
+            }}
+          />
+        )}
+      />
       {/********************************** Modal 2 ******************************************************/}
       <Modal transparent={true} visible={modal2}>
         <View style={ModalStyles.mainView}>
@@ -109,7 +107,7 @@ const AccountItem = ({
                   ...ModalStyles.modalHeaderText,
                   color: activeColor.text1,
                 }}>
-                Delete Account
+                Delete Sub Category
               </Text>
             </View>
             <View
@@ -122,14 +120,10 @@ const AccountItem = ({
                   ...ModalStyles.modalContentText,
                   color: activeColor.text1,
                 }}>
-                Do you want to delete this account?
+                Do you want to delete this sub-category?
               </Text>
               <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-                <TouchableOpacity
-                  onPress={() => {
-                    setModal2(false);
-                    deleteAccount(data.ID, setAccount);
-                  }}>
+                <TouchableOpacity onPress={() => deleteSubCategoryHandler()}>
                   <Text
                     style={{
                       ...ModalStyles.touchableText,
@@ -152,7 +146,6 @@ const AccountItem = ({
           </View>
         </View>
       </Modal>
-
       {/********************************** Modal 1 ******************************************************/}
       <Modal transparent={true} visible={modal1}>
         <View style={ModalStyles.mainView}>
@@ -172,7 +165,7 @@ const AccountItem = ({
                   ...ModalStyles.modalHeaderText,
                   color: activeColor.text1,
                 }}>
-                Delete Account
+                Delete Sub-Category
               </Text>
             </View>
             <View
@@ -185,7 +178,7 @@ const AccountItem = ({
                   ...ModalStyles.modalContentText,
                   color: activeColor.text1,
                 }}>
-                This account contains transactions. What would you like to do
+                This sub-category contains transactions. What would you like to do
                 with these transactions?
               </Text>
               <View>
@@ -196,20 +189,16 @@ const AccountItem = ({
                       ...ModalStyles.touchableText,
                       color: activeColor.secondary,
                     }}>
-                    Move transactions to a different Account
+                    Move transactions to a different sub-category
                   </Text>
                 </TouchableOpacity> */}
-                <TouchableOpacity
-                  onPress={() => {
-                    deleteAccountTransactions(data.ID, setAccount);
-                    setModal1(false);
-                  }}>
+                <TouchableOpacity onPress={() => deleteTXSubCategoryHandler()}>
                   <Text
                     style={{
                       ...ModalStyles.touchableText,
                       color: activeColor.text1,
                     }}>
-                    Delete Transactions and Account
+                    Delete transactions and sub-category
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => setModal1(false)}>
@@ -226,26 +215,14 @@ const AccountItem = ({
           </View>
         </View>
       </Modal>
+      <AddButton
+        path="SubCategoryForm"
+        ID={route.params.ID}
+        type={route.params.type}
+        name={''}
+      />
     </View>
   );
 };
 
-interface AccountGroup extends AccountsTab {
-  setAccounts: React.Dispatch<React.SetStateAction<AccountsTab[]>>;
-}
-
-export const AccountsGroup = ({data, title, setAccounts}: AccountGroup) => {
-  return (
-    <Fragment>
-      <AccountHeader header={title} />
-      <FlatList
-        data={data}
-        keyboardShouldPersistTaps={'handled'}
-        keyExtractor={item => item.ID}
-        renderItem={({item}) => (
-          <AccountItem data={item} setAccount={setAccounts} />
-        )}
-      />
-    </Fragment>
-  );
-};
+export default SubCategories;

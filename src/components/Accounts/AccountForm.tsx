@@ -7,7 +7,6 @@ import {
   View,
   Pressable,
   TouchableOpacity,
-  Keyboard,
 } from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 import {Styles} from '../../globals/Styles.Styles';

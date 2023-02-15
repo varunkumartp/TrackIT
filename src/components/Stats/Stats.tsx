@@ -1,6 +1,6 @@
 import {View, Text, FlatList, StyleSheet, TouchableOpacity} from 'react-native';
 
-import React, {Fragment, useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {ThemeContext} from '../../contexts/ThemeContext';
 import {Theme} from '../../globals/Theme';
 import {PieChart} from 'react-native-chart-kit';
@@ -18,7 +18,7 @@ type StatsProps = NativeStackScreenProps<StatsStackParamList, 'Stats'>;
 
 const emptyAccount = {ACCOUNT_ID: '', ACCOUNT_NAME: '', AMOUNT: 0, SYMBOL: '₹', color: 'white'};
 
-const Stats = ({route, navigation}: StatsProps) => {
+const Stats = ({navigation}: StatsProps) => {
   const isFocused = useIsFocused();
   const {theme} = useContext(ThemeContext);
   let activeColor = Theme[theme.mode];

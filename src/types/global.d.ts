@@ -36,12 +36,20 @@ declare global {
 
   type SettingsStackParamList = {
     Settings: undefined;
-    Configuration: undefined;
+    ConfigNavigator: undefined;
     Accounts: undefined;
     Passcode: undefined;
     Styling: undefined;
     PCManager: undefined;
     Backup: undefined;
+  };
+
+  type ConfigStackParamList = {
+    Configuration: undefined;
+    Categories: {type: string};
+    SubCategories: {ID: string; name: string; type: string};
+    CategoryForm: {ID: string; type: string; name: string};
+    SubCategoryForm: {ID: string; type: string; name: string};
   };
 
   /**************** Accounts Database **************/
