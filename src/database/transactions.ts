@@ -1,7 +1,7 @@
 import {db} from './database';
 import uuid from 'react-native-uuid';
 
-const getDate = (date: Date) => {
+export const getDate = (date: Date) => {
   var tzoffset = new Date().getTimezoneOffset() * 60000; //offset in milliseconds
   return new Date(date.getTime() - tzoffset).toISOString().slice(0, -1);
 };

@@ -1,4 +1,5 @@
 import {db} from './database';
+import {getDate} from './transactions';
 
 const colors = [
   '#f97263',
@@ -225,6 +226,74 @@ export const subHeaderSum = async (
           setAmountSum(sum);
           setAccountSum(arr);
         }
+      },
+      err => console.log(err),
+    ),
+  );
+};
+
+export const getIncExpInvData = async (
+  date: DateFilter,
+  setInc: React.Dispatch<React.SetStateAction<IncExp>>,
+  setExp: React.Dispatch<React.SetStateAction<IncExp>>,
+  setInv: React.Dispatch<React.SetStateAction<IncExp>>,
+) => {
+  const now = getDate(new Date(date.year, date.month, 1)); // Take first day of next month
+  const lastDate = getDate(new Date(date.year, date.month - 5, 1)); // First day of now - 6 months
+  await db.transaction(tx =>
+    tx.executeSql(
+      `SELECT MMYY, TYPE, AMOUNT FROM
+        (SELECT STRFTIME('%m',DATE) || '-' ||STRFTIME('%Y',DATE) AS MMYY, 
+        DATE,
+        TYPE,
+        SUM(AMOUNT) AS AMOUNT
+        FROM TRANSACTIONS_VIEW
+        WHERE TYPE = 'MAIN' AND
+        DATE BETWEEN '${lastDate}' AND
+        '${now}' AND
+        DEBIT_PARENT = '250377b2-4dda-bf29-e24e-74a4c2100bc8' 
+        GROUP BY MMYY,TYPE
+        UNION ALL
+        SELECT STRFTIME('%m',DATE) || '-' ||STRFTIME('%Y',DATE) AS MMYY, 
+        DATE,
+        TYPE,
+        SUM(AMOUNT) AS AMOUNT
+        FROM TRANSACTIONS
+        WHERE TYPE != 'MAIN' AND
+        DATE BETWEEN '${lastDate}' AND
+        '${now}'
+        GROUP BY MMYY,TYPE
+        )
+        ORDER BY DATE`,
+      [],
+      (tx, results) => {
+        let INC: IncExp = {
+          labels: [],
+          datasets: [{data: []}],
+        };
+        let EXP: IncExp = {
+          labels: [],
+          datasets: [{data: []}],
+        };
+        let INV: IncExp = {
+          labels: [],
+          datasets: [{data: []}],
+        };
+        for (let i = 0; i < results.rows.length; i++) {
+          if (results.rows.item(i).TYPE === 'INCOME') {
+            INC.labels.push(results.rows.item(i).MMYY);
+            INC.datasets[0].data.push(results.rows.item(i).AMOUNT);
+          } else if (results.rows.item(i).TYPE === 'MAIN') {
+            INV.labels.push(results.rows.item(i).MMYY);
+            INV.datasets[0].data.push(results.rows.item(i).AMOUNT);
+          } else {
+            EXP.labels.push(results.rows.item(i).MMYY);
+            EXP.datasets[0].data.push(results.rows.item(i).AMOUNT);
+          }
+        }
+        setExp(EXP);
+        setInc(INC);
+        setInv(INV);
       },
       err => console.log(err),
     ),

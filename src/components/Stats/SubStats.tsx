@@ -19,7 +19,13 @@ type SubStatsProps = CompositeScreenProps<
   NativeStackScreenProps<RootStackParamList>
 >;
 
-const emptyAccount = {ACCOUNT_ID: '', ACCOUNT_NAME: '', AMOUNT: 0, SYMBOL: '₹', color: 'white'};
+const emptyAccount = {
+  ACCOUNT_ID: '',
+  ACCOUNT_NAME: '',
+  AMOUNT: 0,
+  SYMBOL: '₹',
+  color: 'white',
+};
 
 const SubStats = ({route, navigation}: SubStatsProps) => {
   const {PARENT_ID, PARENT_NAME, type, value} = route.params;
@@ -37,28 +43,23 @@ const SubStats = ({route, navigation}: SubStatsProps) => {
     <View style={{flex: 1, backgroundColor: activeColor.background}}>
       <View
         style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          borderBottomWidth: 1,
+          ...AccountsStyles.header,
           borderBottomColor: activeColor.background,
           backgroundColor: activeColor.theme,
         }}>
         <View>
-          <Text style={{...Styles.text, color: activeColor.text1}}>{PARENT_NAME} </Text>
+          <Text style={{...Styles.text, color: activeColor.text1}}>
+            {PARENT_NAME}
+          </Text>
         </View>
         <View>
           <DateFilter date={date} setDate={setDate} value={value} />
         </View>
       </View>
-      <View style={{borderBottomColor: activeColor.theme, borderBottomWidth: 2}}>
+      <View
+        style={{borderBottomColor: activeColor.theme, borderBottomWidth: 2}}>
         {subAccount[0]['ACCOUNT_ID'] === '' ? (
-          <View
-            style={{
-              width: screenWidth,
-              height: screenHeight / 3,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
+          <View style={AccountsStyles.noData}>
             <Text>No Data Available</Text>
           </View>
         ) : (
@@ -74,7 +75,7 @@ const SubStats = ({route, navigation}: SubStatsProps) => {
               height={screenHeight / 3}
               center={[screenWidth / 4, 0]}
               chartConfig={{
-                color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+                color: () => activeColor.text1,
               }}
               accessor={'AMOUNT'}
               backgroundColor={'transparent'}
@@ -92,7 +93,6 @@ const SubStats = ({route, navigation}: SubStatsProps) => {
             <View
               style={{
                 ...AccountsStyles.account,
-                borderBottomWidth: 2,
                 backgroundColor: activeColor.background,
                 borderBottomColor: activeColor.text1,
               }}>
@@ -103,7 +103,9 @@ const SubStats = ({route, navigation}: SubStatsProps) => {
                 }}>
                 <Icon name={'circle'} color={item.color} size={15} />
                 {'  '}
-                <Text>{Math.round((item.AMOUNT * 100) / amountSum) || '0'}%</Text>
+                <Text>
+                  {Math.round((item.AMOUNT * 100) / amountSum) || '0'}%
+                </Text>
                 {'  '}
                 {item.ACCOUNT_NAME}
               </Text>
@@ -123,7 +125,11 @@ const SubStats = ({route, navigation}: SubStatsProps) => {
                       id: item.ACCOUNT_ID,
                     })
                   }>
-                  <Icon name={'chevron-right'} size={15} color={activeColor.text1} />
+                  <Icon
+                    name={'chevron-right'}
+                    size={15}
+                    color={activeColor.text1}
+                  />
                 </TouchableOpacity>
               </View>
             </View>
@@ -135,15 +141,28 @@ const SubStats = ({route, navigation}: SubStatsProps) => {
 };
 
 const AccountsStyles = StyleSheet.create({
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    borderBottomWidth: 1,
+    padding: 5,
+  },
   account: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    borderBottomWidth: 2,
   },
   text: {
     fontSize: 15,
     marginVertical: 15,
     marginHorizontal: 15,
     fontWeight: 'bold',
+  },
+  noData: {
+    width: screenWidth,
+    height: screenHeight / 3,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

@@ -16,7 +16,13 @@ const screenHeight = Dimensions.get('window').height;
 
 type StatsProps = NativeStackScreenProps<StatsStackParamList, 'Stats'>;
 
-const emptyAccount = {ACCOUNT_ID: '', ACCOUNT_NAME: '', AMOUNT: 0, SYMBOL: '₹', color: 'white'};
+const emptyAccount = {
+  ACCOUNT_ID: '',
+  ACCOUNT_NAME: '',
+  AMOUNT: 0,
+  SYMBOL: '₹',
+  color: 'white',
+};
 
 const Stats = ({navigation}: StatsProps) => {
   const isFocused = useIsFocused();
@@ -41,8 +47,12 @@ const Stats = ({navigation}: StatsProps) => {
 
   return (
     <View style={{flex: 1, backgroundColor: activeColor.background}}>
-      <DateFilterDD date={date} setDate={setDate} value={value} setValue={setValue} />
-
+      <DateFilterDD
+        date={date}
+        setDate={setDate}
+        value={value}
+        setValue={setValue}
+      />
       <ButtonGroup
         data={[
           {
@@ -59,16 +69,12 @@ const Stats = ({navigation}: StatsProps) => {
           setType(type);
         }}
       />
-
-      <View style={{borderBottomColor: activeColor.theme, borderBottomWidth: 2}}>
-        {(type === 'EXPENSE' ? expense[0]['ACCOUNT_ID'] : income[0]['ACCOUNT_ID']) === '' ? (
-          <View
-            style={{
-              width: screenWidth,
-              height: screenHeight / 3,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
+      <View
+        style={{borderBottomColor: activeColor.theme, borderBottomWidth: 2}}>
+        {(type === 'EXPENSE'
+          ? expense[0]['ACCOUNT_ID']
+          : income[0]['ACCOUNT_ID']) === '' ? (
+          <View style={AccountsStyles.noData}>
             <Text>No Data Available</Text>
           </View>
         ) : (
@@ -78,7 +84,7 @@ const Stats = ({navigation}: StatsProps) => {
             height={screenHeight / 3}
             center={[screenWidth / 4, 0]}
             chartConfig={{
-              color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+              color: () => activeColor.text1,
             }}
             accessor={'AMOUNT'}
             backgroundColor={'transparent'}
@@ -96,7 +102,6 @@ const Stats = ({navigation}: StatsProps) => {
             <View
               style={{
                 ...AccountsStyles.account,
-                borderBottomWidth: 2,
                 backgroundColor: activeColor.background,
                 borderBottomColor: activeColor.text1,
               }}>
@@ -109,7 +114,8 @@ const Stats = ({navigation}: StatsProps) => {
                 {'  '}
                 <Text>
                   {Math.round(
-                    (item.AMOUNT * 100) / (type === 'EXPENSE' ? expenseSum : incomeSum),
+                    (item.AMOUNT * 100) /
+                      (type === 'EXPENSE' ? expenseSum : incomeSum),
                   ) || '0'}
                   %
                 </Text>
@@ -135,7 +141,11 @@ const Stats = ({navigation}: StatsProps) => {
                       type: type,
                     })
                   }>
-                  <Icon name={'chevron-right'} size={15} color={activeColor.text1} />
+                  <Icon
+                    name={'chevron-right'}
+                    size={15}
+                    color={activeColor.text1}
+                  />
                 </TouchableOpacity>
               </View>
             </View>
@@ -149,14 +159,27 @@ const Stats = ({navigation}: StatsProps) => {
 export default Stats;
 
 const AccountsStyles = StyleSheet.create({
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    borderBottomWidth: 1,
+    padding: 5,
+  },
   account: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    borderBottomWidth: 2,
   },
   text: {
     fontSize: 15,
     marginVertical: 15,
     marginHorizontal: 15,
     fontWeight: 'bold',
+  },
+  noData: {
+    width: screenWidth,
+    height: screenHeight / 3,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

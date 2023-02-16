@@ -18,6 +18,7 @@ declare global {
     FilteredTransactions: {id: string; account: string};
     AccountForm: undefined;
     AccountEditForm: {data: AccountsGroup};
+    IncExpStats: undefined;
   };
 
   type StatsStackParamList = {
@@ -132,6 +133,13 @@ declare global {
     AMOUNT: number;
     SYMBOL: string;
     color: string;
+  }
+
+  interface IncExp {
+    labels: string[];
+    datasets: {
+      data: number[];
+    }[];
   }
 
   /**************** Global **************/
