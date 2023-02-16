@@ -7,7 +7,6 @@ export const getDate = (date: Date) => {
 };
 
 export const createTransactions = async (data: formTransaction) => {
-  console.log(data);
   await db.transaction(tx =>
     tx.executeSql(
       `INSERT INTO TRANSACTIONS 
@@ -20,7 +19,7 @@ export const createTransactions = async (data: formTransaction) => {
       '${data.CREDIT}',
       '${data.TYPE}',
       ${parseInt(data.AMOUNT_LOC)},
-      'INR',
+      '${data.CURR_LOC}',
       ${parseInt(data.AMOUNT_LOC)})`,
       [],
       () => {},
@@ -47,7 +46,9 @@ export const readTransactions = async (
           date.month === -1
             ? `DATE BETWEEN '${date.year - 1}-04-01' and '${date.year}-04-01'`
             : date.month !== 0
-            ? `strftime('%m', DATE) = '${date.month.toString().padStart(2, '0')}' AND
+            ? `strftime('%m', DATE) = '${date.month
+                .toString()
+                .padStart(2, '0')}' AND
                strftime('%Y', DATE) = '${date.year}'`
             : `strftime('%Y', DATE) = '${date.year}'`
         }
@@ -104,6 +105,17 @@ export const editTransaction = async (ID: string, data: formTransaction) => {
       AMOUNT_LOC=${data.AMOUNT_LOC},
       AMOUNT=${data.AMOUNT_LOC}
       WHERE ID = '${ID}'`,
+      [],
+      () => {},
+      err => console.log(err),
+    ),
+  );
+};
+
+export const editTransactionsCurrency = async (curr: string) => {
+  await db.transaction(tx =>
+    tx.executeSql(
+      `UPDATE TRANSACTIONS SET CURR_LOC='${curr}'`,
       [],
       () => {},
       err => console.log(err),

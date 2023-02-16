@@ -6,11 +6,13 @@ import {Theme} from '../../globals/Theme';
 export const AccountItem = ({data}: {data: AccountsGroup}) => {
   const {theme} = useContext(ThemeContext);
   let activeColor = Theme[theme.mode];
+
   return (
     <View
       style={{
         ...AccountsStyles.account,
-        backgroundColor: activeColor[data.NUMBER % 1000 === 0 ? 'theme' : 'background'],
+        backgroundColor:
+          activeColor[data.NUMBER % 1000 === 0 ? 'theme' : 'background'],
       }}>
       <Text
         style={{
@@ -23,7 +25,10 @@ export const AccountItem = ({data}: {data: AccountsGroup}) => {
       <Text
         style={{
           ...AccountsStyles.text,
-          color: activeColor[data.AMOUNT === 0 ? 'text1' : data.AMOUNT < 0 ? 'red' : 'blue'],
+          color:
+            activeColor[
+              data.AMOUNT === 0 ? 'text1' : data.AMOUNT < 0 ? 'red' : 'blue'
+            ],
           fontSize: data.NUMBER % 1000 === 0 ? 15 : 12,
         }}>
         {data.AMOUNT}

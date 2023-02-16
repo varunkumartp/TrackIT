@@ -1,4 +1,3 @@
-import {readTransactions} from './../database/transactions';
 export {};
 
 declare global {
@@ -51,6 +50,7 @@ declare global {
     SubCategories: {ID: string; name: string; type: string};
     CategoryForm: {ID: string; type: string; name: string};
     SubCategoryForm: {ID: string; type: string; name: string};
+    DefaultCurrency: undefined;
   };
 
   /**************** Accounts Database **************/
@@ -104,6 +104,7 @@ declare global {
     CREDIT: string;
     DEBIT: string;
     TYPE: string;
+    CURR_LOC: string;
   }
 
   interface transactions {
@@ -141,6 +142,15 @@ declare global {
       data: number[];
     }[];
   }
+
+  /**************** Currencies **************/
+  interface Currency {
+    KEY: string;
+    NAME: string;
+    SYMBOL: string;
+  }
+
+  type readCurrency = {title: string; data: Currency[]}[];
 
   /**************** Global **************/
   interface DateFilter {

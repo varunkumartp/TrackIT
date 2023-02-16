@@ -11,12 +11,15 @@ import {Theme} from '../../../globals/Theme';
 import {FormStyles} from '../../../globals/Form.Styles';
 import AccountsList from './AccountsList';
 import {createTransactions} from '../../../database/transactions';
+import {CurrencyContext} from '../../../contexts/CurrencyContext';
 
 type FormProps = NativeStackScreenProps<RootStackParamList, 'Form'>;
 
 const Form = ({route, navigation}: FormProps) => {
   const {data} = route.params;
   const {theme} = useContext(ThemeContext);
+  const {currency, updateCurrency} = useContext(CurrencyContext);
+  let currValue = currency.mode;
   let activeColor = Theme[theme.mode];
   const [type, setType] = useState(data.TYPE);
   const [open, setOpen] = useState(false);
@@ -31,7 +34,9 @@ const Form = ({route, navigation}: FormProps) => {
   const [creditList, setCreditList] = useState(false);
   const [debitList, setDebitList] = useState(true);
   const [numpad, setNumpad] = useState(false);
-  const [amount, setAmount] = useState(data.AMOUNT_LOC === 0 ? '' : data.AMOUNT_LOC.toString());
+  const [amount, setAmount] = useState(
+    data.AMOUNT_LOC === 0 ? '' : data.AMOUNT_LOC.toString(),
+  );
   const [input, setInput] = useState<inputData>({
     DATE: new Date(),
     DESCRIPTION: data.DESCRIPTION,
@@ -64,6 +69,7 @@ const Form = ({route, navigation}: FormProps) => {
       DEBIT: type === 'EXPENSE' ? creditAccount.ID : debitAccount.ID,
       CREDIT: type === 'EXPENSE' ? debitAccount.ID : creditAccount.ID,
       TYPE: type,
+      CURR_LOC:currValue
     });
     navigation.navigate('BottomTab');
   };
@@ -104,7 +110,9 @@ const Form = ({route, navigation}: FormProps) => {
         <View style={FormStyles.parentContainer}>
           {/* Date */}
           <View style={FormStyles.fields}>
-            <Text style={{...FormStyles.text, color: activeColor.text1}}>Date</Text>
+            <Text style={{...FormStyles.text, color: activeColor.text1}}>
+              Date
+            </Text>
             <TextInput
               style={{...FormStyles.input, color: activeColor.text1}}
               onPressIn={() => {
@@ -121,7 +129,9 @@ const Form = ({route, navigation}: FormProps) => {
           {/* Debit Account */}
           <View style={FormStyles.fields}>
             <Text style={{...FormStyles.text, color: activeColor.text1}}>
-              {type === 'EXPENSE' || type === 'INCOME' ? 'Account' : 'Debit Account'}
+              {type === 'EXPENSE' || type === 'INCOME'
+                ? 'Account'
+                : 'Debit Account'}
             </Text>
             <TextInput
               ref={debitRef}
@@ -142,7 +152,9 @@ const Form = ({route, navigation}: FormProps) => {
           {/* Credit Account */}
           <View style={FormStyles.fields}>
             <Text style={{...FormStyles.text, color: activeColor.text1}}>
-              {type === 'EXPENSE' || type === 'INCOME' ? 'Category' : 'Credit Account'}
+              {type === 'EXPENSE' || type === 'INCOME'
+                ? 'Category'
+                : 'Credit Account'}
             </Text>
             <TextInput
               ref={creditRef}
@@ -162,7 +174,9 @@ const Form = ({route, navigation}: FormProps) => {
           </View>
           {/* Amount */}
           <View style={FormStyles.fields}>
-            <Text style={{...FormStyles.text, color: activeColor.text1}}>Amount</Text>
+            <Text style={{...FormStyles.text, color: activeColor.text1}}>
+              Amount
+            </Text>
             <TextInput
               ref={amountRef}
               style={{...FormStyles.input, color: activeColor.text1}}
@@ -181,7 +195,9 @@ const Form = ({route, navigation}: FormProps) => {
           </View>
           {/* Description */}
           <View style={FormStyles.fields}>
-            <Text style={{...FormStyles.text, color: activeColor.text1}}>Description</Text>
+            <Text style={{...FormStyles.text, color: activeColor.text1}}>
+              Description
+            </Text>
             <TextInput
               ref={descriptionRef}
               style={{...FormStyles.input, color: activeColor.text1}}
@@ -196,7 +212,9 @@ const Form = ({route, navigation}: FormProps) => {
           </View>
           {/* Notes */}
           <View style={{...FormStyles.fields}}>
-            <Text style={{...FormStyles.text, color: activeColor.text1}}>Notes</Text>
+            <Text style={{...FormStyles.text, color: activeColor.text1}}>
+              Notes
+            </Text>
             <TextInput
               style={{...FormStyles.input, color: activeColor.text1}}
               onChangeText={value => setInput({...input, NOTES: value})}
@@ -216,7 +234,10 @@ const Form = ({route, navigation}: FormProps) => {
                 flex: 2,
               }}
               onPress={() => submitHandler()}>
-              <Text style={{...FormStyles.buttonText, color: activeColor.text1}}>Submit</Text>
+              <Text
+                style={{...FormStyles.buttonText, color: activeColor.text1}}>
+                Submit
+              </Text>
             </Pressable>
             <Pressable
               style={{
@@ -225,7 +246,10 @@ const Form = ({route, navigation}: FormProps) => {
                 flex: 1,
               }}
               onPress={() => navigation.navigate('BottomTab')}>
-              <Text style={{...FormStyles.buttonText, color: activeColor.text1}}>Cancel</Text>
+              <Text
+                style={{...FormStyles.buttonText, color: activeColor.text1}}>
+                Cancel
+              </Text>
             </Pressable>
           </View>
         </View>

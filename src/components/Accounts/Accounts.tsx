@@ -12,6 +12,7 @@ import {useIsFocused} from '@react-navigation/native';
 const Accounts = () => {
   const focused = useIsFocused();
   const {theme} = useContext(ThemeContext);
+  
   let activeColor = Theme[theme.mode];
   const [rows, setRows] = useState<AccountsGroup[]>([]);
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();

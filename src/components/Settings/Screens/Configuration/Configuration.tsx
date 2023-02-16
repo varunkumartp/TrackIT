@@ -38,28 +38,17 @@ const Configuration = ({navigation}: ConfigurationProp) => {
           Income Categories
         </Text>
       </TouchableHighlight>
-      {/* <TouchableHighlight
-        style={{
-          ...ConfigStyle.touchableView,
-          borderBottomColor: activeColor.text1,
-        }}
-        underlayColor={activeColor.theme}
-        onPress={() => console.log('Nice')}>
-        <Text style={{...ConfigStyle.text, color: activeColor.text1}}>
-          Main Currency
-        </Text>
-      </TouchableHighlight>
       <TouchableHighlight
         style={{
           ...ConfigStyle.touchableView,
           borderBottomColor: activeColor.text1,
         }}
         underlayColor={activeColor.theme}
-        onPress={() => console.log('Nice')}>
+        onPress={() => navigation.navigate('DefaultCurrency')}>
         <Text style={{...ConfigStyle.text, color: activeColor.text1}}>
-          Sub Currency
+          Default Currency
         </Text>
-      </TouchableHighlight> */}
+      </TouchableHighlight>
     </View>
   );
 };

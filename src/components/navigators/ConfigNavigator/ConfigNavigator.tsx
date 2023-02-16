@@ -7,6 +7,7 @@ import Categories from '../../Settings/Screens/Configuration/Categories';
 import SubCategories from '../../Settings/Screens/Configuration/SubCategories';
 import CategoryForm from '../../Settings/Screens/Configuration/CategoryForm';
 import SubCategoryForm from '../../Settings/Screens/Configuration/SubCategoryForm';
+import DefaultCurrency from '../../Settings/Screens/Configuration/DefaultCurrency';
 
 const ConfigStack = createNativeStackNavigator<ConfigStackParamList>();
 
@@ -52,6 +53,13 @@ const ConfigNavigator = () => {
         component={SubCategories}
         options={({route}) => ({
           title: `${route.params.name} Sub-Categories`,
+        })}
+      />
+      <ConfigStack.Screen
+        name="DefaultCurrency"
+        component={DefaultCurrency}
+        options={({route}) => ({
+          title: `Select Default Currency`,
         })}
       />
     </ConfigStack.Navigator>
