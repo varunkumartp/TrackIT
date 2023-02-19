@@ -6,6 +6,7 @@ import {CurrencyContext} from './contexts/CurrencyContext';
 import StackNavigator from './components/navigators/StackNavigator/StackNavigator';
 import {getData, setData} from './database/asyncStorage';
 import {editTransactionsCurrency} from './database/transactions';
+import SplashScreen from 'react-native-splash-screen';
 
 function MainApp(): JSX.Element {
   const [theme, setTheme] = useState({mode: 'Dark'});
@@ -47,6 +48,7 @@ function MainApp(): JSX.Element {
   useEffect(() => {
     fetchTheme();
     fetchCurrency();
+    SplashScreen.hide();
   }, []);
 
   return (
