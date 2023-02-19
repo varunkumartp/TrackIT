@@ -8,18 +8,18 @@ import {ThemeContext} from '../../../contexts/ThemeContext';
 import {Theme} from '../../../globals/Theme';
 import BottomTab from '../BottomTab/BottomTab';
 import Form from '../../Transactions/Form/Form';
-import FilteredTransactions from '../../Transactions/FilteredTransactions';
+import FilterTransactionsByAccount from '../../Transactions/FilterTransactionsByAccount';
 import AccountForm from '../../Accounts/AccountForm';
 import EditForm from '../../Transactions/Form/EditForm';
 import AccountEditForm from '../../Settings/Screens/Accounts/AccountEditForm';
 import IncExpStats from '../../Stats/IncExpStats';
-
+import FilterScreen from '../../Transactions/FilterScreen';
+import FilteredTransactions from '../../Transactions/FilteredTransactions';
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-function StackNavigator(): JSX.Element {
+function StackNavigator() {
   const {theme} = useContext(ThemeContext);
   let activeColor = Theme[theme.mode];
-
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -62,16 +62,31 @@ function StackNavigator(): JSX.Element {
           options={{title: 'Edit Account', animation: 'slide_from_bottom'}}
         />
         <Stack.Screen
-          name="FilteredTransactions"
-          component={FilteredTransactions}
+          name="FilterTransactionsByAccount"
+          component={FilterTransactionsByAccount}
           options={({route}) => ({
             title: route.params.account,
           })}
         />
         <Stack.Screen
+          name="FilteredTransactions"
+          component={FilteredTransactions}
+        />
+        <Stack.Screen
           name="IncExpStats"
           component={IncExpStats}
-          options={{header: () => null}}
+          options={{
+            header: () => null,
+            animation: 'slide_from_bottom',
+          }}
+        />
+        <Stack.Screen
+          name="FilterScreen"
+          component={FilterScreen}
+          options={{
+            title: 'Filter Transactions',
+            animation: 'slide_from_bottom',
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>

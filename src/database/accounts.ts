@@ -3,7 +3,39 @@ import {db} from './database';
 
 /************************************************ Read Accounts ************************************************/
 
-export const getAccounts = async (setAccounts: React.Dispatch<React.SetStateAction<Accounts[]>>, type: string) => {
+export const getAllAccounts = async (
+  setAccounts: React.Dispatch<React.SetStateAction<AccountsFilter[]>>,
+) => {
+  await db.transaction(tx =>
+    tx.executeSql(
+      `SELECT *, 'MAIN' AS TYPE FROM ACCOUNTS_MAIN
+       UNION ALL
+       SELECT *, 'EXPENSE' AS TYPE FROM ACCOUNTS_EXPENSE
+       UNION ALL
+       SELECT *, 'INCOME' AS TYPE FROM ACCOUNTS_INCOME
+       UNION ALL
+       SELECT *, 'MAIN' AS TYPE FROM SUB_ACCOUNTS_MAIN
+       UNION ALL
+       SELECT *, 'EXPENSE' AS TYPE FROM SUB_ACCOUNTS_EXPENSE
+       UNION ALL
+       SELECT *, 'INCOME' AS TYPE FROM SUB_ACCOUNTS_INCOME
+       ORDER BY NUMBER`,
+      [],
+      (tx, results) => {
+        let arr: AccountsFilter[] = [];
+        for (let i = 0; i < results.rows.length; i++) {
+          arr.push({...results.rows.item(i), isChecked: false});
+        }
+        setAccounts(arr);
+      },
+    ),
+  );
+};
+
+export const getAccounts = async (
+  setAccounts: React.Dispatch<React.SetStateAction<Accounts[]>>,
+  type: string,
+) => {
   await db.transaction(tx =>
     tx.executeSql(
       `SELECT * FROM ACCOUNTS_${type} ${
@@ -24,7 +56,11 @@ export const getAccounts = async (setAccounts: React.Dispatch<React.SetStateActi
   );
 };
 
-export const getSubAccounts = async (setSubAccounts: React.Dispatch<React.SetStateAction<Accounts[]>>, type: string, item: Accounts) => {
+export const getSubAccounts = async (
+  setSubAccounts: React.Dispatch<React.SetStateAction<Accounts[]>>,
+  type: string,
+  item: Accounts,
+) => {
   await db.transaction(tx =>
     tx.executeSql(
       `SELECT * FROM SUB_ACCOUNTS_${type} WHERE PARENT_ID = '${item.ID}'`,
@@ -45,7 +81,9 @@ export const getSubAccounts = async (setSubAccounts: React.Dispatch<React.SetSta
   );
 };
 
-export const getAccountsTab = async (setAccounts: React.Dispatch<React.SetStateAction<AccountsGroup[]>>) => {
+export const getAccountsTab = async (
+  setAccounts: React.Dispatch<React.SetStateAction<AccountsGroup[]>>,
+) => {
   await db.transaction(tx =>
     tx.executeSql(
       `SELECT * FROM BALANCE_VIEW where ID IN (SELECT ID FROM SUB_ACCOUNTS_MAIN) 
@@ -64,7 +102,9 @@ export const getAccountsTab = async (setAccounts: React.Dispatch<React.SetStateA
     ),
   );
 };
-export const getAccountsSettings = async (setAccounts: React.Dispatch<React.SetStateAction<AccountsTab[]>>) => {
+export const getAccountsSettings = async (
+  setAccounts: React.Dispatch<React.SetStateAction<AccountsTab[]>>,
+) => {
   await db.transaction(tx =>
     tx.executeSql(
       `select SAM.ID,SAM.NAME,SAM.NUMBER,SAM.SIGN,A.NAME AS PARENT_NAME, AMOUNT
@@ -94,7 +134,9 @@ export const getAccountsSettings = async (setAccounts: React.Dispatch<React.SetS
   );
 };
 
-export const getAccountsGroup = async (setAccountsGroup: React.Dispatch<React.SetStateAction<Accounts[]>>) => {
+export const getAccountsGroup = async (
+  setAccountsGroup: React.Dispatch<React.SetStateAction<Accounts[]>>,
+) => {
   db.transaction(
     tx =>
       tx.executeSql(`SELECT * FROM ACCOUNTS_MAIN`, [], (tx, results) => {
@@ -110,7 +152,13 @@ export const getAccountsGroup = async (setAccountsGroup: React.Dispatch<React.Se
 
 /************************************************ Create Accounts ************************************************/
 
-export const createAccounts = async (account: {ID: string; GROUP: string; NAME: string; NUMBER: number; SIGN: number}) => {
+export const createAccounts = async (account: {
+  ID: string;
+  GROUP: string;
+  NAME: string;
+  NUMBER: number;
+  SIGN: number;
+}) => {
   await db.transaction(tx =>
     tx.executeSql(
       `INSERT INTO ACCOUNTS (ID, NAME, NUMBER, SIGN, PARENT_ID) 
@@ -132,7 +180,10 @@ export const createAccounts = async (account: {ID: string; GROUP: string; NAME: 
 
 /************************************************ Edit Accounts ************************************************/
 
-export const deleteAccount = async (ID: string, setAccounts: React.Dispatch<React.SetStateAction<AccountsTab[]>>) => {
+export const deleteAccount = async (
+  ID: string,
+  setAccounts: React.Dispatch<React.SetStateAction<AccountsTab[]>>,
+) => {
   await db.transaction(tx =>
     tx.executeSql(
       `DELETE FROM ACCOUNTS WHERE ID='${ID}'`,
@@ -144,7 +195,10 @@ export const deleteAccount = async (ID: string, setAccounts: React.Dispatch<Reac
   getAccountsSettings(setAccounts);
 };
 
-export const deleteAccountTransactions = async (ID: string, setAccounts: React.Dispatch<React.SetStateAction<AccountsTab[]>>) => {
+export const deleteAccountTransactions = async (
+  ID: string,
+  setAccounts: React.Dispatch<React.SetStateAction<AccountsTab[]>>,
+) => {
   await db.transaction(tx =>
     tx.executeSql(
       `DELETE FROM TRANSACTIONS WHERE DEBIT='${ID}' OR CREDIT='${ID}'`,
@@ -170,9 +224,19 @@ export const editAccount = async (
     tx.executeSql(
       `update ACCOUNTS set 
         NAME='${data.NAME}'
-        ${data.ID === '' ? '' : `,NUMBER=(select max(NUMBER) from ACCOUNTS where NUMBER between ${data.NUMBER} and ${data.NUMBER + 999})+1`}
+        ${
+          data.ID === ''
+            ? ''
+            : `,NUMBER=(select max(NUMBER) from ACCOUNTS where NUMBER between ${
+                data.NUMBER
+              } and ${data.NUMBER + 999})+1`
+        }
         ${data.ID === '' ? '' : `,PARENT_ID = '${data.ID}'`} 
-        ${data.ID === '' ? '' : `,SIGN = (select SIGN from ACCOUNTS where NUMBER = ${data.NUMBER})`} 
+        ${
+          data.ID === ''
+            ? ''
+            : `,SIGN = (select SIGN from ACCOUNTS where NUMBER = ${data.NUMBER})`
+        } 
         where id='${ID}'`,
       [],
       () => {},

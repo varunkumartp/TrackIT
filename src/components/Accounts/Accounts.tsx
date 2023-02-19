@@ -12,16 +12,18 @@ import {useIsFocused} from '@react-navigation/native';
 const Accounts = () => {
   const focused = useIsFocused();
   const {theme} = useContext(ThemeContext);
-  
+
   let activeColor = Theme[theme.mode];
   const [rows, setRows] = useState<AccountsGroup[]>([]);
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   useEffect(() => {
     getAccountsTab(setRows);
   }, [focused]);
 
   return (
-    <View style={{...Styles.container, backgroundColor: activeColor.background}}>
+    <View
+      style={{...Styles.container, backgroundColor: activeColor.background}}>
       <FlatList
         style={{flex: 1}}
         keyboardShouldPersistTaps={'handled'}
@@ -31,7 +33,7 @@ const Accounts = () => {
           <TouchableOpacity
             disabled={item.NUMBER % 1000 === 0}
             onPress={() =>
-              navigation.navigate('FilteredTransactions', {
+              navigation.navigate('FilterTransactionsByAccount', {
                 id: item.ID,
                 account: item.NAME,
               })
@@ -45,4 +47,4 @@ const Accounts = () => {
   );
 };
 
-export default Accounts;
+export default React.memo(Accounts);

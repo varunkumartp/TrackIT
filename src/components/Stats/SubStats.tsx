@@ -120,7 +120,7 @@ const SubStats = ({route, navigation}: SubStatsProps) => {
                 <TouchableOpacity
                   style={{...AccountsStyles.text, alignItems: 'center'}}
                   onPressOut={() =>
-                    navigation.navigate('FilteredTransactions', {
+                    navigation.navigate('FilterTransactionsByAccount', {
                       account: item.ACCOUNT_NAME,
                       id: item.ACCOUNT_ID,
                     })

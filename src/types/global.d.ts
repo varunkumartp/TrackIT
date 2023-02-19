@@ -14,10 +14,12 @@ declare global {
     Form: {data: transactions};
     Calculator: {setData: React.Dispatch<React.SetStateAction<string>>};
     EditForm: {data: transactions};
-    FilteredTransactions: {id: string; account: string};
+    FilterTransactionsByAccount: {id: string; account: string};
     AccountForm: undefined;
     AccountEditForm: {data: AccountsGroup};
     IncExpStats: undefined;
+    FilterScreen: undefined;
+    FilteredTransactions: {id: string[]; amount: {min: string; max: string}};
   };
 
   type StatsStackParamList = {
@@ -62,20 +64,14 @@ declare global {
     PARENT_ID: string;
   }
 
+  interface AccountsFilter extends Accounts {
+    TYPE: string;
+    isChecked: boolean;
+  }
+
   interface FormAccount {
     ID: string;
     NAME: string;
-  }
-
-  interface Theme {
-    [key: string]: {
-      theme: string;
-      text1: string;
-      text2: string;
-      background: string;
-      red: string;
-      blue: string;
-    };
   }
 
   interface AccountsGroup {
@@ -156,5 +152,16 @@ declare global {
   interface DateFilter {
     month: number;
     year: number;
+  }
+
+  interface Theme {
+    [key: string]: {
+      theme: string;
+      text1: string;
+      text2: string;
+      background: string;
+      red: string;
+      green: string;
+    };
   }
 }

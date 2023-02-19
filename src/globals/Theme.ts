@@ -5,7 +5,7 @@ export const Theme: Theme = {
     theme: '#000000',
     background: '#26282e',
     red: '#f55',
-    blue: '#007acc',
+    green: '#7acc00',
   },
   Light: {
     text1: '#000',
@@ -13,7 +13,7 @@ export const Theme: Theme = {
     theme: '#fff',
     background: '#b9b9b7',
     red: '#f00',
-    blue: '#00f',
+    green: '#005f00',
   },
   Green: {
     text1: '#000',
@@ -21,7 +21,7 @@ export const Theme: Theme = {
     theme: '#00a333',
     background: '#fff',
     red: '#f00',
-    blue: '#00f',
+    green: '#00a333',
   },
   Red: {
     text1: '#000',
@@ -29,7 +29,7 @@ export const Theme: Theme = {
     theme: '#f00',
     background: '#fff',
     red: '#f00',
-    blue: '#00f',
+    green: '#00a333',
   },
   Teal: {
     text1: '#000',
@@ -37,7 +37,7 @@ export const Theme: Theme = {
     theme: '#009090',
     background: '#fff',
     red: '#f00',
-    blue: '#00f',
+    green: '#00a333',
   },
   'Rose Gold': {
     text1: '#000',
@@ -45,7 +45,7 @@ export const Theme: Theme = {
     theme: '#ff6E79',
     background: '#fff',
     red: '#f00',
-    blue: '#00f',
+    green: '#00a333',
   },
   Orange: {
     text1: '#000',
@@ -53,7 +53,7 @@ export const Theme: Theme = {
     theme: '#ff8800',
     background: '#fff',
     red: '#f00',
-    blue: '#00f',
+    green: '#00a333',
   },
   Gold: {
     text1: '#000',
@@ -61,6 +61,6 @@ export const Theme: Theme = {
     theme: '#ffb500',
     background: '#fff',
     red: '#f00',
-    blue: '#00f',
+    green: '#00a333',
   },
 };

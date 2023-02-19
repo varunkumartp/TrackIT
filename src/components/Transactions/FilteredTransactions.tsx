@@ -1,17 +1,24 @@
-import {View} from 'react-native';
+import {Pressable, Text, View} from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 import {ThemeContext} from '../../contexts/ThemeContext';
 import {Theme} from '../../globals/Theme';
-import {readTransactions} from '../../database/transactions';
+import {readFilteredTransactions} from '../../database/transactions';
 import {FlatList} from 'react-native';
 import TransactionsGroup from './TransactionsGroup';
 import {useIsFocused} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {DateFilterDD} from '../../globals/DateFilter.component';
+import {FormStyles} from '../../globals/Form.Styles';
 
-type FilteredTransactionsProps = NativeStackScreenProps<RootStackParamList, 'FilteredTransactions'>;
+type FilteredTransactionsProps = NativeStackScreenProps<
+  RootStackParamList,
+  'FilteredTransactions'
+>;
 
-const FilteredTransactions = ({route}: FilteredTransactionsProps) => {
+const FilteredTransactions = ({
+  route,
+  navigation,
+}: FilteredTransactionsProps) => {
   const focused = useIsFocused();
   const {theme} = useContext(ThemeContext);
   let activeColor = Theme[theme.mode];
@@ -24,19 +31,44 @@ const FilteredTransactions = ({route}: FilteredTransactionsProps) => {
   const [value, setValue] = useState('Periodic');
 
   useEffect(() => {
-    readTransactions(setRows, setLoading, date, route.params.id);
+    readFilteredTransactions(
+      setRows,
+      setLoading,
+      date,
+      route.params.id,
+      route.params.amount,
+    );
   }, [date, focused]);
 
   return (
     <View style={{flex: 1, backgroundColor: activeColor.background}}>
-      <DateFilterDD date={date} setDate={setDate} value={value} setValue={setValue} />
+      <DateFilterDD
+        date={date}
+        setDate={setDate}
+        value={value}
+        setValue={setValue}
+      />
+      <View style={{...FormStyles.buttonField}}>
+        <Pressable
+          style={{
+            ...FormStyles.pressable,
+            backgroundColor: activeColor.theme,
+          }}
+          onPress={() => navigation.navigate('BottomTab')}>
+          <Text style={{...FormStyles.buttonText, color: activeColor.text1}}>
+            Close
+          </Text>
+        </Pressable>
+      </View>
       <View style={{flex: 1}}>
         {!loading && (
           <FlatList
             keyboardShouldPersistTaps={'handled'}
             data={rows}
             windowSize={10}
-            renderItem={({item}) => <TransactionsGroup data={item.data} title={item.title} />}
+            renderItem={({item}) => (
+              <TransactionsGroup data={item.data} title={item.title} />
+            )}
           />
         )}
       </View>
@@ -44,4 +76,4 @@ const FilteredTransactions = ({route}: FilteredTransactionsProps) => {
   );
 };
 
-export default FilteredTransactions;
+export default React.memo(FilteredTransactions);

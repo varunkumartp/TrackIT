@@ -8,14 +8,20 @@ import {ThemeContext} from '../../../contexts/ThemeContext';
 import {Theme} from '../../../globals/Theme';
 import {FormStyles} from '../../../globals/Form.Styles';
 import AccountsList from './AccountsList';
-import {deleteTransaction, editTransaction} from '../../../database/transactions';
+import {
+  deleteTransaction,
+  editTransaction,
+} from '../../../database/transactions';
 import Numpad from '../../../globals/Calculator/Numpad.component';
+import { CurrencyContext } from '../../../contexts/CurrencyContext';
 
 type EditFormProps = NativeStackScreenProps<RootStackParamList, 'EditForm'>;
 
 const EditForm = ({route, navigation}: EditFormProps) => {
   const {data} = route.params;
   const {theme} = useContext(ThemeContext);
+  const {currency, updateCurrency} = useContext(CurrencyContext);
+  let currValue = currency.mode;
   let activeColor = Theme[theme.mode];
   const [type, setType] = useState(data.TYPE);
   const [open, setOpen] = useState(false);
@@ -31,7 +37,9 @@ const EditForm = ({route, navigation}: EditFormProps) => {
   const [creditList, setCreditList] = useState(false);
   const [debitList, setDebitList] = useState(false);
   const [numpad, setNumpad] = useState(false);
-  const [amount, setAmount] = useState(data.AMOUNT_LOC === 0 ? '' : data.AMOUNT_LOC.toString());
+  const [amount, setAmount] = useState(
+    data.AMOUNT_LOC === 0 ? '' : data.AMOUNT_LOC.toString(),
+  );
   const [input, setInput] = useState<inputData>({
     DATE: new Date(data.DATE),
     DESCRIPTION: data.DESCRIPTION,
@@ -59,18 +67,22 @@ const EditForm = ({route, navigation}: EditFormProps) => {
   };
 
   const deleteHandler = () => {
-    Alert.alert('Delete Transaction', 'Do you want to delete this transaction?', [
-      {
-        text: 'No',
-      },
-      {
-        text: 'Yes',
-        onPress: () => {
-          deleteTransaction(data.ID);
-          navigation.navigate('BottomTab');
+    Alert.alert(
+      'Delete Transaction',
+      'Do you want to delete this transaction?',
+      [
+        {
+          text: 'No',
         },
-      },
-    ]);
+        {
+          text: 'Yes',
+          onPress: () => {
+            deleteTransaction(data.ID);
+            navigation.navigate('BottomTab');
+          },
+        },
+      ],
+    );
   };
 
   const edithandler = () => {
@@ -80,6 +92,7 @@ const EditForm = ({route, navigation}: EditFormProps) => {
       DEBIT: type === 'EXPENSE' ? creditAccount.ID : debitAccount.ID,
       CREDIT: type === 'EXPENSE' ? debitAccount.ID : creditAccount.ID,
       TYPE: type,
+      CURR_LOC: currValue,
     });
     navigation.navigate('BottomTab');
   };
@@ -120,7 +133,9 @@ const EditForm = ({route, navigation}: EditFormProps) => {
         <View style={FormStyles.parentContainer}>
           {/* Date */}
           <View style={FormStyles.fields}>
-            <Text style={{...FormStyles.text, color: activeColor.text1}}>Date</Text>
+            <Text style={{...FormStyles.text, color: activeColor.text1}}>
+              Date
+            </Text>
             <TextInput
               style={{...FormStyles.input, color: activeColor.text1}}
               onPressIn={() => {
@@ -138,7 +153,9 @@ const EditForm = ({route, navigation}: EditFormProps) => {
           {/* Debit Account */}
           <View style={FormStyles.fields}>
             <Text style={{...FormStyles.text, color: activeColor.text1}}>
-              {type === 'EXPENSE' || type === 'INCOME' ? 'Account' : 'Debit Account'}
+              {type === 'EXPENSE' || type === 'INCOME'
+                ? 'Account'
+                : 'Debit Account'}
             </Text>
             <TextInput
               ref={debitRef}
@@ -160,7 +177,9 @@ const EditForm = ({route, navigation}: EditFormProps) => {
           {/* Credit Account */}
           <View style={FormStyles.fields}>
             <Text style={{...FormStyles.text, color: activeColor.text1}}>
-              {type === 'EXPENSE' || type === 'INCOME' ? 'Category' : 'Credit Account'}
+              {type === 'EXPENSE' || type === 'INCOME'
+                ? 'Category'
+                : 'Credit Account'}
             </Text>
             <TextInput
               ref={creditRef}
@@ -181,7 +200,9 @@ const EditForm = ({route, navigation}: EditFormProps) => {
           </View>
           {/* Amount */}
           <View style={FormStyles.fields}>
-            <Text style={{...FormStyles.text, color: activeColor.text1}}>Amount</Text>
+            <Text style={{...FormStyles.text, color: activeColor.text1}}>
+              Amount
+            </Text>
             <TextInput
               ref={amountRef}
               value={amount}
@@ -200,7 +221,9 @@ const EditForm = ({route, navigation}: EditFormProps) => {
           </View>
           {/* Description */}
           <View style={FormStyles.fields}>
-            <Text style={{...FormStyles.text, color: activeColor.text1}}>Description</Text>
+            <Text style={{...FormStyles.text, color: activeColor.text1}}>
+              Description
+            </Text>
             <TextInput
               ref={descriptionRef}
               value={input.DESCRIPTION}
@@ -216,7 +239,9 @@ const EditForm = ({route, navigation}: EditFormProps) => {
           </View>
           {/* Notes */}
           <View style={{...FormStyles.fields}}>
-            <Text style={{...FormStyles.text, color: activeColor.text1}}>Notes</Text>
+            <Text style={{...FormStyles.text, color: activeColor.text1}}>
+              Notes
+            </Text>
             <TextInput
               style={{...FormStyles.input, color: activeColor.text1}}
               onChangeText={value => setInput({...input, NOTES: value})}
@@ -237,7 +262,10 @@ const EditForm = ({route, navigation}: EditFormProps) => {
                   flex: 2,
                 }}
                 onPress={() => edithandler()}>
-                <Text style={{...FormStyles.buttonText, color: activeColor.text1}}>Update</Text>
+                <Text
+                  style={{...FormStyles.buttonText, color: activeColor.text1}}>
+                  Update
+                </Text>
               </Pressable>
               <Pressable
                 style={{
@@ -246,7 +274,10 @@ const EditForm = ({route, navigation}: EditFormProps) => {
                   flex: 1,
                 }}
                 onPress={() => navigation.navigate('BottomTab')}>
-                <Text style={{...FormStyles.buttonText, color: activeColor.text1}}>Cancel</Text>
+                <Text
+                  style={{...FormStyles.buttonText, color: activeColor.text1}}>
+                  Cancel
+                </Text>
               </Pressable>
             </View>
           )}
@@ -262,7 +293,10 @@ const EditForm = ({route, navigation}: EditFormProps) => {
                 }}
                 onPress={() => navigation.navigate('Form', {data: data})}>
                 <Icon name="clone" size={15} color={activeColor.text1} />
-                <Text style={{...FormStyles.buttonText, color: activeColor.text1}}>Copy</Text>
+                <Text
+                  style={{...FormStyles.buttonText, color: activeColor.text1}}>
+                  Copy
+                </Text>
               </Pressable>
               <Pressable
                 style={{
@@ -274,7 +308,10 @@ const EditForm = ({route, navigation}: EditFormProps) => {
                 }}
                 onPress={() => deleteHandler()}>
                 <Icon name="trash-alt" size={15} color={activeColor.text1} />
-                <Text style={{...FormStyles.buttonText, color: activeColor.text1}}>Delete</Text>
+                <Text
+                  style={{...FormStyles.buttonText, color: activeColor.text1}}>
+                  Delete
+                </Text>
               </Pressable>
             </View>
           )}

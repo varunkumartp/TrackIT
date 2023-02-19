@@ -17,15 +17,10 @@ interface CategoriesItemProp {
 
 const CategoriesItem = ({
   data,
-  type,
   formhandler,
   categoryHandler,
   check,
 }: CategoriesItemProp) => {
-  const navigation =
-    useNavigation<
-      NativeStackNavigationProp<ConfigStackParamList, 'Categories'>
-    >();
 
   const {theme} = useContext(ThemeContext);
   let activeColor = Theme[theme.mode];
