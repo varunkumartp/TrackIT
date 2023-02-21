@@ -156,7 +156,8 @@ export const editTransaction = async (ID: string, data: formTransaction) => {
       CREDIT='${data.CREDIT}',
       TYPE='${data.TYPE}',
       AMOUNT_LOC=${data.AMOUNT_LOC},
-      AMOUNT=${data.AMOUNT_LOC}
+      AMOUNT=${data.AMOUNT_LOC},
+      NOTES='${data.NOTES === '' ? null : data.NOTES}'
       WHERE ID = '${ID}'`,
       [],
       () => {},

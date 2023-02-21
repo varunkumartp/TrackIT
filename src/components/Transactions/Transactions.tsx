@@ -1,4 +1,4 @@
-import {Text, TouchableOpacity, View} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 import AddButton from './AddButton';
 import {ThemeContext} from '../../contexts/ThemeContext';
@@ -23,7 +23,6 @@ const Transactions = ({navigation}: TransactionsProp) => {
   let activeColor = Theme[theme.mode];
   const [rows, setRows] = useState<readTransactions>([]);
   const [loading, setLoading] = useState(false);
-  const [filter, setFilter] = useState(false);
   const [date, setDate] = useState({
     month: new Date().getMonth() + 1,
     year: new Date().getFullYear(),

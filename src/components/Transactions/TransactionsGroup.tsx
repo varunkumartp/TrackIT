@@ -50,6 +50,7 @@ const TransactionItem = React.memo(({data}: TransactionItemProp) => {
         }}>
         <Text style={{...ItemStyles.headerText, color: activeColor.text1}}>
           {data.DESCRIPTION}
+          {data.NOTES === null ? '' : ` - ${data.NOTES}`}
         </Text>
       </View>
       <View style={{marginVertical: 5}}>

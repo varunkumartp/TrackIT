@@ -119,6 +119,7 @@ declare global {
     TYPE: string;
     SYMBOL: string;
     AMOUNT_LOC: number;
+    NOTES: string;
   }
 
   type readTransactions = {title: string; data: transactions[]}[];

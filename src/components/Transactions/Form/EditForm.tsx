@@ -43,7 +43,7 @@ const EditForm = ({route, navigation}: EditFormProps) => {
   const [input, setInput] = useState<inputData>({
     DATE: new Date(data.DATE),
     DESCRIPTION: data.DESCRIPTION,
-    NOTES: '',
+    NOTES: data.NOTES,
   });
   const debitRef = createRef<TextInput>();
   const creditRef = createRef<TextInput>();
@@ -251,6 +251,7 @@ const EditForm = ({route, navigation}: EditFormProps) => {
                 setCreditList(false);
                 setDebitList(false);
               }}
+              value={input.NOTES}
             />
           </View>
           {editMode && (
