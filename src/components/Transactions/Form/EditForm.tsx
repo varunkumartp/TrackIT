@@ -13,7 +13,7 @@ import {
   editTransaction,
 } from '../../../database/transactions';
 import Numpad from '../../../globals/Calculator/Numpad.component';
-import { CurrencyContext } from '../../../contexts/CurrencyContext';
+import {CurrencyContext} from '../../../contexts/CurrencyContext';
 
 type EditFormProps = NativeStackScreenProps<RootStackParamList, 'EditForm'>;
 
@@ -137,7 +137,11 @@ const EditForm = ({route, navigation}: EditFormProps) => {
               Date
             </Text>
             <TextInput
-              style={{...FormStyles.input, color: activeColor.text1}}
+              style={{
+                ...FormStyles.input,
+                color: activeColor.text1,
+                borderBottomColor: activeColor.text1,
+              }}
               onPressIn={() => {
                 setEditMode(true);
                 setOpen(true);
@@ -159,7 +163,11 @@ const EditForm = ({route, navigation}: EditFormProps) => {
             </Text>
             <TextInput
               ref={debitRef}
-              style={{...FormStyles.input, color: activeColor.text1}}
+              style={{
+                ...FormStyles.input,
+                color: activeColor.text1,
+                borderBottomColor: activeColor.text1,
+              }}
               value={debitAccount.NAME}
               showSoftInputOnFocus={false}
               onPressIn={() => {
@@ -183,7 +191,11 @@ const EditForm = ({route, navigation}: EditFormProps) => {
             </Text>
             <TextInput
               ref={creditRef}
-              style={{...FormStyles.input, color: activeColor.text1}}
+              style={{
+                ...FormStyles.input,
+                color: activeColor.text1,
+                borderBottomColor: activeColor.text1,
+              }}
               value={creditAccount.NAME}
               showSoftInputOnFocus={false}
               onPressIn={() => {
@@ -206,7 +218,11 @@ const EditForm = ({route, navigation}: EditFormProps) => {
             <TextInput
               ref={amountRef}
               value={amount}
-              style={{...FormStyles.input, color: activeColor.text1}}
+              style={{
+                ...FormStyles.input,
+                color: activeColor.text1,
+                borderBottomColor: activeColor.text1,
+              }}
               showSoftInputOnFocus={false}
               onPressIn={() => {
                 setEditMode(true);
@@ -227,7 +243,11 @@ const EditForm = ({route, navigation}: EditFormProps) => {
             <TextInput
               ref={descriptionRef}
               value={input.DESCRIPTION}
-              style={{...FormStyles.input, color: activeColor.text1}}
+              style={{
+                ...FormStyles.input,
+                color: activeColor.text1,
+                borderBottomColor: activeColor.text1,
+              }}
               onChangeText={value => setInput({...input, DESCRIPTION: value})}
               onPressIn={() => {
                 setNumpad(false);
@@ -243,7 +263,11 @@ const EditForm = ({route, navigation}: EditFormProps) => {
               Notes
             </Text>
             <TextInput
-              style={{...FormStyles.input, color: activeColor.text1}}
+              style={{
+                ...FormStyles.input,
+                color: activeColor.text1,
+                borderBottomColor: activeColor.text1,
+              }}
               onChangeText={value => setInput({...input, NOTES: value})}
               onPressIn={() => {
                 setNumpad(false);

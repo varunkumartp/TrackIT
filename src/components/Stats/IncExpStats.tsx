@@ -108,7 +108,7 @@ const IncExpStats = () => {
       </View>
       <View style={{flex: 1}}>
         <CustomBarChart data={exp} header="Expenses" color={activeColor.red} />
-        <CustomBarChart data={inc} header="Income" color={activeColor.green} />
+        <CustomBarChart data={inc} header="Income" color={activeColor.blue} />
         <CustomBarChart data={inv} header="Investments" color="grey" />
       </View>
     </View>

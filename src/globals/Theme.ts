@@ -1,66 +1,85 @@
+const DARK = {
+  text1: '#fff',
+  text2: '#bbb',
+  background: '#000',
+  red: '#F55',
+  blue: '#007acc',
+};
+
+const LIGHT = {
+  text1: '#000',
+  text2: '#fff',
+  background: '#FFF',
+  red: '#F00',
+  blue: '#007acc',
+};
+
 export const Theme: Theme = {
+  // Dark Themes
   Dark: {
-    text1: '#ccc',
-    text2: '#686869',
-    theme: '#000000',
-    background: '#26282e',
-    red: '#f55',
-    green: '#7acc00',
+    ...DARK,
+    theme: '#222',
   },
+  'Dark Red': {
+    ...DARK,
+    theme: '#ce4d4d',
+  },
+  'Dark Orange': {
+    ...DARK,
+    theme: '#c8661B',
+  },
+  'Dark Gold': {
+    ...DARK,
+    theme: '#B8860b',
+  },
+  'Dark Rose Gold': {
+    ...DARK,
+    theme: '#B66E77',
+  },
+  'Dark Green': {
+    ...DARK,
+    theme: '#548642',
+  },
+  'Dark Teal': {
+    ...DARK,
+    theme: '#4A7777',
+  },
+  'Dark Purple': {
+    ...DARK,
+    theme: '#997bb0',
+  },
+
+  // Light Themes
   Light: {
-    text1: '#000',
-    text2: '#999',
-    theme: '#fff',
-    background: '#b9b9b7',
-    red: '#f00',
-    green: '#005f00',
-  },
-  Green: {
-    text1: '#000',
-    text2: '#fff',
-    theme: '#00a333',
-    background: '#fff',
-    red: '#f00',
-    green: '#00a333',
+    ...LIGHT,
+    theme: '#ddd',
   },
   Red: {
-    text1: '#000',
-    text2: '#fff',
-    theme: '#f00',
-    background: '#fff',
-    red: '#f00',
-    green: '#00a333',
-  },
-  Teal: {
-    text1: '#000',
-    text2: '#fff',
-    theme: '#009090',
-    background: '#fff',
-    red: '#f00',
-    green: '#00a333',
-  },
-  'Rose Gold': {
-    text1: '#000',
-    text2: '#fff',
-    theme: '#ff6E79',
-    background: '#fff',
-    red: '#f00',
-    green: '#00a333',
+    ...LIGHT,
+    theme: '#F55',
   },
   Orange: {
-    text1: '#000',
-    text2: '#fff',
+    ...LIGHT,
     theme: '#ff8800',
-    background: '#fff',
-    red: '#f00',
-    green: '#00a333',
   },
   Gold: {
-    text1: '#000',
-    text2: '#fff',
+    ...LIGHT,
     theme: '#ffb500',
-    background: '#fff',
-    red: '#f00',
-    green: '#00a333',
+  },
+  'Rose Gold': {
+    ...LIGHT,
+    theme: '#ff6E79',
+  },
+  Green: {
+    ...LIGHT,
+    theme: '#00a333',
+  },
+  Teal: {
+    ...LIGHT,
+    theme: '#009090',
+  },
+  Purple: {
+    ...LIGHT,
+    theme: '#998bc0',
   },
 };

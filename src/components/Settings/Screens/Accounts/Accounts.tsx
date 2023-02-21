@@ -19,13 +19,26 @@ const Accounts = () => {
   }, [focused]);
 
   return (
-    <View style={{...Styles.container, backgroundColor: activeColor.background}}>
+    <View
+      style={{
+        ...Styles.container,
+        backgroundColor: activeColor.background,
+        borderTopColor: activeColor.background,
+        borderTopWidth: 1,
+      }}>
       <FlatList
         style={{flex: 1}}
         keyboardShouldPersistTaps={'handled'}
         showsVerticalScrollIndicator={false}
         data={rows}
-        renderItem={({item}) => <AccountsGroup data={item.data} title={item.title} key={item.title} setAccounts={setRows} />}
+        renderItem={({item}) => (
+          <AccountsGroup
+            data={item.data}
+            title={item.title}
+            key={item.title}
+            setAccounts={setRows}
+          />
+        )}
         keyExtractor={item => item.title}
       />
     </View>

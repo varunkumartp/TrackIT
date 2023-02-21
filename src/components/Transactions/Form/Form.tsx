@@ -114,7 +114,11 @@ const Form = ({route, navigation}: FormProps) => {
               Date
             </Text>
             <TextInput
-              style={{...FormStyles.input, color: activeColor.text1}}
+              style={{
+                ...FormStyles.input,
+                color: activeColor.text1,
+                borderBottomColor: activeColor.text1,
+              }}
               onPressIn={() => {
                 setOpen(true);
                 setDebitList(false);
@@ -135,7 +139,11 @@ const Form = ({route, navigation}: FormProps) => {
             </Text>
             <TextInput
               ref={debitRef}
-              style={{...FormStyles.input, color: activeColor.text1}}
+              style={{
+                ...FormStyles.input,
+                color: activeColor.text1,
+                borderBottomColor: activeColor.text1,
+              }}
               value={debitAccount.NAME}
               showSoftInputOnFocus={false}
               onPressIn={() => {
@@ -158,7 +166,11 @@ const Form = ({route, navigation}: FormProps) => {
             </Text>
             <TextInput
               ref={creditRef}
-              style={{...FormStyles.input, color: activeColor.text1}}
+              style={{
+                ...FormStyles.input,
+                color: activeColor.text1,
+                borderBottomColor: activeColor.text1,
+              }}
               value={creditAccount.NAME}
               showSoftInputOnFocus={false}
               onPressIn={() => {
@@ -179,7 +191,11 @@ const Form = ({route, navigation}: FormProps) => {
             </Text>
             <TextInput
               ref={amountRef}
-              style={{...FormStyles.input, color: activeColor.text1}}
+              style={{
+                ...FormStyles.input,
+                color: activeColor.text1,
+                borderBottomColor: activeColor.text1,
+              }}
               showSoftInputOnFocus={false}
               onPressIn={() => {
                 Keyboard.dismiss();
@@ -200,7 +216,11 @@ const Form = ({route, navigation}: FormProps) => {
             </Text>
             <TextInput
               ref={descriptionRef}
-              style={{...FormStyles.input, color: activeColor.text1}}
+              style={{
+                ...FormStyles.input,
+                color: activeColor.text1,
+                borderBottomColor: activeColor.text1,
+              }}
               onChangeText={value => setInput({...input, DESCRIPTION: value})}
               onPressIn={() => {
                 setNumpad(false);
@@ -216,7 +236,11 @@ const Form = ({route, navigation}: FormProps) => {
               Notes
             </Text>
             <TextInput
-              style={{...FormStyles.input, color: activeColor.text1}}
+              style={{
+                ...FormStyles.input,
+                color: activeColor.text1,
+                borderBottomColor: activeColor.text1,
+              }}
               onChangeText={value => setInput({...input, NOTES: value})}
               onPressIn={() => {
                 setNumpad(false);

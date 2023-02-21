@@ -158,12 +158,12 @@ declare global {
 
   interface Theme {
     [key: string]: {
-      theme: string;
-      text1: string;
-      text2: string;
-      background: string;
-      red: string;
-      green: string;
+      [theme: string]: string;
+      [text1: string]: string;
+      [text2: string]: string;
+      [background: string]: string;
+      [red: string]: string;
+      [blue: string]: string;
     };
   }
 }

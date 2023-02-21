@@ -68,10 +68,10 @@ const Passcode = () => {
             value={enable}
             disabled={true}
             trackColor={{
-              false: activeColor.text1,
-              true: activeColor.text1,
+              false: activeColor.red,
+              true: activeColor.blue,
             }}
-            thumbColor={enable ? activeColor.theme : activeColor.background}
+            thumbColor={activeColor.theme}
           />
         </View>
       </TouchableHighlight>

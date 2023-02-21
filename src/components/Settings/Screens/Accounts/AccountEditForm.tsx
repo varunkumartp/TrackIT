@@ -63,19 +63,31 @@ const AccountEditForm = ({route, navigation}: AccountEditFormProps) => {
   return (
     <View style={{flex: 1, backgroundColor: activeColor.background}}>
       <View style={FormStyles.fields}>
-        <Text style={{...FormStyles.text, color: activeColor.text1}}>Account Name</Text>
+        <Text style={{...FormStyles.text, color: activeColor.text1}}>
+          Account Name
+        </Text>
         <TextInput
-          style={{...FormStyles.input, color: activeColor.text1}}
+          style={{
+            ...FormStyles.input,
+            color: activeColor.text1,
+            borderBottomColor: activeColor.text1,
+          }}
           value={account.NAME}
           onSubmitEditing={() => groupRef.current?.focus()}
           onChangeText={value => setAccount({...account, NAME: value})}
         />
       </View>
       <View style={FormStyles.fields}>
-        <Text style={{...FormStyles.text, color: activeColor.text1}}>Account Group</Text>
+        <Text style={{...FormStyles.text, color: activeColor.text1}}>
+          Account Group
+        </Text>
         <TextInput
           ref={groupRef}
-          style={{...FormStyles.input, color: activeColor.text1}}
+          style={{
+            ...FormStyles.input,
+            color: activeColor.text1,
+            borderBottomColor: activeColor.text1,
+          }}
           showSoftInputOnFocus={false}
           value={account.GROUP}
           onPressIn={() => setModal(true)}
@@ -90,7 +102,9 @@ const AccountEditForm = ({route, navigation}: AccountEditFormProps) => {
             backgroundColor: activeColor.theme,
           }}
           onPress={() => submitHandler()}>
-          <Text style={{...FormStyles.buttonText, color: activeColor.text1}}>Update</Text>
+          <Text style={{...FormStyles.buttonText, color: activeColor.text1}}>
+            Update
+          </Text>
         </Pressable>
         <Pressable
           style={{
@@ -98,7 +112,9 @@ const AccountEditForm = ({route, navigation}: AccountEditFormProps) => {
             backgroundColor: activeColor.theme,
           }}
           onPress={() => navigation.goBack()}>
-          <Text style={{...FormStyles.buttonText, color: activeColor.text1}}>Cancel</Text>
+          <Text style={{...FormStyles.buttonText, color: activeColor.text1}}>
+            Cancel
+          </Text>
         </Pressable>
       </View>
 
@@ -115,9 +131,14 @@ const AccountEditForm = ({route, navigation}: AccountEditFormProps) => {
               flexDirection: 'row',
               justifyContent: 'space-between',
             }}>
-            <Text style={{...Styles.text, color: activeColor.text1}}>Accounts</Text>
+            <Text style={{...Styles.text, color: activeColor.text1}}>
+              Accounts
+            </Text>
             <Pressable onPress={() => setModal(false)}>
-              <Icon name="window-close" style={{...Styles.text, color: activeColor.text1}} />
+              <Icon
+                name="window-close"
+                style={{...Styles.text, color: activeColor.text1}}
+              />
             </Pressable>
           </View>
           <FlatList
@@ -125,7 +146,9 @@ const AccountEditForm = ({route, navigation}: AccountEditFormProps) => {
             data={accountsGroup}
             renderItem={({item}) => (
               <TouchableOpacity onPress={() => groupHandler(item)}>
-                <Text style={{...Styles.text, color: activeColor.text1}}>{item.NAME}</Text>
+                <Text style={{...Styles.text, color: activeColor.text1}}>
+                  {item.NAME}
+                </Text>
               </TouchableOpacity>
             )}
           />

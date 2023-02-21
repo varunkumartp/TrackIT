@@ -18,7 +18,13 @@ const DefaultCurrency = () => {
   }, []);
 
   return (
-    <View style={{flex: 1, backgroundColor: activeColor.background}}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: activeColor.background,
+        borderTopColor: activeColor.background,
+        borderTopWidth: 1,
+      }}>
       <RadioButton.Group
         onValueChange={newValue => updateCurrency({mode: newValue})}
         value={currValue}>

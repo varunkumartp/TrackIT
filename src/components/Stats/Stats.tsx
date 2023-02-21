@@ -70,7 +70,12 @@ const Stats = ({navigation}: StatsProps) => {
         }}
       />
       <View
-        style={{borderBottomColor: activeColor.theme, borderBottomWidth: 2}}>
+        style={{
+          borderBottomColor: activeColor.theme,
+          borderBottomWidth: 2,
+          borderTopColor: activeColor.background,
+          borderTopWidth: 1,
+        }}>
         {(type === 'EXPENSE'
           ? expense[0]['ACCOUNT_ID']
           : income[0]['ACCOUNT_ID']) === '' ? (

@@ -14,7 +14,7 @@ export const FormStyles = StyleSheet.create({
   input: {
     flex: 2,
     paddingHorizontal: 5,
-    borderBottomWidth: 2,
+    borderBottomWidth: 1,
     padding: 0,
   },
   container: {

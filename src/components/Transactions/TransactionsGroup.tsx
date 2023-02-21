@@ -42,18 +42,21 @@ const TransactionItem = React.memo(({data}: TransactionItemProp) => {
   const {theme} = useContext(ThemeContext);
   let activeColor = Theme[theme.mode];
   return (
-    <View style={ItemStyles.accounts}>
-      <View
-        style={{
-          alignItems: 'center',
-          borderBottomWidth: 1,
-        }}>
-        <Text style={{...ItemStyles.headerText, color: activeColor.text1}}>
-          {data.DESCRIPTION}
-          {data.NOTES === null ? '' : ` - ${data.NOTES}`}
-        </Text>
-      </View>
-      <View style={{marginVertical: 5}}>
+    <View
+      style={{...ItemStyles.accounts, borderBottomColor: activeColor.theme}}>
+      {data.NOTES !== '' ? (
+        <View
+          style={{
+            alignItems: 'center',
+            borderBottomWidth: 1,
+            borderBottomColor: activeColor.theme,
+          }}>
+          <Text style={{...ItemStyles.headerText, color: activeColor.text1}}>
+            {data.NOTES}
+          </Text>
+        </View>
+      ) : null}
+      <View style={{marginVertical: 10}}>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <Text
             style={{
@@ -68,7 +71,7 @@ const TransactionItem = React.memo(({data}: TransactionItemProp) => {
             style={{
               ...ItemStyles.text,
               textAlign: 'right',
-              color: data.DEBIT_DIR < 0 ? activeColor.red : activeColor.green,
+              color: data.DEBIT_DIR < 0 ? activeColor.red : activeColor.blue,
             }}>
             {data.SYMBOL} {data.AMOUNT_LOC}{' '}
             <Icon
@@ -91,7 +94,7 @@ const TransactionItem = React.memo(({data}: TransactionItemProp) => {
             style={{
               ...ItemStyles.text,
               textAlign: 'right',
-              color: data.CREDIT_DIR < 0 ? activeColor.red : activeColor.green,
+              color: data.CREDIT_DIR < 0 ? activeColor.red : activeColor.blue,
             }}>
             {data.SYMBOL} {data.AMOUNT_LOC}{' '}
             <Icon
@@ -169,7 +172,6 @@ const ItemStyles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
-    borderBottomColor: '#000',
     borderBottomWidth: 1,
   },
   headerText: {

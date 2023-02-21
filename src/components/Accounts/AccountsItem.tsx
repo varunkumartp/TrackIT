@@ -25,10 +25,7 @@ export const AccountItem = ({data}: {data: AccountsGroup}) => {
       <Text
         style={{
           ...AccountsStyles.text,
-          color:
-            activeColor[
-              data.AMOUNT === 0 ? 'text1' : data.AMOUNT < 0 ? 'red' : 'blue'
-            ],
+          color:activeColor.text1,
           fontSize: data.NUMBER % 1000 === 0 ? 15 : 12,
         }}>
         {data.AMOUNT}

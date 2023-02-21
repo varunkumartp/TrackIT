@@ -38,6 +38,7 @@ const CategoryForm = ({route, navigation}: CategoryFormProps) => {
           style={{
             ...FormStyles.input,
             color: activeColor.text1,
+            borderBottomColor: activeColor.text1,
           }}
           autoFocus={true}
           value={category}

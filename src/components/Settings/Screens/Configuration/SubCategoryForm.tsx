@@ -39,6 +39,7 @@ const SubCategoryForm = ({route, navigation}: SubCategoryFormProps) => {
             ...FormStyles.input,
             flex: 1.5,
             color: activeColor.text1,
+            borderBottomColor: activeColor.text1,
           }}
           autoFocus={true}
           value={subCategory}

@@ -23,7 +23,12 @@ const Accounts = () => {
 
   return (
     <View
-      style={{...Styles.container, backgroundColor: activeColor.background}}>
+      style={{
+        ...Styles.container,
+        backgroundColor: activeColor.background,
+        borderTopColor: activeColor.background,
+        borderTopWidth: 1,
+      }}>
       <FlatList
         style={{flex: 1}}
         keyboardShouldPersistTaps={'handled'}

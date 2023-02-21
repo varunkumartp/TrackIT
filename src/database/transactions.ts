@@ -10,7 +10,7 @@ export const createTransactions = async (data: formTransaction) => {
   await db.transaction(tx =>
     tx.executeSql(
       `INSERT INTO TRANSACTIONS 
-      (ID,DATE,DESCRIPTION,DEBIT,CREDIT,TYPE,AMOUNT_LOC,CURR_LOC,AMOUNT) 
+      (ID,DATE,DESCRIPTION,DEBIT,CREDIT,TYPE,AMOUNT_LOC,CURR_LOC,AMOUNT,NOTES) 
       VALUES
       ('${uuid.v4()}',
       '${getDate(data.DATE)}',
@@ -20,7 +20,8 @@ export const createTransactions = async (data: formTransaction) => {
       '${data.TYPE}',
       ${parseInt(data.AMOUNT_LOC)},
       '${data.CURR_LOC}',
-      ${parseInt(data.AMOUNT_LOC)})`,
+      ${parseInt(data.AMOUNT_LOC)},
+      '${data.NOTES}')`,
       [],
       () => {},
       err => console.log(err),
@@ -157,7 +158,7 @@ export const editTransaction = async (ID: string, data: formTransaction) => {
       TYPE='${data.TYPE}',
       AMOUNT_LOC=${data.AMOUNT_LOC},
       AMOUNT=${data.AMOUNT_LOC},
-      NOTES='${data.NOTES === '' ? null : data.NOTES}'
+      NOTES='${data.NOTES}'
       WHERE ID = '${ID}'`,
       [],
       () => {},
