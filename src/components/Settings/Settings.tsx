@@ -58,7 +58,7 @@ const Settings = ({navigation}: SettingsProps) => {
           </Text>
         </TouchableOpacity>
       </View>
-      {/* <View style={SettingsStyles.rowContainer}>
+      <View style={SettingsStyles.rowContainer}>
         <TouchableOpacity
           onPress={() => navigation.navigate('Passcode')}
           style={SettingsStyles.container}>
@@ -75,7 +75,7 @@ const Settings = ({navigation}: SettingsProps) => {
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={() => navigation.navigate('PCManager')}
           style={SettingsStyles.container}>
           <Text style={SettingsStyles.containerIcon}>
@@ -101,8 +101,8 @@ const Settings = ({navigation}: SettingsProps) => {
             style={{...SettingsStyles.containerText, color: activeColor.text1}}>
             Backup
           </Text>
-        </TouchableOpacity>
-      </View> */}
+        </TouchableOpacity> */}
+      </View>
     </View>
   );
 };

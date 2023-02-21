@@ -20,6 +20,7 @@ declare global {
     IncExpStats: undefined;
     FilterScreen: undefined;
     FilteredTransactions: {id: string[]; amount: {min: string; max: string}};
+    AppLockScreen: undefined;
   };
 
   type StatsStackParamList = {

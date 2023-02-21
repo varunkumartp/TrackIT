@@ -14,6 +14,7 @@ import {Pressable} from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {CompositeScreenProps} from '@react-navigation/native';
 import ConfigNavigator from '../ConfigNavigator/ConfigNavigator';
+import Passcode from '../../Settings/Screens/Passcode/Passcode';
 
 type SettingsNavigatorProp = CompositeScreenProps<
   NativeStackScreenProps<BottomTabParamList, 'SettingsNavigator'>,
@@ -71,6 +72,13 @@ const SettingsNavigator = ({navigation}: SettingsNavigatorProp) => {
               <FontAwesome5 name="plus" size={20} color={activeColor.text1} />
             </Pressable>
           ),
+        }}
+      />
+      <SettingsStack.Screen
+        name="Passcode"
+        component={Passcode}
+        options={{
+          title: 'Theme',
         }}
       />
     </SettingsStack.Navigator>

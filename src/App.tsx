@@ -3,14 +3,19 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 import {ThemeContext} from './contexts/ThemeContext';
 import {CurrencyContext} from './contexts/CurrencyContext';
+import {PswdContext} from './contexts/PswdContext';
+import {LockContext} from './contexts/LockContext';
 import StackNavigator from './components/navigators/StackNavigator/StackNavigator';
-import {getData, setData} from './database/asyncStorage';
+import {getData, setData} from './database/encryptedStorage';
 import {editTransactionsCurrency} from './database/transactions';
 import SplashScreen from 'react-native-splash-screen';
 
 function MainApp(): JSX.Element {
   const [theme, setTheme] = useState({mode: 'Dark'});
   const [currency, setCurrency] = useState({mode: 'INR'});
+  const [pswd, setPswd] = useState({mode: ''});
+  const [locked, setLocked] = useState(true);
+  const [passcode, setPassCode] = useState({mode: 'disable'});
 
   const updateCurrency = (newCurr: {mode: string}) => {
     setCurrency(newCurr);
@@ -23,41 +28,50 @@ function MainApp(): JSX.Element {
     setData('Theme', newTheme);
   };
 
-  const fetchCurrency = async () => {
-    try {
-      const currData: {mode: string} = await getData('Currency');
-      if (currData) {
-        updateCurrency(currData);
-      }
-    } catch ({message}) {
-      console.log(message);
-    }
+  const updatePswd = (newPswd: {mode: string}) => {
+    setData('pswd', newPswd);
+    setPswd(newPswd);
   };
 
-  const fetchTheme = async () => {
+  const updatePasscodePref = (pref: {mode: string}) => {
+    setData('passcode', pref);
+    setPassCode(pref);
+  };
+
+  const fetchData = async (
+    updateFunction: ({mode}: {mode: string}) => void,
+    name: string,
+  ) => {
     try {
-      const themeData: {mode: string} = await getData('Theme');
-      if (themeData) {
-        updateTheme(themeData);
+      const data: {mode: string} = await getData(name);
+      if (data) {
+        updateFunction(data);
       }
-    } catch ({message}) {
-      console.log(message);
+    } catch (error) {
+      console.log(error);
     }
   };
 
   useEffect(() => {
-    fetchTheme();
-    fetchCurrency();
+    fetchData(updatePasscodePref, 'passcode');
+    fetchData(updateTheme, 'Theme');
+    fetchData(updateCurrency, 'Currency');
+    fetchData(updatePswd, 'pswd');
     SplashScreen.hide();
   }, []);
 
   return (
     <SafeAreaProvider>
-      <ThemeContext.Provider value={{theme, updateTheme}}>
-        <CurrencyContext.Provider value={{currency, updateCurrency}}>
-          <StackNavigator />
-        </CurrencyContext.Provider>
-      </ThemeContext.Provider>
+      <LockContext.Provider
+        value={{locked, setLocked, passcode, updatePasscodePref}}>
+        <PswdContext.Provider value={{pswd, updatePswd}}>
+          <ThemeContext.Provider value={{theme, updateTheme}}>
+            <CurrencyContext.Provider value={{currency, updateCurrency}}>
+              <StackNavigator />
+            </CurrencyContext.Provider>
+          </ThemeContext.Provider>
+        </PswdContext.Provider>
+      </LockContext.Provider>
     </SafeAreaProvider>
   );
 }

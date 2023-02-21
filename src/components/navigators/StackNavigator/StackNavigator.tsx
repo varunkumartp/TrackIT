@@ -15,10 +15,14 @@ import AccountEditForm from '../../Settings/Screens/Accounts/AccountEditForm';
 import IncExpStats from '../../Stats/IncExpStats';
 import FilterScreen from '../../Transactions/FilterScreen';
 import FilteredTransactions from '../../Transactions/FilteredTransactions';
+import AppLockScreen from '../../AppLockScreen/AppLockScreen';
+import {LockContext} from '../../../contexts/LockContext';
+import {PswdContext} from '../../../contexts/PswdContext';
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function StackNavigator() {
   const {theme} = useContext(ThemeContext);
+  const {locked, passcode} = useContext(LockContext);
   let activeColor = Theme[theme.mode];
   return (
     <NavigationContainer>
@@ -30,64 +34,76 @@ function StackNavigator() {
           },
           headerTintColor: activeColor.text1,
         }}>
-        <Stack.Screen
-          name="BottomTab"
-          component={BottomTab}
-          options={{header: () => null}}
-        />
-        <Stack.Screen
-          name="Form"
-          component={Form}
-          options={{
-            title: 'New Transaction',
-            animation: 'slide_from_bottom',
-          }}
-        />
-        <Stack.Screen
-          name="EditForm"
-          component={EditForm}
-          options={{
-            title: 'Edit Transaction',
-            animation: 'slide_from_bottom',
-          }}
-        />
-        <Stack.Screen
-          name="AccountForm"
-          component={AccountForm}
-          options={{title: 'New Account', animation: 'slide_from_bottom'}}
-        />
-        <Stack.Screen
-          name="AccountEditForm"
-          component={AccountEditForm}
-          options={{title: 'Edit Account', animation: 'slide_from_bottom'}}
-        />
-        <Stack.Screen
-          name="FilterTransactionsByAccount"
-          component={FilterTransactionsByAccount}
-          options={({route}) => ({
-            title: route.params.account,
-          })}
-        />
-        <Stack.Screen
-          name="FilteredTransactions"
-          component={FilteredTransactions}
-        />
-        <Stack.Screen
-          name="IncExpStats"
-          component={IncExpStats}
-          options={{
-            header: () => null,
-            animation: 'slide_from_bottom',
-          }}
-        />
-        <Stack.Screen
-          name="FilterScreen"
-          component={FilterScreen}
-          options={{
-            title: 'Filter Transactions',
-            animation: 'slide_from_bottom',
-          }}
-        />
+        {locked && passcode.mode === 'enable' ? (
+          <>
+            <Stack.Screen
+              name="AppLockScreen"
+              component={AppLockScreen}
+              options={{header: () => null}}
+            />
+          </>
+        ) : (
+          <>
+            <Stack.Screen
+              name="BottomTab"
+              component={BottomTab}
+              options={{header: () => null}}
+            />
+            <Stack.Screen
+              name="Form"
+              component={Form}
+              options={{
+                title: 'New Transaction',
+                animation: 'slide_from_bottom',
+              }}
+            />
+            <Stack.Screen
+              name="EditForm"
+              component={EditForm}
+              options={{
+                title: 'Edit Transaction',
+                animation: 'slide_from_bottom',
+              }}
+            />
+            <Stack.Screen
+              name="AccountForm"
+              component={AccountForm}
+              options={{title: 'New Account', animation: 'slide_from_bottom'}}
+            />
+            <Stack.Screen
+              name="AccountEditForm"
+              component={AccountEditForm}
+              options={{title: 'Edit Account', animation: 'slide_from_bottom'}}
+            />
+            <Stack.Screen
+              name="FilterTransactionsByAccount"
+              component={FilterTransactionsByAccount}
+              options={({route}) => ({
+                title: route.params.account,
+              })}
+            />
+            <Stack.Screen
+              name="FilteredTransactions"
+              component={FilteredTransactions}
+            />
+            <Stack.Screen
+              name="IncExpStats"
+              component={IncExpStats}
+              options={{
+                header: () => null,
+                animation: 'slide_from_bottom',
+              }}
+            />
+            <Stack.Screen
+              name="FilterScreen"
+              component={FilterScreen}
+              options={{
+                title: 'Filter Transactions',
+                animation: 'slide_from_bottom',
+              }}
+            />
+          </>
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );
