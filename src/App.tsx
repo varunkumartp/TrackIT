@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-
 import {ThemeContext} from './contexts/ThemeContext';
 import {CurrencyContext} from './contexts/CurrencyContext';
 import {PswdContext} from './contexts/PswdContext';
 import {LockContext} from './contexts/LockContext';
 import StackNavigator from './components/navigators/StackNavigator/StackNavigator';
-import {getData, setData} from './database/encryptedStorage';
 import {editTransactionsCurrency} from './database/transactions';
 import SplashScreen from 'react-native-splash-screen';
+import {setDataSQL} from './database/preferences';
+import {db} from './database/database';
 
 function MainApp(): JSX.Element {
   const [theme, setTheme] = useState({mode: 'Dark'});
@@ -16,25 +16,24 @@ function MainApp(): JSX.Element {
   const [pswd, setPswd] = useState({mode: ''});
   const [locked, setLocked] = useState(true);
   const [passcode, setPassCode] = useState({mode: 'disable'});
-
   const updateCurrency = (newCurr: {mode: string}) => {
     setCurrency(newCurr);
-    setData('Currency', newCurr);
+    setDataSQL('Currency', newCurr);
     editTransactionsCurrency(newCurr.mode);
   };
 
   const updateTheme = (newTheme: {mode: string}) => {
     setTheme(newTheme);
-    setData('Theme', newTheme);
+    setDataSQL('Theme', newTheme);
   };
 
   const updatePswd = (newPswd: {mode: string}) => {
-    setData('pswd', newPswd);
+    setDataSQL('pswd', newPswd);
     setPswd(newPswd);
   };
 
   const updatePasscodePref = (pref: {mode: string}) => {
-    setData('passcode', pref);
+    setDataSQL('passcode', pref);
     setPassCode(pref);
   };
 
@@ -42,14 +41,19 @@ function MainApp(): JSX.Element {
     updateFunction: ({mode}: {mode: string}) => void,
     name: string,
   ) => {
-    try {
-      const data: {mode: string} = await getData(name);
-      if (data) {
-        updateFunction(data);
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    await db.transaction(tx =>
+      tx.executeSql(
+        `SELECT VALUE FROM PREFERENCES WHERE KEY = '${name}'`,
+        [],
+        (tx, res) => {
+          const value = JSON.parse(res.rows.item(0)['VALUE']);
+          if (value.mode.length !== 0) {
+            updateFunction(value);
+          }
+        },
+        err => console.log(err),
+      ),
+    );
   };
 
   useEffect(() => {
