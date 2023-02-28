@@ -1,11 +1,25 @@
 import RNFS from 'react-native-fs';
 import DocPicker from 'react-native-document-picker';
-import {PermissionsAndroid} from 'react-native';
 import RNRestart from 'react-native-restart';
 import {ToastAndroid} from 'react-native';
 
 const showToastWithGravity = (message: string) => {
   ToastAndroid.showWithGravity(message, ToastAndroid.LONG, ToastAndroid.CENTER);
+};
+
+export const restoreDB = async () => {
+  try {
+    const rsPicker = await DocPicker.pickSingle();
+    const filePath = rsPicker.uri;
+    await RNFS.copyFile(
+      filePath,
+      '/data/data/com.trackit/databases/TrackITv3.db',
+    );
+    RNRestart.restart();
+    showToastWithGravity('Data restored successfully');
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 function formatDate() {
