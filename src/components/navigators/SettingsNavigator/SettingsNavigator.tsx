@@ -16,6 +16,7 @@ import {CompositeScreenProps} from '@react-navigation/native';
 import ConfigNavigator from '../ConfigNavigator/ConfigNavigator';
 import Passcode from '../../Settings/Screens/Passcode/Passcode';
 import Backup from '../../Settings/Screens/Backup/Backup';
+import Reports from '../../Settings/Screens/Reports/Reports';
 
 type SettingsNavigatorProp = CompositeScreenProps<
   NativeStackScreenProps<BottomTabParamList, 'SettingsNavigator'>,
@@ -90,6 +91,7 @@ const SettingsNavigator = ({navigation}: SettingsNavigatorProp) => {
           title: 'Theme',
         }}
       />
+      <SettingsStack.Screen name="Reports" component={Reports} />
     </SettingsStack.Navigator>
   );
 };

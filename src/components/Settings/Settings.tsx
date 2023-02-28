@@ -75,21 +75,21 @@ const Settings = ({navigation}: SettingsProps) => {
           </Text>
         </TouchableOpacity>
 
-        {/* <TouchableOpacity
-          onPress={() => navigation.navigate('PCManager')}
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Reports')}
           style={SettingsStyles.container}>
           <Text style={SettingsStyles.containerIcon}>
             <FontAwesome5
-              name={'desktop'}
+              name={'file-download'}
               size={50}
               color={activeColor.text1}
             />
           </Text>
           <Text
             style={{...SettingsStyles.containerText, color: activeColor.text1}}>
-            PC Manager
+            Reports
           </Text>
-        </TouchableOpacity>*/}
+        </TouchableOpacity>
 
         <TouchableOpacity
           onPress={() => navigation.navigate('Backup')}

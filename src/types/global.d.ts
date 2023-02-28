@@ -43,7 +43,7 @@ declare global {
     Accounts: undefined;
     Passcode: undefined;
     Styling: undefined;
-    PCManager: undefined;
+    Reports: undefined;
     Backup: undefined;
   };
 

@@ -9,6 +9,7 @@ import {editTransactionsCurrency} from './database/transactions';
 import SplashScreen from 'react-native-splash-screen';
 import {setDataSQL} from './database/preferences';
 import {db} from './database/database';
+import {PermissionsAndroid} from 'react-native';
 
 function MainApp(): JSX.Element {
   const [theme, setTheme] = useState({mode: 'Dark'});
@@ -16,6 +17,13 @@ function MainApp(): JSX.Element {
   const [pswd, setPswd] = useState({mode: ''});
   const [locked, setLocked] = useState(true);
   const [passcode, setPassCode] = useState({mode: 'disable'});
+
+  const permision = () => {
+    PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+    );
+  };
+
   const updateCurrency = (newCurr: {mode: string}) => {
     setCurrency(newCurr);
     setDataSQL('Currency', newCurr);
@@ -57,6 +65,7 @@ function MainApp(): JSX.Element {
   };
 
   useEffect(() => {
+    permision();
     fetchData(updatePasscodePref, 'passcode');
     fetchData(updateTheme, 'Theme');
     fetchData(updateCurrency, 'Currency');
