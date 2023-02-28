@@ -89,7 +89,7 @@ const Settings = ({navigation}: SettingsProps) => {
             style={{...SettingsStyles.containerText, color: activeColor.text1}}>
             PC Manager
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity>*/}
 
         <TouchableOpacity
           onPress={() => navigation.navigate('Backup')}
@@ -101,7 +101,7 @@ const Settings = ({navigation}: SettingsProps) => {
             style={{...SettingsStyles.containerText, color: activeColor.text1}}>
             Backup
           </Text>
-        </TouchableOpacity> */}
+        </TouchableOpacity>
       </View>
     </View>
   );
