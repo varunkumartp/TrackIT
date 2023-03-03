@@ -1,3 +1,4 @@
+import {DateFilterString} from './dateFilter';
 import {db} from './database';
 import {getDate} from './transactions';
 
@@ -24,14 +25,7 @@ export const expenseHeaderSum = async (
   setAccountSum: React.Dispatch<React.SetStateAction<AccountSum[]>>,
   setExpenseSum: React.Dispatch<React.SetStateAction<number>>,
 ) => {
-  const dateFilter =
-    date.month === -1
-      ? `DATE BETWEEN '${date.year - 1}-04-01' and '${date.year}-04-01'`
-      : date.month !== 0
-      ? `strftime('%m', DATE) = '${date.month.toString().padStart(2, '0')}' AND
-               strftime('%Y', DATE) = '${date.year}'`
-      : `strftime('%Y', DATE) = '${date.year}'`;
-
+  const dateFilter = DateFilterString(date);
   await db.transaction(tx =>
     tx.executeSql(
       `SELECT ACCOUNT_ID,ACCOUNT_NAME, SYMBOL, SUM(AMOUNT) AS AMOUNT FROM
@@ -91,14 +85,7 @@ export const incomeHeaderSum = async (
   setAccountSum: React.Dispatch<React.SetStateAction<AccountSum[]>>,
   setIncomeSum: React.Dispatch<React.SetStateAction<number>>,
 ) => {
-  const dateFilter =
-    date.month === -1
-      ? `DATE BETWEEN '${date.year - 1}-04-01' and '${date.year}-04-01'`
-      : date.month !== 0
-      ? `strftime('%m', DATE) = '${date.month.toString().padStart(2, '0')}' AND
-               strftime('%Y', DATE) = '${date.year}'`
-      : `strftime('%Y', DATE) = '${date.year}'`;
-
+  const dateFilter = DateFilterString(date);
   await db.transaction(tx =>
     tx.executeSql(
       `SELECT ACCOUNT_ID,ACCOUNT_NAME, SYMBOL, SUM(AMOUNT) AS AMOUNT FROM
@@ -160,14 +147,7 @@ export const subHeaderSum = async (
   setAccountSum: React.Dispatch<React.SetStateAction<AccountSum[]>>,
   setAmountSum: React.Dispatch<React.SetStateAction<number>>,
 ) => {
-  const dateFilter =
-    date.month === -1
-      ? `DATE BETWEEN '${date.year - 1}-04-01' and '${date.year}-04-01'`
-      : date.month !== 0
-      ? `strftime('%m', DATE) = '${date.month.toString().padStart(2, '0')}' AND
-               strftime('%Y', DATE) = '${date.year}'`
-      : `strftime('%Y', DATE) = '${date.year}'`;
-
+  const dateFilter = DateFilterString(date);
   const mainQuery = `SELECT ACCOUNT_ID,ACCOUNT_NAME, SYMBOL, SUM(AMOUNT) AS AMOUNT FROM
         (SELECT ACCOUNT_ID,
             ACCOUNT_NAME,

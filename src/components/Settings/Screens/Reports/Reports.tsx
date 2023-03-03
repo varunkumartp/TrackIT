@@ -10,19 +10,52 @@ import React, {useContext, useState} from 'react';
 import {ThemeContext} from '../../../../contexts/ThemeContext';
 import {Theme} from '../../../../globals/Theme';
 import {Styles} from '../../../../globals/Styles.Styles';
-import {exportExcel} from '../../../../database/exportData';
+import {exportExcel, incomeStatement} from '../../../../database/exportData';
 import {ModalStyles} from '../../../../globals/Modal.Styles';
-import {DateFilterDD} from '../../../../globals/DateFilter.component';
+import {
+  DateFilterDD,
+  getFiscalYear,
+  months,
+} from '../../../../globals/DateFilter.component';
 
 const Reports = () => {
   const {theme} = useContext(ThemeContext);
   let activeColor = Theme[theme.mode];
-  const [excelModal, setExcelModal] = useState(false);
+  const [modal, setModal] = useState(false);
   const [date, setDate] = useState({
     month: -1,
     year: new Date().getFullYear(),
   });
   const [value, setValue] = useState('FY');
+  const [func, setFunc] = useState('');
+
+  const modalHandler = () => {
+    let header = (
+      value === 'FY'
+        ? getFiscalYear(date)
+        : value === 'Periodic'
+        ? `${months[date.month - 1]} ${date.year}`
+        : date.year
+    ).toString();
+
+    switch (func) {
+      case 'excel':
+        exportExcel(date, header);
+        break;
+      case 'incomeStatement':
+        incomeStatement(date, header);
+        break;
+      default:
+        break;
+    }
+    setModal(false);
+  };
+
+  const touchableHandler = (funct: string) => {
+    setFunc(funct);
+    setModal(true);
+  };
+
   return (
     <View style={{flex: 1, backgroundColor: activeColor.background}}>
       <TouchableHighlight
@@ -30,13 +63,24 @@ const Reports = () => {
           ...ConfigStyle.touchableView,
           borderBottomColor: activeColor.text1,
         }}
-        onPress={() => setExcelModal(true)}
+        onPress={() => touchableHandler('excel')}
         underlayColor={activeColor.theme}>
         <Text style={{...ConfigStyle.text, color: activeColor.text1}}>
           Download transactions to Excel
         </Text>
       </TouchableHighlight>
-      <Modal transparent={true} visible={excelModal}>
+      <TouchableHighlight
+        style={{
+          ...ConfigStyle.touchableView,
+          borderBottomColor: activeColor.text1,
+        }}
+        onPress={() => touchableHandler('incomeStatement')}
+        underlayColor={activeColor.theme}>
+        <Text style={{...ConfigStyle.text, color: activeColor.text1}}>
+          Download Income Statement
+        </Text>
+      </TouchableHighlight>
+      <Modal transparent={true} visible={modal}>
         <View style={ModalStyles.mainView}>
           <View
             style={{
@@ -69,11 +113,7 @@ const Reports = () => {
                 Select the time period
               </Text>
               <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-                <TouchableOpacity
-                  onPress={() => {
-                    exportExcel(date);
-                    setExcelModal(false);
-                  }}>
+                <TouchableOpacity onPress={() => modalHandler()}>
                   <Text
                     style={{
                       ...ModalStyles.touchableText,
@@ -82,7 +122,7 @@ const Reports = () => {
                     Download
                   </Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => setExcelModal(false)}>
+                <TouchableOpacity onPress={() => setModal(false)}>
                   <Text
                     style={{
                       ...ModalStyles.touchableText,

@@ -15,7 +15,7 @@ interface DateFilterDDProp extends DateFilterProp {
   setValue: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const getFiscalYear = ({year}: DateFilter) => {
+export const getFiscalYear = ({year}: DateFilter) => {
   if (new Date().getMonth() < 3) {
     return 'FY' + (year - 1) + '-' + year;
   } else {
@@ -29,7 +29,7 @@ const data = [
   {label: 'Fiscal Year', value: 'FY'},
 ];
 
-const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+export const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 export const DateFilter = ({date, value, setDate}: DateFilterProp) => {
   const {theme} = useContext(ThemeContext);

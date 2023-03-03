@@ -141,6 +141,28 @@ declare global {
     }[];
   }
 
+  /**************** Exports **************/
+
+  interface transactionsXLSX {
+    DATE: string;
+    DESCRIPTION: string;
+    TYPE: string;
+    NOTES: string;
+    CURRENCY: string;
+    DEBIT_ACCOUNT: string;
+    DEBIT_SUB_ACCOUNT: string;
+    DEBIT_AMOUNT: number;
+    CREDIT_ACCOUNT: string;
+    CREDIT_SUB_ACCOUNT: string;
+    CREDIT_AMOUNT: number;
+  }
+
+  interface transactionsIncStat {
+    NAME: string;
+    TYPE: string;
+    AMOUNT: number;
+  }
+
   /**************** Currencies **************/
   interface Currency {
     KEY: string;
