@@ -61,8 +61,11 @@ export const exportExcel = async (date: DateFilter, header: string) => {
           header: fields,
         });
         XLSX.utils.book_append_sheet(wb, ws, 'Transactions');
+        console.log(
+          RNFS.ExternalDirectoryPath + `/Transactions ${header}.xlsx`,
+        );
         RNFS.writeFile(
-          RNFS.DownloadDirectoryPath + `/Transactions ${header}.xlsx`,
+          RNFS.ExternalDirectoryPath + `/Transactions ${header}.xlsx`,
           XLSX.write(wb, {type: 'binary', bookType: 'xlsx'}),
           'ascii',
         )
@@ -141,7 +144,9 @@ export const incomeStatement = async (date: DateFilter, header: string) => {
           directory: 'Download',
           base64: true,
         });
-
+        console.log(
+          RNFS.DownloadDirectoryPath + `/Income Statement ${header}.pdf`,
+        );
         RNFS.writeFile(
           RNFS.DownloadDirectoryPath + `/Income Statement ${header}.pdf`,
           file.base64 || '',
