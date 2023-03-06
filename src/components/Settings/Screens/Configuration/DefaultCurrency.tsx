@@ -1,11 +1,11 @@
-import {View, Text, FlatList, StyleSheet} from 'react-native';
-import React, {Fragment, useContext, useEffect, useState} from 'react';
-import {ThemeContext} from '../../../../contexts/ThemeContext';
-import {Theme} from '../../../../globals/Theme';
-import {readCurrency} from '../../../../database/currency';
-import {AccountsStyles} from '../../../../globals/Accounts.Styles';
-import {RadioButton} from 'react-native-paper';
-import {CurrencyContext} from '../../../../contexts/CurrencyContext';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { RadioButton } from 'react-native-paper';
+import { CurrencyContext } from '../../../../contexts/CurrencyContext';
+import { ThemeContext } from '../../../../contexts/ThemeContext';
+import { readCurrency } from '../../../../database/currency';
+import { AccountsStyles } from '../../../../globals/Accounts.Styles';
+import { Theme } from '../../../../globals/Theme';
 
 const DefaultCurrency = () => {
   const {theme} = useContext(ThemeContext);

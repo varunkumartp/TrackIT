@@ -1,23 +1,17 @@
-import {
-  View,
-  Text,
-  FlatList,
-  Modal,
-  TouchableOpacity,
-} from 'react-native';
-import React, {useContext, useEffect, useState} from 'react';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {ThemeContext} from '../../../../contexts/ThemeContext';
-import {Theme} from '../../../../globals/Theme';
+import { useIsFocused } from '@react-navigation/native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import React, { useContext, useEffect, useState } from 'react';
+import { FlatList, View } from 'react-native';
+import { ThemeContext } from '../../../../contexts/ThemeContext';
 import {
   checkCategories,
   deleteCategories,
   deleteCategoriesTransactions,
-  getSubCategories,
+  getSubCategories
 } from '../../../../database/configuration';
-import { ModalStyles } from '../../../../globals/Modal.Styles';
+import ModalBox from '../../../../globals/ModalBox';
+import { Theme } from '../../../../globals/Theme';
 import AddButton from './AddButton';
-import {useIsFocused} from '@react-navigation/native';
 import CategoriesItem from './CategoriesItem';
 type SubCategoriesProp = NativeStackScreenProps<
   ConfigStackParamList,
@@ -88,133 +82,25 @@ const SubCategories = ({route, navigation}: SubCategoriesProp) => {
         )}
       />
       {/********************************** Modal 2 ******************************************************/}
-      <Modal transparent={true} visible={modal2}>
-        <View style={ModalStyles.mainView}>
-          <View
-            style={{
-              ...ModalStyles.modalView,
-              borderColor: activeColor.text1,
-            }}>
-            <View
-              style={{
-                ...ModalStyles.modalHeader,
-                borderBottomColor: activeColor.text1,
-
-                backgroundColor: activeColor.theme,
-              }}>
-              <Text
-                style={{
-                  ...ModalStyles.modalHeaderText,
-                  color: activeColor.text1,
-                }}>
-                Delete Sub Category
-              </Text>
-            </View>
-            <View
-              style={{
-                backgroundColor: activeColor.background,
-                ...ModalStyles.modalContent,
-              }}>
-              <Text
-                style={{
-                  ...ModalStyles.modalContentText,
-                  color: activeColor.text1,
-                }}>
-                Do you want to delete this sub-category?
-              </Text>
-              <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-                <TouchableOpacity onPress={() => deleteSubCategoryHandler()}>
-                  <Text
-                    style={{
-                      ...ModalStyles.touchableText,
-                      color: activeColor.text1,
-                    }}>
-                    Yes
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => setModal2(false)}>
-                  <Text
-                    style={{
-                      ...ModalStyles.touchableText,
-                      color: activeColor.text1,
-                    }}>
-                    No
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-        </View>
-      </Modal>
+      <ModalBox
+        modal={modal2}
+        setModal={setModal2}
+        header="Delete Sub Category"
+        subHeading="Do you want to delete this sub category?"
+        firstButton="Yes"
+        secondButton="No"
+        onConfirm={deleteSubCategoryHandler}
+      />
       {/********************************** Modal 1 ******************************************************/}
-      <Modal transparent={true} visible={modal1}>
-        <View style={ModalStyles.mainView}>
-          <View
-            style={{
-              ...ModalStyles.modalView,
-              borderColor: activeColor.text1,
-            }}>
-            <View
-              style={{
-                ...ModalStyles.modalHeader,
-                backgroundColor: activeColor.theme,
-                borderBottomColor: activeColor.text1,
-              }}>
-              <Text
-                style={{
-                  ...ModalStyles.modalHeaderText,
-                  color: activeColor.text1,
-                }}>
-                Delete Sub-Category
-              </Text>
-            </View>
-            <View
-              style={{
-                backgroundColor: activeColor.background,
-                ...ModalStyles.modalContent,
-              }}>
-              <Text
-                style={{
-                  ...ModalStyles.modalContentText,
-                  color: activeColor.text1,
-                }}>
-                This sub-category contains transactions. What would you like to do
-                with these transactions?
-              </Text>
-              <View>
-                {/* Feature for future release */}
-                {/* <TouchableOpacity onPress={() => setModal1(false)}>
-                  <Text
-                    style={{
-                      ...ModalStyles.touchableText,
-                      color: activeColor.secondary,
-                    }}>
-                    Move transactions to a different sub-category
-                  </Text>
-                </TouchableOpacity> */}
-                <TouchableOpacity onPress={() => deleteTXSubCategoryHandler()}>
-                  <Text
-                    style={{
-                      ...ModalStyles.touchableText,
-                      color: activeColor.text1,
-                    }}>
-                    Delete transactions and sub-category
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => setModal1(false)}>
-                  <Text
-                    style={{
-                      ...ModalStyles.touchableText,
-                      color: activeColor.text1,
-                    }}>
-                    Cancel
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-        </View>
-      </Modal>
+      <ModalBox
+        modal={modal1}
+        setModal={setModal1}
+        header="Delete Sub Category"
+        subHeading="This sub-category contains transactions. What would you like to do with these transactions?"
+        firstButton="Delete transactions and sub-category"
+        secondButton="Cancel"
+        onConfirm={deleteTXSubCategoryHandler}
+      />
       <AddButton
         path="SubCategoryForm"
         ID={route.params.ID}

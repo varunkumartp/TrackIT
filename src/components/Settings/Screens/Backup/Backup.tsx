@@ -1,9 +1,9 @@
-import {View, Text, StyleSheet, TouchableHighlight} from 'react-native';
-import React, {useContext} from 'react';
-import {ThemeContext} from '../../../../contexts/ThemeContext';
-import {Theme} from '../../../../globals/Theme';
-import {Styles} from '../../../../globals/Styles.Styles';
-import {backupDB, restoreDB} from '../../../../database/backup';
+import React, { useContext } from 'react';
+import { Text, TouchableHighlight, View } from 'react-native';
+import { ThemeContext } from '../../../../contexts/ThemeContext';
+import { backupDB, restoreDB } from '../../../../database/backup';
+import { ConfigStyle } from '../../../../globals/Config.Styles';
+import { Theme } from '../../../../globals/Theme';
 
 const Backup = () => {
   const {theme} = useContext(ThemeContext);
@@ -37,16 +37,5 @@ const Backup = () => {
     </View>
   );
 };
-
-const ConfigStyle = StyleSheet.create({
-  touchableView: {
-    padding: 5,
-    borderBottomWidth: 1,
-  },
-  text: {
-    ...Styles.text,
-    fontSize: 15,
-  },
-});
 
 export default Backup;

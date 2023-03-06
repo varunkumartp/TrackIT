@@ -1,16 +1,15 @@
-import {TouchableOpacity, View} from 'react-native';
-import React, {useContext, useEffect, useState} from 'react';
-import AddButton from './AddButton';
-import {ThemeContext} from '../../contexts/ThemeContext';
-import {Theme} from '../../globals/Theme';
-import {readTransactions} from '../../database/transactions';
-import {FlatList} from 'react-native';
-import TransactionsGroup from './TransactionsGroup';
-import {CompositeScreenProps, useIsFocused} from '@react-navigation/native';
-import {DateFilter} from '../../globals/DateFilter.component';
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import { CompositeScreenProps, useIsFocused } from '@react-navigation/native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import React, { useContext, useEffect, useState } from 'react';
+import { FlatList, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import { ThemeContext } from '../../contexts/ThemeContext';
+import { readTransactions } from '../../database/transactions';
+import { DateFilter } from '../../globals/DateFilter.component';
+import { Theme } from '../../globals/Theme';
+import AddButton from './AddButton';
+import TransactionsGroup from './TransactionsGroup';
 
 type TransactionsProp = CompositeScreenProps<
   BottomTabScreenProps<BottomTabParamList, 'Transactions'>,

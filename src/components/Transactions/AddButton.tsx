@@ -23,9 +23,11 @@ const AddButton = () => {
     CREDIT_PARENT: '',
     TYPE: 'EXPENSE',
     SYMBOL: '',
+    NOTES: '',
     AMOUNT_LOC: 0,
   };
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   return (
     <Fragment>

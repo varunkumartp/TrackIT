@@ -1,10 +1,10 @@
-import {View, Pressable, StyleSheet} from 'react-native';
-import React, {Fragment, useContext} from 'react';
-import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import React, { Fragment, useContext } from 'react';
+import { Pressable, StyleSheet, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {Theme} from '../../../../globals/Theme';
-import {ThemeContext} from '../../../../contexts/ThemeContext';
+import { ThemeContext } from '../../../../contexts/ThemeContext';
+import { Theme } from '../../../../globals/Theme';
 
 interface AddButtonProps {
   ID: string;

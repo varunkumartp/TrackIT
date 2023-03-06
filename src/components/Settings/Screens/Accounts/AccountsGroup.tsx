@@ -1,17 +1,16 @@
-import {View, Text, FlatList, Modal} from 'react-native';
-import React, {Fragment, useContext, useState} from 'react';
-import {ThemeContext} from '../../../../contexts/ThemeContext';
-import {Theme} from '../../../../globals/Theme';
-import {TouchableOpacity} from 'react-native';
+import { CompositeNavigationProp, useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import React, { Fragment, useContext, useState } from 'react';
+import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import { ThemeContext } from '../../../../contexts/ThemeContext';
 import {
   deleteAccount,
-  deleteAccountTransactions,
+  deleteAccountTransactions
 } from '../../../../database/accounts';
-import {ModalStyles} from '../../../../globals/Modal.Styles';
-import {AccountsStyles} from '../../../../globals/Accounts.Styles';
+import { AccountsStyles } from '../../../../globals/Accounts.Styles';
+import ModalBox from '../../../../globals/ModalBox';
+import { Theme } from '../../../../globals/Theme';
 
 const AccountHeader = ({header}: {header: string}) => {
   const {theme} = useContext(ThemeContext);
@@ -90,142 +89,32 @@ const AccountItem = ({
         </View>
       )}
       {/********************************** Modal 2 ******************************************************/}
-      <Modal transparent={true} visible={modal2}>
-        <View style={ModalStyles.mainView}>
-          <View
-            style={{
-              ...ModalStyles.modalView,
-              borderColor: activeColor.text1,
-            }}>
-            <View
-              style={{
-                ...ModalStyles.modalHeader,
-                borderBottomColor: activeColor.text1,
-
-                backgroundColor: activeColor.theme,
-              }}>
-              <Text
-                style={{
-                  ...ModalStyles.modalHeaderText,
-                  color: activeColor.text1,
-                }}>
-                Delete Account
-              </Text>
-            </View>
-            <View
-              style={{
-                backgroundColor: activeColor.background,
-                ...ModalStyles.modalContent,
-              }}>
-              <Text
-                style={{
-                  ...ModalStyles.modalContentText,
-                  color: activeColor.text1,
-                }}>
-                Do you want to delete this account?
-              </Text>
-              <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-                <TouchableOpacity
-                  onPress={() => {
-                    setModal2(false);
-                    deleteAccount(data.ID, setAccount);
-                  }}>
-                  <Text
-                    style={{
-                      ...ModalStyles.touchableText,
-                      color: activeColor.text1,
-                    }}>
-                    Yes
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => setModal2(false)}>
-                  <Text
-                    style={{
-                      ...ModalStyles.touchableText,
-                      color: activeColor.text1,
-                    }}>
-                    No
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-        </View>
-      </Modal>
+      <ModalBox
+        modal={modal2}
+        setModal={setModal2}
+        header="Delete Account"
+        subHeading="Do you want to delete this account?"
+        firstButton="Yes"
+        secondButton="No"
+        onConfirm={() => {
+          setModal2(false);
+          deleteAccount(data.ID, setAccount);
+        }}
+      />
 
       {/********************************** Modal 1 ******************************************************/}
-      <Modal transparent={true} visible={modal1}>
-        <View style={ModalStyles.mainView}>
-          <View
-            style={{
-              ...ModalStyles.modalView,
-              borderColor: activeColor.text1,
-            }}>
-            <View
-              style={{
-                ...ModalStyles.modalHeader,
-                backgroundColor: activeColor.theme,
-                borderBottomColor: activeColor.text1,
-              }}>
-              <Text
-                style={{
-                  ...ModalStyles.modalHeaderText,
-                  color: activeColor.text1,
-                }}>
-                Delete Account
-              </Text>
-            </View>
-            <View
-              style={{
-                backgroundColor: activeColor.background,
-                ...ModalStyles.modalContent,
-              }}>
-              <Text
-                style={{
-                  ...ModalStyles.modalContentText,
-                  color: activeColor.text1,
-                }}>
-                This account contains transactions. What would you like to do
-                with these transactions?
-              </Text>
-              <View>
-                {/* Feature for future release */}
-                {/* <TouchableOpacity onPress={() => setModal1(false)}>
-                  <Text
-                    style={{
-                      ...ModalStyles.touchableText,
-                      color: activeColor.secondary,
-                    }}>
-                    Move transactions to a different Account
-                  </Text>
-                </TouchableOpacity> */}
-                <TouchableOpacity
-                  onPress={() => {
-                    deleteAccountTransactions(data.ID, setAccount);
-                    setModal1(false);
-                  }}>
-                  <Text
-                    style={{
-                      ...ModalStyles.touchableText,
-                      color: activeColor.text1,
-                    }}>
-                    Delete Transactions and Account
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => setModal1(false)}>
-                  <Text
-                    style={{
-                      ...ModalStyles.touchableText,
-                      color: activeColor.text1,
-                    }}>
-                    Cancel
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-        </View>
-      </Modal>
+      <ModalBox
+        modal={modal1}
+        setModal={setModal1}
+        header="Delete Account"
+        subHeading="This account contains transactions. What would you like to do with these transactions?"
+        firstButton="Delete Transactions and Account"
+        secondButton="Cancel"
+        onConfirm={() => {
+          deleteAccountTransactions(data.ID, setAccount);
+          setModal1(false);
+        }}
+      />
     </View>
   );
 };

@@ -1,13 +1,12 @@
-import {View, FlatList, TouchableOpacity} from 'react-native';
-import React, {useContext, useEffect, useState} from 'react';
-import {ThemeContext} from '../../contexts/ThemeContext';
-import {Theme} from '../../globals/Theme';
-import {Styles} from '../../globals/Styles.Styles';
-import {getAccountsTab} from '../../database/accounts';
-import {AccountItem} from './AccountsItem';
-import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {useIsFocused} from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import React, { useContext, useEffect, useState } from 'react';
+import { FlatList, TouchableOpacity, View } from 'react-native';
+import { ThemeContext } from '../../contexts/ThemeContext';
+import { getAccountsTab } from '../../database/accounts';
+import { Styles } from '../../globals/Styles.Styles';
+import { Theme } from '../../globals/Theme';
+import { AccountItem } from './AccountsItem';
 
 const Accounts = () => {
   const focused = useIsFocused();

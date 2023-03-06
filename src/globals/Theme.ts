@@ -1,24 +1,26 @@
+const redBlue = {
+  red: '#F00',
+  blue: '#007aFc',
+};
+
 const DARK = {
   text1: '#fff',
-  text2: '#bbb',
+  text2: '#000',
   background: '#000',
-  red: '#F55',
-  blue: '#007acc',
+  ...redBlue,
 };
 
 const LIGHT = {
   text1: '#000',
   text2: '#fff',
   background: '#FFF',
-  red: '#F00',
-  blue: '#007acc',
+  ...redBlue,
 };
 
 export const Theme: Theme = {
-  // Dark Themes
   Dark: {
     ...DARK,
-    theme: '#222',
+    theme: '#555',
   },
   'Dark Red': {
     ...DARK,
@@ -48,11 +50,9 @@ export const Theme: Theme = {
     ...DARK,
     theme: '#997bb0',
   },
-
-  // Light Themes
   Light: {
     ...LIGHT,
-    theme: '#ddd',
+    theme: '#AAA',
   },
   Red: {
     ...LIGHT,

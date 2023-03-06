@@ -1,23 +1,17 @@
+import { CompositeScreenProps } from '@react-navigation/native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import React, { createRef, useContext, useEffect, useState } from 'react';
 import {
-  StyleSheet,
   FlatList,
-  Modal,
-  Text,
-  TextInput,
-  View,
-  Pressable,
-  TouchableOpacity,
+  Modal, Pressable, StyleSheet, Text,
+  TextInput, TouchableOpacity, View
 } from 'react-native';
-import React, {useContext, useEffect, useState} from 'react';
-import {Styles} from '../../../../globals/Styles.Styles';
-import {FormStyles} from '../../../../globals/Form.Styles';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import {createRef} from 'react';
-import {CompositeScreenProps} from '@react-navigation/native';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {Theme} from '../../../../globals/Theme';
-import {ThemeContext} from '../../../../contexts/ThemeContext';
-import {editAccount, getAccountsGroup} from '../../../../database/accounts';
+import { ThemeContext } from '../../../../contexts/ThemeContext';
+import { editAccount, getAccountsGroup } from '../../../../database/accounts';
+import { FormStyles } from '../../../../globals/Form.Styles';
+import { Styles } from '../../../../globals/Styles.Styles';
+import { Theme } from '../../../../globals/Theme';
 
 type AccountEditFormProps = CompositeScreenProps<
   NativeStackScreenProps<RootStackParamList, 'AccountEditForm'>,

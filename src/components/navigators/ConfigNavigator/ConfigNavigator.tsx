@@ -1,13 +1,13 @@
-import React, {useContext} from 'react';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Configuration from '../../Settings/Screens/Configuration/Configuration';
-import {ThemeContext} from '../../../contexts/ThemeContext';
-import {Theme} from '../../../globals/Theme';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React, { useContext } from 'react';
+import { ThemeContext } from '../../../contexts/ThemeContext';
+import { Theme } from '../../../globals/Theme';
 import Categories from '../../Settings/Screens/Configuration/Categories';
-import SubCategories from '../../Settings/Screens/Configuration/SubCategories';
 import CategoryForm from '../../Settings/Screens/Configuration/CategoryForm';
-import SubCategoryForm from '../../Settings/Screens/Configuration/SubCategoryForm';
+import Configuration from '../../Settings/Screens/Configuration/Configuration';
 import DefaultCurrency from '../../Settings/Screens/Configuration/DefaultCurrency';
+import SubCategories from '../../Settings/Screens/Configuration/SubCategories';
+import SubCategoryForm from '../../Settings/Screens/Configuration/SubCategoryForm';
 
 const ConfigStack = createNativeStackNavigator<ConfigStackParamList>();
 

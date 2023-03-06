@@ -1,23 +1,22 @@
-import {useContext} from 'react';
+import { useContext } from 'react';
 
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import {ThemeContext} from '../../../contexts/ThemeContext';
+import { ThemeContext } from '../../../contexts/ThemeContext';
 
-import {Theme} from '../../../globals/Theme';
-import BottomTab from '../BottomTab/BottomTab';
-import Form from '../../Transactions/Form/Form';
-import FilterTransactionsByAccount from '../../Transactions/FilterTransactionsByAccount';
+import { LockContext } from '../../../contexts/LockContext';
+import { Theme } from '../../../globals/Theme';
 import AccountForm from '../../Accounts/AccountForm';
-import EditForm from '../../Transactions/Form/EditForm';
+import AppLockScreen from '../../AppLockScreen/AppLockScreen';
 import AccountEditForm from '../../Settings/Screens/Accounts/AccountEditForm';
 import IncExpStats from '../../Stats/IncExpStats';
-import FilterScreen from '../../Transactions/FilterScreen';
 import FilteredTransactions from '../../Transactions/FilteredTransactions';
-import AppLockScreen from '../../AppLockScreen/AppLockScreen';
-import {LockContext} from '../../../contexts/LockContext';
-import {PswdContext} from '../../../contexts/PswdContext';
+import FilterScreen from '../../Transactions/FilterScreen';
+import FilterTransactionsByAccount from '../../Transactions/FilterTransactionsByAccount';
+import EditForm from '../../Transactions/Form/EditForm';
+import Form from '../../Transactions/Form/Form';
+import BottomTab from '../BottomTab/BottomTab';
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function StackNavigator() {
@@ -85,6 +84,9 @@ function StackNavigator() {
             <Stack.Screen
               name="FilteredTransactions"
               component={FilteredTransactions}
+              options={{
+                title:'Filtered Transactions'
+              }}
             />
             <Stack.Screen
               name="IncExpStats"

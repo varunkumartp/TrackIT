@@ -1,15 +1,15 @@
-import React, {useEffect, useState} from 'react';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {ThemeContext} from './contexts/ThemeContext';
-import {CurrencyContext} from './contexts/CurrencyContext';
-import {PswdContext} from './contexts/PswdContext';
-import {LockContext} from './contexts/LockContext';
-import StackNavigator from './components/navigators/StackNavigator/StackNavigator';
-import {editTransactionsCurrency} from './database/transactions';
+import React, { useEffect, useState } from 'react';
+import { PermissionsAndroid } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import SplashScreen from 'react-native-splash-screen';
-import {setDataSQL} from './database/preferences';
-import {db} from './database/database';
-import {PermissionsAndroid} from 'react-native';
+import StackNavigator from './components/navigators/StackNavigator/StackNavigator';
+import { CurrencyContext } from './contexts/CurrencyContext';
+import { LockContext } from './contexts/LockContext';
+import { PswdContext } from './contexts/PswdContext';
+import { ThemeContext } from './contexts/ThemeContext';
+import { db } from './database/database';
+import { setDataSQL } from './database/preferences';
+import { editTransactionsCurrency } from './database/transactions';
 
 function MainApp(): JSX.Element {
   const [theme, setTheme] = useState({mode: 'Dark'});
@@ -59,7 +59,6 @@ function MainApp(): JSX.Element {
             updateFunction(value);
           }
         },
-        err => console.log(err),
       ),
     );
   };

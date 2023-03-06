@@ -1,23 +1,17 @@
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import React, { createRef, useContext, useEffect, useState } from 'react';
 import {
-  StyleSheet,
   FlatList,
-  Modal,
-  Text,
-  TextInput,
-  View,
-  Pressable,
-  TouchableOpacity,
+  Modal, Pressable, StyleSheet, Text,
+  TextInput, TouchableOpacity, View
 } from 'react-native';
-import React, {useContext, useEffect, useState} from 'react';
-import {Styles} from '../../globals/Styles.Styles';
-import {FormStyles} from '../../globals/Form.Styles';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import {createRef} from 'react';
-import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {Theme} from '../../globals/Theme';
-import {ThemeContext} from '../../contexts/ThemeContext';
-import {createAccounts, getAccountsGroup} from '../../database/accounts';
+import { ThemeContext } from '../../contexts/ThemeContext';
+import { createAccounts, getAccountsGroup } from '../../database/accounts';
+import { FormStyles } from '../../globals/Form.Styles';
+import { Styles } from '../../globals/Styles.Styles';
+import { Theme } from '../../globals/Theme';
 
 const AccountForm = () => {
   const {theme} = useContext(ThemeContext);
@@ -27,13 +21,7 @@ const AccountForm = () => {
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const [modal, setModal] = useState(false);
-  const [account, setAccount] = useState<{
-    ID: string;
-    GROUP: string;
-    NAME: string;
-    NUMBER: number;
-    SIGN: number;
-  }>({
+  const [account, setAccount] = useState({
     ID: '',
     GROUP: '',
     NAME: '',

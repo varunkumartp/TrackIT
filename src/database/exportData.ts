@@ -3,7 +3,7 @@ import RNHTMLtoPDF from 'react-native-html-to-pdf';
 import {db} from './database';
 import RNFS from 'react-native-fs';
 import XLSX from 'xlsx';
-import {ToastAndroid} from 'react-native';
+import {PermissionsAndroid, ToastAndroid} from 'react-native';
 import {DateFilterString} from './dateFilter';
 
 const showToastWithGravity = (message: string) => {
@@ -61,27 +61,34 @@ export const exportExcel = async (date: DateFilter, header: string) => {
           header: fields,
         });
         XLSX.utils.book_append_sheet(wb, ws, 'Transactions');
-
+        console.log(
+          RNFS.ExternalDirectoryPath + `/Transactions ${header}.xlsx`,
+        );
         RNFS.writeFile(
-          RNFS.DownloadDirectoryPath + `/Transactions ${header}.xlsx`,
+          RNFS.ExternalDirectoryPath + `/Transactions ${header}.xlsx`,
           XLSX.write(wb, {type: 'binary', bookType: 'xlsx'}),
           'ascii',
         )
           .then(r => {
             showToastWithGravity(
-              `Transactions ${header} downloaded to Downloads folder`,
+              `Transactions ${header} downloaded to Documents folder`,
             );
           })
           .catch(e => {
             console.log('Error', e);
+            showToastWithGravity(`Download failed`);
           });
       },
-      err => console.log(err),
     ),
   );
 };
-
+const permision = () => {
+  PermissionsAndroid.request(
+    PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+  ).then(res => console.log(res));
+};
 export const incomeStatement = async (date: DateFilter, header: string) => {
+  permision();
   const dateFilter = DateFilterString(date);
   await db.transaction(tx =>
     tx.executeSql(
@@ -138,6 +145,9 @@ export const incomeStatement = async (date: DateFilter, header: string) => {
           directory: 'Download',
           base64: true,
         });
+        console.log(
+          RNFS.DownloadDirectoryPath + `/Income Statement ${header}.pdf`,
+        );
         RNFS.writeFile(
           RNFS.DownloadDirectoryPath + `/Income Statement ${header}.pdf`,
           file.base64 || '',
@@ -145,14 +155,14 @@ export const incomeStatement = async (date: DateFilter, header: string) => {
         )
           .then(r => {
             showToastWithGravity(
-              `Income Statement ${header} downloaded to Downloads folder`,
+              `Income Statement ${header} downloaded to Documents folder`,
             );
           })
           .catch(e => {
             console.log('Error', e);
+            showToastWithGravity(`Download failed`);
           });
       },
-      err => console.log(err),
     ),
   );
 };

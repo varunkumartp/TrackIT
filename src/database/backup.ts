@@ -1,7 +1,7 @@
-import RNFS from 'react-native-fs';
+import { ToastAndroid } from 'react-native';
 import DocPicker from 'react-native-document-picker';
+import RNFS from 'react-native-fs';
 import RNRestart from 'react-native-restart';
-import {ToastAndroid} from 'react-native';
 
 const showToastWithGravity = (message: string) => {
   ToastAndroid.showWithGravity(message, ToastAndroid.LONG, ToastAndroid.CENTER);
@@ -13,7 +13,7 @@ export const restoreDB = async () => {
     const filePath = rsPicker.uri;
     await RNFS.copyFile(
       filePath,
-      '/data/data/com.trackit/databases/TrackITv3.db',
+      '/data/data/com.trackit/databases/TrackITv6.db',
     );
     RNRestart.restart();
     showToastWithGravity('Data restored successfully');
@@ -40,7 +40,7 @@ export const backupDB = async () => {
     const destPath =
       RNFS.DownloadDirectoryPath + '/TrackIT_Backup_' + formatDate() + '.trit';
     await RNFS.copyFile(
-      '/data/data/com.trackit/databases/TrackITv3.db',
+      '/data/data/com.trackit/databases/TrackITv6.db',
       destPath,
     );
     showToastWithGravity('Data backup file downloaded to Downloads folder');

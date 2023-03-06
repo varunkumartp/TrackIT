@@ -1,19 +1,19 @@
-import {View, Text, TextInput, Pressable, Keyboard, Alert} from 'react-native';
-import React, {createRef, useContext, useState} from 'react';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import React, { createRef, useContext, useState } from 'react';
+import { Alert, Keyboard, Pressable, Text, TextInput, View } from 'react-native';
 import DatePicker from 'react-native-date-picker';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import ButtonGroup from './ButtonGroup';
-import {ThemeContext} from '../../../contexts/ThemeContext';
-import {Theme} from '../../../globals/Theme';
-import {FormStyles} from '../../../globals/Form.Styles';
-import AccountsList from './AccountsList';
+import { CurrencyContext } from '../../../contexts/CurrencyContext';
+import { ThemeContext } from '../../../contexts/ThemeContext';
 import {
   deleteTransaction,
-  editTransaction,
+  editTransaction
 } from '../../../database/transactions';
 import Numpad from '../../../globals/Calculator/Numpad.component';
-import {CurrencyContext} from '../../../contexts/CurrencyContext';
+import { FormStyles } from '../../../globals/Form.Styles';
+import { Theme } from '../../../globals/Theme';
+import AccountsList from './AccountsList';
+import ButtonGroup from './ButtonGroup';
 
 type EditFormProps = NativeStackScreenProps<RootStackParamList, 'EditForm'>;
 

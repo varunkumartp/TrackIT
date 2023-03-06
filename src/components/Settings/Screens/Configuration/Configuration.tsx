@@ -1,9 +1,9 @@
-import {View, Text, TouchableHighlight, StyleSheet} from 'react-native';
-import React, {useContext} from 'react';
-import {ThemeContext} from '../../../../contexts/ThemeContext';
-import {Theme} from '../../../../globals/Theme';
-import {Styles} from '../../../../globals/Styles.Styles';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import React, { useContext } from 'react';
+import { Text, TouchableHighlight, View } from 'react-native';
+import { ThemeContext } from '../../../../contexts/ThemeContext';
+import { ConfigStyle } from '../../../../globals/Config.Styles';
+import { Theme } from '../../../../globals/Theme';
 
 type ConfigurationProp = NativeStackScreenProps<
   ConfigStackParamList,
@@ -44,6 +44,28 @@ const Configuration = ({navigation}: ConfigurationProp) => {
           borderBottomColor: activeColor.text1,
         }}
         underlayColor={activeColor.theme}
+        onPress={() => navigation.navigate('Categories', {type: 'Tax'})}>
+        <Text style={{...ConfigStyle.text, color: activeColor.text1}}>
+          Tax Categories
+        </Text>
+      </TouchableHighlight>
+      <TouchableHighlight
+        style={{
+          ...ConfigStyle.touchableView,
+          borderBottomColor: activeColor.text1,
+        }}
+        underlayColor={activeColor.theme}
+        onPress={() => navigation.navigate('Categories', {type: 'Other'})}>
+        <Text style={{...ConfigStyle.text, color: activeColor.text1}}>
+          Other Expense Categories
+        </Text>
+      </TouchableHighlight>
+      <TouchableHighlight
+        style={{
+          ...ConfigStyle.touchableView,
+          borderBottomColor: activeColor.text1,
+        }}
+        underlayColor={activeColor.theme}
         onPress={() => navigation.navigate('DefaultCurrency')}>
         <Text style={{...ConfigStyle.text, color: activeColor.text1}}>
           Default Currency
@@ -53,15 +75,5 @@ const Configuration = ({navigation}: ConfigurationProp) => {
   );
 };
 
-const ConfigStyle = StyleSheet.create({
-  touchableView: {
-    padding: 5,
-    borderBottomWidth: 1,
-  },
-  text: {
-    ...Styles.text,
-    fontSize: 15,
-  },
-});
 
 export default Configuration;

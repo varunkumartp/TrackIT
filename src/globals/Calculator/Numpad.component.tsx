@@ -1,8 +1,11 @@
-import {View, Text, StyleSheet, Pressable, TouchableHighlight} from 'react-native';
-import React, {useContext, useState} from 'react';
-import {ThemeContext} from '../../contexts/ThemeContext';
-import {Theme} from '../Theme';
+import React, { useContext, useState } from 'react';
+import {
+  Pressable, Text, TouchableHighlight, View
+} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { ThemeContext } from '../../contexts/ThemeContext';
+import { ListStyles } from '../List.Styles';
+import { Theme } from '../Theme';
 
 interface NumpadProps {
   setModal: () => void;
@@ -32,17 +35,32 @@ const Buttons = ({value, symbol, buttonHandler}: Buttons) => {
   return (
     <TouchableHighlight
       underlayColor={activeColor.theme}
-      style={{flex: 1, justifyContent: 'center', borderWidth: 0.5, borderColor: activeColor.theme}}
+      style={{
+        flex: 1,
+        justifyContent: 'center',
+        borderWidth: 0.5,
+        borderColor: activeColor.theme,
+      }}
       onPress={() => buttonHandler()}>
       {symbol === undefined ? (
         <Text
-          style={{textAlign: 'center', fontWeight: 'bold', fontSize: 20, color: activeColor.text1}}>
+          style={{
+            textAlign: 'center',
+            fontWeight: 'bold',
+            fontSize: 20,
+            color: activeColor.text1,
+          }}>
           {value}
         </Text>
       ) : (
         <Icon
           name={symbol}
-          style={{textAlign: 'center', fontWeight: 'bold', fontSize: 20, color: activeColor.text1}}
+          style={{
+            textAlign: 'center',
+            fontWeight: 'bold',
+            fontSize: 20,
+            color: activeColor.text1,
+          }}
         />
       )}
     </TouchableHighlight>
@@ -69,7 +87,10 @@ const Numpad = ({setModal, setNumber}: NumpadProps) => {
         if (state.currentValue.includes('.') && value == '.') {
           setState(state);
         } else {
-          setState(prev => ({...prev, currentValue: `${prev.currentValue}${value}`}));
+          setState(prev => ({
+            ...prev,
+            currentValue: `${prev.currentValue}${value}`,
+          }));
           setNumber(prev => prev + value);
         }
         break;
@@ -92,7 +113,6 @@ const Numpad = ({setModal, setNumber}: NumpadProps) => {
       case 'equal':
         setState(initialState);
         setNumber(prev => {
-          console.log(prev);
           if (prev === '') {
             return '';
           } else {
@@ -105,7 +125,6 @@ const Numpad = ({setModal, setNumber}: NumpadProps) => {
       case 'done':
         setState(initialState);
         setNumber(prev => {
-          console.log(prev);
           if (prev === '') {
             return '';
           } else {
@@ -129,10 +148,16 @@ const Numpad = ({setModal, setNumber}: NumpadProps) => {
         borderColor: activeColor.theme,
       }}>
       <View style={{...ListStyles.header, backgroundColor: activeColor.theme}}>
-        <Text style={{...ListStyles.headerText, color: activeColor.text1}}>Amount</Text>
-        <View style={{...ListStyles.header, backgroundColor: activeColor.theme}}>
+        <Text style={{...ListStyles.headerText, color: activeColor.text1}}>
+          Amount
+        </Text>
+        <View
+          style={{...ListStyles.header, backgroundColor: activeColor.theme}}>
           <Pressable onPress={() => console.log('Editing')}>
-            <Icon name="globe" style={{...ListStyles.headerText, color: activeColor.text1}} />
+            <Icon
+              name="globe"
+              style={{...ListStyles.headerText, color: activeColor.text1}}
+            />
           </Pressable>
           <Pressable onPress={() => setModal()}>
             <Icon
@@ -146,60 +171,66 @@ const Numpad = ({setModal, setNumber}: NumpadProps) => {
         {numbers.map(el => (
           <View
             key={numbers.indexOf(el)}
-            style={{flex: 1, flexDirection: 'column', justifyContent: 'space-between'}}>
+            style={{
+              flex: 1,
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+            }}>
             {el.map(num => (
-              <Buttons key={num} value={num} buttonHandler={() => handleType('number', num)} />
+              <Buttons
+                key={num}
+                value={num}
+                buttonHandler={() => handleType('number', num)}
+              />
             ))}
           </View>
         ))}
-        <View style={{flex: 1, flexDirection: 'column', justifyContent: 'space-between'}}>
-          <Buttons symbol={'plus'} buttonHandler={() => handleType('operator', '+')} />
-          <Buttons symbol={'minus'} buttonHandler={() => handleType('operator', '-')} />
-          <Buttons value={'X'} buttonHandler={() => handleType('operator', '*')} />
-          <Buttons symbol={'divide'} buttonHandler={() => handleType('operator', '/')} />
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+          }}>
+          <Buttons
+            symbol={'plus'}
+            buttonHandler={() => handleType('operator', '+')}
+          />
+          <Buttons
+            symbol={'minus'}
+            buttonHandler={() => handleType('operator', '-')}
+          />
+          <Buttons
+            value={'X'}
+            buttonHandler={() => handleType('operator', '*')}
+          />
+          <Buttons
+            symbol={'divide'}
+            buttonHandler={() => handleType('operator', '/')}
+          />
         </View>
-        <View style={{flex: 1, flexDirection: 'column', justifyContent: 'space-between'}}>
-          <Buttons symbol={'backspace'} buttonHandler={() => handleType('backspace', '')} />
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+          }}>
+          <Buttons
+            symbol={'backspace'}
+            buttonHandler={() => handleType('backspace', '')}
+          />
           <Buttons value={'C'} buttonHandler={() => handleType('clear', '')} />
-          <Buttons symbol={'equals'} buttonHandler={() => handleType('equal', '=')} />
-          <Buttons value={'Done'} buttonHandler={() => handleType('done', '')} />
+          <Buttons
+            symbol={'equals'}
+            buttonHandler={() => handleType('equal', '=')}
+          />
+          <Buttons
+            value={'Done'}
+            buttonHandler={() => handleType('done', '')}
+          />
         </View>
       </View>
     </View>
   );
 };
-
-const ListStyles = StyleSheet.create({
-  container: {
-    flex: 1,
-    borderWidth: 2,
-    zIndex: 5,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  headerText: {
-    fontSize: 15,
-    margin: 10,
-    fontWeight: 'bold',
-  },
-  listContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    borderTopWidth: 2,
-  },
-  text: {
-    fontSize: 11,
-    marginVertical: 10,
-    marginLeft: 10,
-    fontWeight: 'bold',
-  },
-  options: {
-    zIndex: 2,
-    borderBottomColor: '#777',
-    borderBottomWidth: 1,
-  },
-});
 
 export default Numpad;

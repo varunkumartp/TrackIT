@@ -63,6 +63,7 @@ export const expenseHeaderSum = async (
               color: 'white',
             },
           ]);
+          setExpenseSum(0);
         } else {
           for (let i = 0; i < results.rows.length; i++) {
             arr.push({
@@ -72,10 +73,9 @@ export const expenseHeaderSum = async (
             sum = sum + results.rows.item(i).AMOUNT;
           }
           setAccountSum(arr);
-          setExpenseSum(sum);
         }
+        setExpenseSum(sum);
       },
-      err => console.log(err),
     ),
   );
 };
@@ -131,11 +131,11 @@ export const incomeHeaderSum = async (
             });
             sum = sum + results.rows.item(i).AMOUNT;
           }
-          setIncomeSum(sum);
+
           setAccountSum(arr);
         }
+        setIncomeSum(sum);
       },
-      err => console.log(err),
     ),
   );
 };
@@ -179,36 +179,31 @@ export const subHeaderSum = async (
             ORDER BY AMOUNT DESC`;
   const query = mainQuery + (type === 'EXPENSE' ? expenseQuery : incomeQuery);
   await db.transaction(tx =>
-    tx.executeSql(
-      query,
-      [],
-      (tx, results) => {
-        let arr = [] as AccountSum[];
-        let sum: number = 0;
-        if (results.rows.length === 0) {
-          setAccountSum([
-            {
-              ACCOUNT_ID: '',
-              ACCOUNT_NAME: '',
-              AMOUNT: 0,
-              SYMBOL: '₹',
-              color: 'white',
-            },
-          ]);
-        } else {
-          for (let i = 0; i < results.rows.length; i++) {
-            arr.push({
-              ...results.rows.item(i),
-              color: colors[i % colors.length],
-            });
-            sum = sum + results.rows.item(i).AMOUNT;
-          }
-          setAmountSum(sum);
-          setAccountSum(arr);
+    tx.executeSql(query, [], (tx, results) => {
+      let arr = [] as AccountSum[];
+      let sum: number = 0;
+      if (results.rows.length === 0) {
+        setAccountSum([
+          {
+            ACCOUNT_ID: '',
+            ACCOUNT_NAME: '',
+            AMOUNT: 0,
+            SYMBOL: '₹',
+            color: 'white',
+          },
+        ]);
+      } else {
+        for (let i = 0; i < results.rows.length; i++) {
+          arr.push({
+            ...results.rows.item(i),
+            color: colors[i % colors.length],
+          });
+          sum = sum + results.rows.item(i).AMOUNT;
         }
-      },
-      err => console.log(err),
-    ),
+        setAccountSum(arr);
+      }
+      setAmountSum(sum);
+    }),
   );
 };
 
@@ -216,7 +211,6 @@ export const getIncExpInvData = async (
   date: DateFilter,
   setInc: React.Dispatch<React.SetStateAction<IncExp>>,
   setExp: React.Dispatch<React.SetStateAction<IncExp>>,
-  setInv: React.Dispatch<React.SetStateAction<IncExp>>,
 ) => {
   const now = getDate(new Date(date.year, date.month, 1)); // Take first day of next month
   const lastDate = getDate(new Date(date.year, date.month - 5, 1)); // First day of now - 6 months
@@ -224,17 +218,6 @@ export const getIncExpInvData = async (
     tx.executeSql(
       `SELECT MMYY, TYPE, AMOUNT FROM
         (SELECT STRFTIME('%m',DATE) || '-' ||STRFTIME('%Y',DATE) AS MMYY, 
-        DATE,
-        TYPE,
-        SUM(AMOUNT) AS AMOUNT
-        FROM TRANSACTIONS_VIEW
-        WHERE TYPE = 'MAIN' AND
-        DATE BETWEEN '${lastDate}' AND
-        '${now}' AND
-        DEBIT_PARENT = '250377b2-4dda-bf29-e24e-74a4c2100bc8' 
-        GROUP BY MMYY,TYPE
-        UNION ALL
-        SELECT STRFTIME('%m',DATE) || '-' ||STRFTIME('%Y',DATE) AS MMYY, 
         DATE,
         TYPE,
         SUM(AMOUNT) AS AMOUNT
@@ -255,17 +238,10 @@ export const getIncExpInvData = async (
           labels: [],
           datasets: [{data: []}],
         };
-        let INV: IncExp = {
-          labels: [],
-          datasets: [{data: []}],
-        };
         for (let i = 0; i < results.rows.length; i++) {
           if (results.rows.item(i).TYPE === 'INCOME') {
             INC.labels.push(results.rows.item(i).MMYY);
             INC.datasets[0].data.push(results.rows.item(i).AMOUNT);
-          } else if (results.rows.item(i).TYPE === 'MAIN') {
-            INV.labels.push(results.rows.item(i).MMYY);
-            INV.datasets[0].data.push(results.rows.item(i).AMOUNT);
           } else {
             EXP.labels.push(results.rows.item(i).MMYY);
             EXP.datasets[0].data.push(results.rows.item(i).AMOUNT);
@@ -273,9 +249,7 @@ export const getIncExpInvData = async (
         }
         setExp(EXP);
         setInc(INC);
-        setInv(INV);
       },
-      err => console.log(err),
     ),
   );
 };

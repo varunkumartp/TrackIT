@@ -1,5 +1,6 @@
 import uuid from 'react-native-uuid';
-import {db} from './database';
+import { db } from './database';
+import { helper } from './helper';
 
 /************************************************ Read Accounts ************************************************/
 
@@ -12,21 +13,25 @@ export const getAllAccounts = async (
        UNION ALL
        SELECT *, 'EXPENSE' AS TYPE FROM ACCOUNTS_EXPENSE
        UNION ALL
+       SELECT *, 'EXPENSE' AS TYPE FROM ACCOUNTS_TAX
+       UNION ALL
+       SELECT *, 'EXPENSE' AS TYPE FROM ACCOUNTS_OTHER       
+       UNION ALL
        SELECT *, 'INCOME' AS TYPE FROM ACCOUNTS_INCOME
        UNION ALL
        SELECT *, 'MAIN' AS TYPE FROM SUB_ACCOUNTS_MAIN
        UNION ALL
        SELECT *, 'EXPENSE' AS TYPE FROM SUB_ACCOUNTS_EXPENSE
        UNION ALL
+       SELECT *, 'EXPENSE' AS TYPE FROM SUB_ACCOUNTS_TAX
+       UNION ALL
+       SELECT *, 'EXPENSE' AS TYPE FROM SUB_ACCOUNTS_OTHER
+       UNION ALL
        SELECT *, 'INCOME' AS TYPE FROM SUB_ACCOUNTS_INCOME
        ORDER BY NUMBER`,
       [],
       (tx, results) => {
-        let arr: AccountsFilter[] = [];
-        for (let i = 0; i < results.rows.length; i++) {
-          arr.push({...results.rows.item(i), isChecked: false});
-        }
-        setAccounts(arr);
+        helper(results, setAccounts);
       },
     ),
   );
@@ -38,20 +43,19 @@ export const getAccounts = async (
 ) => {
   await db.transaction(tx =>
     tx.executeSql(
-      `SELECT * FROM ACCOUNTS_${type} ${
+      `SELECT * FROM ACCOUNTS_${type} 
+      ${
+        type === 'EXPENSE'
+          ? 'union all select * from ACCOUNTS_TAX union all select * from ACCOUNTS_OTHER'
+          : ''
+      }
+      ${
         type === 'MAIN'
           ? 'WHERE ID IN (SELECT PARENT_ID FROM SUB_ACCOUNTS_MAIN) ORDER BY NUMBER' // Doesnot fetch Accounts which do not have sub accounts
           : ''
       }`,
       [],
-      (tx, results) => {
-        let arr: Accounts[] = [];
-        for (let i = 0; i < results.rows.length; i++) {
-          arr.push(results.rows.item(i));
-        }
-        setAccounts(arr);
-      },
-      err => console.log(err),
+      (tx, results) => helper(results, setAccounts),
     ),
   );
 };
@@ -63,20 +67,24 @@ export const getSubAccounts = async (
 ) => {
   await db.transaction(tx =>
     tx.executeSql(
-      `SELECT * FROM SUB_ACCOUNTS_${type} WHERE PARENT_ID = '${item.ID}'`,
+      `select * from 
+      (
+       SELECT * 
+       FROM SUB_ACCOUNTS_${type} 
+       ${
+         type === 'EXPENSE'
+           ? 'UNION ALL SELECT * FROM SUB_ACCOUNTS_TAX UNION ALL SELECT * FROM SUB_ACCOUNTS_OTHER '
+           : ''
+       }
+       )WHERE PARENT_ID = '${item.ID}'`,
       [],
       (tx, results) => {
-        let arr: Accounts[] = [];
         if (results.rows.length === 0) {
-          arr.push(item);
+          setSubAccounts([item]);
         } else {
-          for (let i = 0; i < results.rows.length; i++) {
-            arr.push(results.rows.item(i));
-          }
+          helper(results, setSubAccounts);
         }
-        setSubAccounts(arr);
       },
-      err => console.log(err),
     ),
   );
 };
@@ -91,17 +99,11 @@ export const getAccountsTab = async (
         SELECT * FROM BALANCE_VIEW where ID IN (SELECT PARENT_ID FROM SUB_ACCOUNTS_MAIN) 
         ORDER BY NUMBER`,
       [],
-      (tx, results) => {
-        let arr = [] as AccountsGroup[];
-        for (let i = 0; i < results.rows.length; i++) {
-          arr.push(results.rows.item(i));
-        }
-        setAccounts(arr);
-      },
-      err => console.log(err),
+      (tx, results) => helper(results, setAccounts),
     ),
   );
 };
+
 export const getAccountsSettings = async (
   setAccounts: React.Dispatch<React.SetStateAction<AccountsTab[]>>,
 ) => {
@@ -129,7 +131,6 @@ export const getAccountsSettings = async (
         }
         setAccounts(arr);
       },
-      err => console.log(err),
     ),
   );
 };
@@ -137,16 +138,10 @@ export const getAccountsSettings = async (
 export const getAccountsGroup = async (
   setAccountsGroup: React.Dispatch<React.SetStateAction<Accounts[]>>,
 ) => {
-  db.transaction(
-    tx =>
-      tx.executeSql(`SELECT * FROM ACCOUNTS_MAIN`, [], (tx, results) => {
-        let arr: Accounts[] = [];
-        for (let i = 0; i < results.rows.length; i++) {
-          arr.push(results.rows.item(i));
-        }
-        setAccountsGroup(arr);
-      }),
-    err => console.log(err),
+  db.transaction(tx =>
+    tx.executeSql(`SELECT * FROM ACCOUNTS_MAIN`, [], (tx, results) =>
+      helper(results, setAccountsGroup),
+    ),
   );
 };
 
@@ -171,9 +166,6 @@ export const createAccounts = async (account: {
           ${account.NUMBER + 999})+1,
       ${account.SIGN},
       '${account.ID}')`,
-      [],
-      () => {},
-      err => console.log(err),
     ),
   );
 };
@@ -185,12 +177,7 @@ export const deleteAccount = async (
   setAccounts: React.Dispatch<React.SetStateAction<AccountsTab[]>>,
 ) => {
   await db.transaction(tx =>
-    tx.executeSql(
-      `DELETE FROM ACCOUNTS WHERE ID='${ID}'`,
-      [],
-      () => {},
-      err => console.log(err),
-    ),
+    tx.executeSql(`DELETE FROM ACCOUNTS WHERE ID='${ID}'`, [], () => {}),
   );
   getAccountsSettings(setAccounts);
 };
@@ -202,9 +189,6 @@ export const deleteAccountTransactions = async (
   await db.transaction(tx =>
     tx.executeSql(
       `DELETE FROM TRANSACTIONS WHERE DEBIT='${ID}' OR CREDIT='${ID}'`,
-      [],
-      () => {},
-      err => console.log(err),
     ),
   );
   deleteAccount(ID, setAccounts);
@@ -238,9 +222,6 @@ export const editAccount = async (
             : `,SIGN = (select SIGN from ACCOUNTS where NUMBER = ${data.NUMBER})`
         } 
         where id='${ID}'`,
-      [],
-      () => {},
-      err => console.log(err),
     ),
   );
 };
