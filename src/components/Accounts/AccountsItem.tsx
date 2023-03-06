@@ -1,7 +1,7 @@
-import {View, Text, StyleSheet} from 'react-native';
-import React, {useContext} from 'react';
-import {ThemeContext} from '../../contexts/ThemeContext';
-import {Theme} from '../../globals/Theme';
+import React, { useContext } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { ThemeContext } from '../../contexts/ThemeContext';
+import { Theme } from '../../globals/Theme';
 
 export const AccountItem = ({data}: {data: AccountsGroup}) => {
   const {theme} = useContext(ThemeContext);

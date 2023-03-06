@@ -1,7 +1,7 @@
-import {useContext} from 'react';
-import {Text, TouchableOpacity} from 'react-native';
-import {ThemeContext} from '../../contexts/ThemeContext';
-import {Theme} from '../Theme';
+import { useContext } from 'react';
+import { Text, TouchableOpacity } from 'react-native';
+import { ThemeContext } from '../../contexts/ThemeContext';
+import { Theme } from '../Theme';
 
 interface ButtonProps {
   onPress: () => void;

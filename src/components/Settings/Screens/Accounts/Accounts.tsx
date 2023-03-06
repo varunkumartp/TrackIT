@@ -1,12 +1,11 @@
-import {View} from 'react-native';
-import React, {useContext, useEffect, useState} from 'react';
-import {ThemeContext} from '../../../../contexts/ThemeContext';
-import {Styles} from '../../../../globals/Styles.Styles';
-import {Theme} from '../../../../globals/Theme';
-import {useIsFocused} from '@react-navigation/native';
-import {getAccountsSettings} from '../../../../database/accounts';
-import {FlatList} from 'react-native';
-import {AccountsGroup} from './AccountsGroup';
+import { useIsFocused } from '@react-navigation/native';
+import React, { useContext, useEffect, useState } from 'react';
+import { FlatList, View } from 'react-native';
+import { ThemeContext } from '../../../../contexts/ThemeContext';
+import { getAccountsSettings } from '../../../../database/accounts';
+import { Styles } from '../../../../globals/Styles.Styles';
+import { Theme } from '../../../../globals/Theme';
+import { AccountsGroup } from './AccountsGroup';
 
 const Accounts = () => {
   const focused = useIsFocused();

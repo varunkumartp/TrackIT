@@ -1,25 +1,18 @@
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import React, { useContext, useEffect, useState } from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  Pressable,
-  TextInput,
-  Alert,
-  TouchableOpacity,
-  Modal,
+  FlatList, Modal, Pressable, Text, TextInput, TouchableOpacity, View
 } from 'react-native';
-import React, {useContext, useEffect, useState} from 'react';
-import {ThemeContext} from '../../contexts/ThemeContext';
-import {Theme} from '../../globals/Theme';
-import {getAllAccounts} from '../../database/accounts';
-import {AccountsStyles} from '../../globals/Accounts.Styles';
+import { Checkbox } from 'react-native-paper';
+import { ThemeContext } from '../../contexts/ThemeContext';
+import { getAllAccounts } from '../../database/accounts';
+import { AccountsStyles } from '../../globals/Accounts.Styles';
+import { FormStyles } from '../../globals/Form.Styles';
+import { ListStyles } from '../../globals/List.Styles';
+import { ModalStyles } from '../../globals/Modal.Styles';
+import { Styles } from '../../globals/Styles.Styles';
+import { Theme } from '../../globals/Theme';
 import ButtonGroup from './Form/ButtonGroup';
-import {Checkbox} from 'react-native-paper';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {Styles} from '../../globals/Styles.Styles';
-import {FormStyles} from '../../globals/Form.Styles';
-import {ModalStyles} from '../../globals/Modal.Styles';
 
 type FilterScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -45,10 +38,7 @@ const FilterScreen = React.memo(({navigation}: FilterScreenProps) => {
     MAIN: false,
   });
   const [modal, setModal] = useState(false);
-  const [amount, setAmount] = useState<{
-    min: string;
-    max: string;
-  }>({
+  const [amount, setAmount] = useState({
     min: '',
     max: '',
   });
@@ -117,7 +107,11 @@ const FilterScreen = React.memo(({navigation}: FilterScreenProps) => {
           Min. Amount
         </Text>
         <TextInput
-          style={{...FormStyles.input, color: activeColor.text1}}
+          style={{
+            ...FormStyles.input,
+            color: activeColor.text1,
+            borderBottomColor: activeColor.text1,
+          }}
           keyboardType="number-pad"
           onChangeText={el => setAmount(prev => ({...prev, min: el}))}
         />
@@ -127,7 +121,11 @@ const FilterScreen = React.memo(({navigation}: FilterScreenProps) => {
           Max. Amount
         </Text>
         <TextInput
-          style={{...FormStyles.input, color: activeColor.text1}}
+          style={{
+            ...FormStyles.input,
+            color: activeColor.text1,
+            borderBottomColor: activeColor.text1,
+          }}
           keyboardType="number-pad"
           onChangeText={el => setAmount(prev => ({...prev, max: el}))}
         />
@@ -256,18 +254,6 @@ const FilterScreen = React.memo(({navigation}: FilterScreenProps) => {
       </Modal>
     </View>
   );
-});
-
-const ListStyles = StyleSheet.create({
-  container: {
-    flex: 1,
-    zIndex: 5,
-  },
-  headerText: {
-    fontSize: 15,
-    margin: 10,
-    fontWeight: 'bold',
-  },
 });
 
 export default FilterScreen;

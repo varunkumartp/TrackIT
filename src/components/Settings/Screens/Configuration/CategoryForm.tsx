@@ -1,13 +1,13 @@
-import {View, Text, TextInput, Pressable} from 'react-native';
-import React, {useContext, useState} from 'react';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {ThemeContext} from '../../../../contexts/ThemeContext';
-import {Theme} from '../../../../globals/Theme';
-import {FormStyles} from '../../../../globals/Form.Styles';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import React, { useContext, useState } from 'react';
+import { Pressable, Text, TextInput, View } from 'react-native';
+import { ThemeContext } from '../../../../contexts/ThemeContext';
 import {
   createCategories,
-  updateCategories,
+  updateCategories
 } from '../../../../database/configuration';
+import { FormStyles } from '../../../../globals/Form.Styles';
+import { Theme } from '../../../../globals/Theme';
 
 type CategoryFormProps = NativeStackScreenProps<
   ConfigStackParamList,

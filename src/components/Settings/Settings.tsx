@@ -1,10 +1,10 @@
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import React, {useContext} from 'react';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import React, { useContext } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {ThemeContext} from '../../contexts/ThemeContext';
-import {Theme} from '../../globals/Theme';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { ThemeContext } from '../../contexts/ThemeContext';
+import { Theme } from '../../globals/Theme';
 
 type SettingsProps = NativeStackScreenProps<SettingsStackParamList, 'Settings'>;
 

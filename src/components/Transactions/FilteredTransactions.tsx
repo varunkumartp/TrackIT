@@ -1,14 +1,13 @@
-import {Pressable, Text, View} from 'react-native';
-import React, {useContext, useEffect, useState} from 'react';
-import {ThemeContext} from '../../contexts/ThemeContext';
-import {Theme} from '../../globals/Theme';
-import {readFilteredTransactions} from '../../database/transactions';
-import {FlatList} from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import React, { useContext, useEffect, useState } from 'react';
+import { FlatList, Pressable, Text, View } from 'react-native';
+import { ThemeContext } from '../../contexts/ThemeContext';
+import { readFilteredTransactions } from '../../database/transactions';
+import { DateFilterDD } from '../../globals/DateFilter.component';
+import { FormStyles } from '../../globals/Form.Styles';
+import { Theme } from '../../globals/Theme';
 import TransactionsGroup from './TransactionsGroup';
-import {useIsFocused} from '@react-navigation/native';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {DateFilterDD} from '../../globals/DateFilter.component';
-import {FormStyles} from '../../globals/Form.Styles';
 
 type FilteredTransactionsProps = NativeStackScreenProps<
   RootStackParamList,

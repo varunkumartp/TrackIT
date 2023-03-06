@@ -1,14 +1,14 @@
-import React, {useContext} from 'react';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {ThemeContext} from '../../../contexts/ThemeContext';
-import {Theme} from '../../../globals/Theme';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import React, { useContext } from 'react';
+import { TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { ThemeContext } from '../../../contexts/ThemeContext';
+import { Theme } from '../../../globals/Theme';
 import Accounts from '../../Accounts/Accounts';
+import Transactions from '../../Transactions/Transactions';
 import SettingsNavigator from '../SettingsNavigator/SettingsNavigator';
 import StatsNavigator from '../StatsNavigator/StatsNavigator';
-import Transactions from '../../Transactions/Transactions';
-import {TouchableOpacity} from 'react-native';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 type BottomTabProps = NativeStackScreenProps<RootStackParamList, 'BottomTab'>;

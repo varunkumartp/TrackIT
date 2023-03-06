@@ -1,10 +1,10 @@
-import {FlatList, StyleSheet, Text, View} from 'react-native';
-import React, {useContext} from 'react';
-import {ThemeContext} from '../../../../contexts/ThemeContext';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import {Theme} from '../../../../globals/Theme';
-import {RadioButton} from 'react-native-paper';
-import {Styles} from '../../../../globals/Styles.Styles';
+import React, { useContext } from 'react';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { RadioButton } from 'react-native-paper';
+import { ThemeContext } from '../../../../contexts/ThemeContext';
+import { Styles } from '../../../../globals/Styles.Styles';
+import { Theme } from '../../../../globals/Theme';
+
 const Styling = () => {
   const {theme, updateTheme} = useContext(ThemeContext);
   let activeColor = Theme[theme.mode];

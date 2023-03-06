@@ -5,13 +5,10 @@ export const setDataSQL = async (key: string, value: {mode: string}) => {
   await db.transaction(tx =>
     tx.executeSql(
       `INSERT INTO PREFERENCES 
-                VALUES ('${key}','${data}') 
-                ON CONFLICT(KEY) DO 
-                UPDATE SET VALUE='${data}' 
-                WHERE KEY='${key}'`,
-      [],
-      () => {},
-      err => console.log(err),
+        VALUES ('${key}','${data}') 
+        ON CONFLICT(KEY) DO 
+        UPDATE SET VALUE='${data}' 
+        WHERE KEY='${key}'`,
     ),
   );
 };

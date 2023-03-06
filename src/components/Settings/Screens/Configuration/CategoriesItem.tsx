@@ -1,11 +1,9 @@
-import {View, Text, TouchableOpacity} from 'react-native';
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
+import { Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import {ThemeContext} from '../../../../contexts/ThemeContext';
-import {Theme} from '../../../../globals/Theme';
-import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {AccountsStyles} from '../../../../globals/Accounts.Styles';
+import { ThemeContext } from '../../../../contexts/ThemeContext';
+import { AccountsStyles } from '../../../../globals/Accounts.Styles';
+import { Theme } from '../../../../globals/Theme';
 
 interface CategoriesItemProp {
   data: Accounts;

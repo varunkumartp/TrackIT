@@ -1,8 +1,8 @@
-import {Modal} from 'react-native';
-import React, {useContext, useState} from 'react';
-import {PswdContext} from '../../contexts/PswdContext';
+import React, { useContext } from 'react';
+import { Modal } from 'react-native';
+import { LockContext } from '../../contexts/LockContext';
+import { PswdContext } from '../../contexts/PswdContext';
 import LockScreen from '../Settings/Screens/Passcode/LockScreen';
-import {LockContext} from '../../contexts/LockContext';
 
 const AppLockScreen = () => {
   const {pswd} = useContext(PswdContext);

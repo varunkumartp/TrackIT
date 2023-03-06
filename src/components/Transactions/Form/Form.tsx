@@ -1,17 +1,15 @@
-import {View, Text, TextInput, Pressable, Keyboard} from 'react-native';
-import React, {createRef, useContext, useState} from 'react';
-
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import React, { createRef, useContext, useState } from 'react';
+import { Keyboard, Pressable, Text, TextInput, View } from 'react-native';
 import DatePicker from 'react-native-date-picker';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-
-import ButtonGroup from './ButtonGroup';
+import { CurrencyContext } from '../../../contexts/CurrencyContext';
+import { ThemeContext } from '../../../contexts/ThemeContext';
+import { createTransactions } from '../../../database/transactions';
 import Numpad from '../../../globals/Calculator/Numpad.component';
-import {ThemeContext} from '../../../contexts/ThemeContext';
-import {Theme} from '../../../globals/Theme';
-import {FormStyles} from '../../../globals/Form.Styles';
+import { FormStyles } from '../../../globals/Form.Styles';
+import { Theme } from '../../../globals/Theme';
 import AccountsList from './AccountsList';
-import {createTransactions} from '../../../database/transactions';
-import {CurrencyContext} from '../../../contexts/CurrencyContext';
+import ButtonGroup from './ButtonGroup';
 
 type FormProps = NativeStackScreenProps<RootStackParamList, 'Form'>;
 

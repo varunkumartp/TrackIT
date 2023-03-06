@@ -1,16 +1,14 @@
-import {View, Text, FlatList, StyleSheet, TouchableOpacity} from 'react-native';
-
-import React, {useContext, useEffect, useState} from 'react';
-import {ThemeContext} from '../../contexts/ThemeContext';
-import {Theme} from '../../globals/Theme';
-import {PieChart} from 'react-native-chart-kit';
-import {Dimensions} from 'react-native';
-import {DateFilterDD} from '../../globals/DateFilter.component';
-import ButtonGroup from '../Transactions/Form/ButtonGroup';
+import { useIsFocused } from '@react-navigation/native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import React, { useContext, useEffect, useState } from 'react';
+import { Dimensions, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { PieChart } from 'react-native-chart-kit';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {expenseHeaderSum, incomeHeaderSum} from '../../database/stats';
-import {useIsFocused} from '@react-navigation/native';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import { ThemeContext } from '../../contexts/ThemeContext';
+import { expenseHeaderSum, incomeHeaderSum } from '../../database/stats';
+import { DateFilterDD } from '../../globals/DateFilter.component';
+import { Theme } from '../../globals/Theme';
+import ButtonGroup from '../Transactions/Form/ButtonGroup';
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 

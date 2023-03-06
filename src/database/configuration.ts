@@ -1,3 +1,4 @@
+import {helper} from './helper';
 import uuid from 'react-native-uuid';
 import {db} from './database';
 
@@ -13,9 +14,6 @@ export const createCategories = async (name: string, type: string) => {
             (SELECT MAX(NUMBER) FROM ACCOUNTS_${type.toUpperCase()})+1000,
             (SELECT SIGN FROM ACCOUNTS WHERE NUMBER=${number}),
             ${null})`,
-      [],
-      () => {},
-      err => console.log(err),
     ),
   );
 };
@@ -34,9 +32,6 @@ export const createSubCategories = async (
             (SELECT MAX(NUMBER) FROM SUB_ACCOUNTS_${type.toUpperCase()} WHERE PARENT_ID='${id}')+1,
             (SELECT SIGN FROM ACCOUNTS WHERE NUMBER=${number}),
             '${id}')`,
-      [],
-      () => {},
-      err => console.log(err),
     ),
   );
 };
@@ -45,12 +40,7 @@ export const createSubCategories = async (
 
 export const updateCategories = async (id: string, name: string) => {
   await db.transaction(tx =>
-    tx.executeSql(
-      `UPDATE ACCOUNTS SET NAME='${name}' WHERE ID='${id}'`,
-      [],
-      () => {},
-      err => console.log(err),
-    ),
+    tx.executeSql(`UPDATE ACCOUNTS SET NAME='${name}' WHERE ID='${id}'`),
   );
 };
 
@@ -78,10 +68,13 @@ export const checkCategories = async (
 ) => {
   await db.transaction(tx =>
     tx.executeSql(
-      `SELECT COUNT(ACCOUNT_ID) as NUM FROM SUB_${type.toLowerCase()}_LEDGERS WHERE ACCOUNT_ID='${id}'`,
+      `SELECT COUNT(ACCOUNT_ID) as NUM FROM SUB_${
+        ['Expense', 'Other', 'Tax'].includes(type)
+          ? 'EXPENSE'
+          : type.toLowerCase()
+      }_LEDGERS WHERE ACCOUNT_ID='${id}'`,
       [],
       (tx, results) => {
-        console.log(results.rows.item(0).NUM);
         setCount(results.rows.item(0).NUM);
       },
     ),
@@ -107,12 +100,7 @@ export const checkSubCategories = async (
 
 export const deleteCategories = async (ID: string) => {
   await db.transaction(tx =>
-    tx.executeSql(
-      `DELETE FROM ACCOUNTS WHERE ID = '${ID}'`,
-      [],
-      () => {},
-      err => console.log(err),
-    ),
+    tx.executeSql(`DELETE FROM ACCOUNTS WHERE ID = '${ID}'`, [], () => {}),
   );
 };
 
@@ -120,21 +108,13 @@ export const deleteCategoriesTransactions = async (ID: string) => {
   await db.transaction(tx =>
     tx.executeSql(
       `DELETE FROM TRANSACTIONS WHERE DEBIT='${ID}' OR CREDIT='${ID}'`,
-      [],
-      () => {},
-      err => console.log(err),
     ),
   );
 };
 
 export const deleteCatSubCategories = async (id: string) => {
   await db.transaction(tx =>
-    tx.executeSql(
-      `DELETE FROM ACCOUNTS WHERE PARENT_ID = '${id}'`,
-      [],
-      () => {},
-      err => console.log(err),
-    ),
+    tx.executeSql(`DELETE FROM ACCOUNTS WHERE PARENT_ID = '${id}'`),
   );
 };
 
@@ -148,13 +128,7 @@ export const getCategories = async (
     tx.executeSql(
       `SELECT * FROM ACCOUNTS_${type.toUpperCase()}`,
       [],
-      (tx, results) => {
-        let arr: Accounts[] = [];
-        for (let i = 0; i < results.rows.length; i++) {
-          arr.push(results.rows.item(i));
-        }
-        setAccounts(arr);
-      },
+      (tx, results) => helper(results, setAccounts),
     ),
   );
 };
@@ -164,19 +138,11 @@ export const getSubCategories = async (
   type: string,
   setSubAccounts: React.Dispatch<React.SetStateAction<Accounts[]>>,
 ) => {
-  await db.transaction(
-    tx =>
-      tx.executeSql(
-        `SELECT * FROM SUB_ACCOUNTS_${type.toUpperCase()} where PARENT_ID='${id}'`,
-        [],
-        (tx, results) => {
-          let arr: Accounts[] = [];
-          for (let i = 0; i < results.rows.length; i++) {
-            arr.push(results.rows.item(i));
-          }
-          setSubAccounts(arr);
-        },
-      ),
-    err => console.log(err),
+  await db.transaction(tx =>
+    tx.executeSql(
+      `SELECT * FROM SUB_ACCOUNTS_${type.toUpperCase()} where PARENT_ID='${id}'`,
+      [],
+      (tx, results) => helper(results, setSubAccounts),
+    ),
   );
 };

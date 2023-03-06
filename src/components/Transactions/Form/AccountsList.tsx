@@ -1,9 +1,10 @@
-import {View, Text, StyleSheet, FlatList, Pressable} from 'react-native';
-import React, {useContext, useEffect, useState} from 'react';
-import {ThemeContext} from '../../../contexts/ThemeContext';
-import {Theme} from '../../../globals/Theme';
-import {getAccounts, getSubAccounts} from '../../../database/accounts';
+import React, { useContext, useEffect, useState } from 'react';
+import { FlatList, Pressable, Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { ThemeContext } from '../../../contexts/ThemeContext';
+import { getAccounts, getSubAccounts } from '../../../database/accounts';
+import { ListStyles } from '../../../globals/List.Styles';
+import { Theme } from '../../../globals/Theme';
 
 interface AccountsListProps {
   type: string;
@@ -43,9 +44,6 @@ const AccountsList = ({type, header, onChange, setModal}: AccountsListProps) => 
       <View style={{...ListStyles.header, backgroundColor: activeColor.theme}}>
         <Text style={{...ListStyles.headerText, color: activeColor.text1}}>{header}</Text>
         <View style={{...ListStyles.header, backgroundColor: activeColor.theme}}>
-          <Pressable onPress={() => console.log('Editing')}>
-            <Icon name="pencil" style={{...ListStyles.headerText, color: activeColor.text1}} />
-          </Pressable>
           <Pressable onPress={() => setModal(false)}>
             <Icon name="close" style={{...ListStyles.headerText, color: activeColor.text1}} />
           </Pressable>
@@ -73,7 +71,7 @@ const AccountsList = ({type, header, onChange, setModal}: AccountsListProps) => 
               <Text
                 style={{
                   ...ListStyles.text,
-                  color: item.ID === selected ? activeColor.theme : activeColor.text1,
+                  color: item.ID === selected ? activeColor.text2 : activeColor.text1,
                 }}>
                 {item.NAME}
               </Text>
@@ -100,37 +98,5 @@ const AccountsList = ({type, header, onChange, setModal}: AccountsListProps) => 
   );
 };
 
-const ListStyles = StyleSheet.create({
-  container: {
-    flex: 1,
-    borderWidth: 2,
-    zIndex: 5,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  headerText: {
-    fontSize: 15,
-    margin: 10,
-    fontWeight: 'bold',
-  },
-  listContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    borderTopWidth: 2,
-  },
-  text: {
-    fontSize: 11,
-    marginVertical: 10,
-    marginLeft: 10,
-    fontWeight: 'bold',
-  },
-  options: {
-    zIndex: 2,
-    borderBottomColor: '#777',
-    borderBottomWidth: 1,
-  },
-});
 
 export default AccountsList;

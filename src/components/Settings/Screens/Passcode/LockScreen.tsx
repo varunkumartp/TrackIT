@@ -1,10 +1,10 @@
-import {View, Text, StyleSheet, TouchableHighlight, Alert} from 'react-native';
-import React, {useContext, useEffect, useState} from 'react';
-import {ThemeContext} from '../../../../contexts/ThemeContext';
-import {Theme} from '../../../../globals/Theme';
-import {Styles} from '../../../../globals/Styles.Styles';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import React, { useContext, useEffect, useState } from 'react';
+import { Alert, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { ThemeContext } from '../../../../contexts/ThemeContext';
+import { Styles } from '../../../../globals/Styles.Styles';
+import { Theme } from '../../../../globals/Theme';
 
 const NUMBERS = [
   [1, 2, 3],

@@ -1,18 +1,15 @@
+import React, { useContext, useState } from 'react';
 import {
-  View,
-  Text,
-  TouchableHighlight,
-  StyleSheet,
   Modal,
-  Switch,
+  Switch, Text,
+  TouchableHighlight, View
 } from 'react-native';
-import React, {useContext, useState} from 'react';
-import {ThemeContext} from '../../../../contexts/ThemeContext';
-import {Theme} from '../../../../globals/Theme';
-import {Styles} from '../../../../globals/Styles.Styles';
+import { LockContext } from '../../../../contexts/LockContext';
+import { PswdContext } from '../../../../contexts/PswdContext';
+import { ThemeContext } from '../../../../contexts/ThemeContext';
+import { ConfigStyle } from '../../../../globals/Config.Styles';
+import { Theme } from '../../../../globals/Theme';
 import LockScreen from './LockScreen';
-import {PswdContext} from '../../../../contexts/PswdContext';
-import {LockContext} from '../../../../contexts/LockContext';
 
 const Passcode = () => {
   const {theme} = useContext(ThemeContext);
@@ -117,15 +114,5 @@ const Passcode = () => {
     </View>
   );
 };
-const ConfigStyle = StyleSheet.create({
-  touchableView: {
-    padding: 5,
-    borderBottomWidth: 1,
-  },
-  text: {
-    ...Styles.text,
-    fontSize: 15,
-  },
-});
 
 export default Passcode;

@@ -1,10 +1,14 @@
-export const incomeStatementHTML = (arr: transactionsIncStat[],header:string): string => {
+export const incomeStatementHTML = (
+  arr: transactionsIncStat[],
+  header: string,
+): string => {
   let incSum = arr
     .filter(el => el.TYPE === 'INCOME')
     .reduce((sum, el) => sum + el.AMOUNT, 0);
   let expSum = arr
     .filter(el => el.TYPE === 'EXPENSE')
     .reduce((sum, el) => sum + el.AMOUNT, 0);
+
   let html = `<div>
       <h2 style="text-align: center"><span style="border-bottom: 0.1rem solid black">TrackIT</span></h2>
       <h3 style="text-align: center"><span style="border-bottom: 0.1rem solid black">Income Statement ${header}</span></h3>
@@ -61,5 +65,6 @@ export const incomeStatementHTML = (arr: transactionsIncStat[],header:string): s
         </table>
       </div>
     </div>`;
+  console.log(html);
   return html;
 };

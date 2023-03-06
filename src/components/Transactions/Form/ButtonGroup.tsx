@@ -1,7 +1,7 @@
-import {Pressable, StyleSheet, Text, View} from 'react-native';
-import React, {useContext, useState} from 'react';
-import {ThemeContext} from '../../../contexts/ThemeContext';
-import {Theme} from '../../../globals/Theme';
+import React, { useContext, useState } from 'react';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { ThemeContext } from '../../../contexts/ThemeContext';
+import { Theme } from '../../../globals/Theme';
 
 interface ButtonGroupProps {
   data: {key: string; value: string}[];

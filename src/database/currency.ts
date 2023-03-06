@@ -21,7 +21,6 @@ export const readCurrency = async (
         }
         setCurrency(arr);
       },
-      err => console.log(err),
     ),
   );
 };

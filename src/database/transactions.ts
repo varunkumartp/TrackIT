@@ -22,9 +22,6 @@ export const createTransactions = async (data: formTransaction) => {
       '${data.CURR_LOC}',
       ${parseInt(data.AMOUNT_LOC)},
       '${data.NOTES}')`,
-      [],
-      () => {},
-      err => console.log(err),
     ),
   );
 };
@@ -78,7 +75,6 @@ export const readTransactions = async (
         setLoading(false);
         setTransactions(arr);
       },
-      err => console.log(err),
     ),
   );
 };
@@ -131,19 +127,13 @@ export const readFilteredTransactions = async (
         setLoading(false);
         setTransactions(arr);
       },
-      err => console.log(err),
     ),
   );
 };
 
 export const deleteTransaction = async (ID: string) => {
   await db.transaction(tx =>
-    tx.executeSql(
-      `DELETE FROM TRANSACTIONS WHERE ID = '${ID}'`,
-      [],
-      () => {},
-      err => console.log(err),
-    ),
+    tx.executeSql(`DELETE FROM TRANSACTIONS WHERE ID = '${ID}'`),
   );
 };
 
@@ -160,20 +150,12 @@ export const editTransaction = async (ID: string, data: formTransaction) => {
       AMOUNT=${data.AMOUNT_LOC},
       NOTES='${data.NOTES}'
       WHERE ID = '${ID}'`,
-      [],
-      () => {},
-      err => console.log(err),
     ),
   );
 };
 
 export const editTransactionsCurrency = async (curr: string) => {
   await db.transaction(tx =>
-    tx.executeSql(
-      `UPDATE TRANSACTIONS SET CURR_LOC='${curr}'`,
-      [],
-      () => {},
-      err => console.log(err),
-    ),
+    tx.executeSql(`UPDATE TRANSACTIONS SET CURR_LOC='${curr}'`),
   );
 };

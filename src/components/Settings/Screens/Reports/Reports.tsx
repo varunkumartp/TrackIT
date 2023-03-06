@@ -1,22 +1,18 @@
+import React, { useContext, useState } from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableHighlight,
-  Modal,
-  TouchableOpacity,
+  Modal, Text,
+  TouchableHighlight, TouchableOpacity, View
 } from 'react-native';
-import React, {useContext, useState} from 'react';
-import {ThemeContext} from '../../../../contexts/ThemeContext';
-import {Theme} from '../../../../globals/Theme';
-import {Styles} from '../../../../globals/Styles.Styles';
-import {exportExcel, incomeStatement} from '../../../../database/exportData';
-import {ModalStyles} from '../../../../globals/Modal.Styles';
+import { ThemeContext } from '../../../../contexts/ThemeContext';
+import { exportExcel, incomeStatement } from '../../../../database/exportData';
+import { ConfigStyle } from '../../../../globals/Config.Styles';
 import {
   DateFilterDD,
   getFiscalYear,
-  months,
+  months
 } from '../../../../globals/DateFilter.component';
+import { ModalStyles } from '../../../../globals/Modal.Styles';
+import { Theme } from '../../../../globals/Theme';
 
 const Reports = () => {
   const {theme} = useContext(ThemeContext);
@@ -80,6 +76,7 @@ const Reports = () => {
           Download Income Statement
         </Text>
       </TouchableHighlight>
+
       <Modal transparent={true} visible={modal}>
         <View style={ModalStyles.mainView}>
           <View
@@ -139,16 +136,5 @@ const Reports = () => {
     </View>
   );
 };
-
-const ConfigStyle = StyleSheet.create({
-  touchableView: {
-    padding: 5,
-    borderBottomWidth: 1,
-  },
-  text: {
-    ...Styles.text,
-    fontSize: 15,
-  },
-});
 
 export default Reports;

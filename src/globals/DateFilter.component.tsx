@@ -1,9 +1,9 @@
-import {View, Text, Pressable, StyleSheet} from 'react-native';
-import React, {useContext, useState} from 'react';
-import {Styles} from './Styles.Styles';
-import {ThemeContext} from '../contexts/ThemeContext';
-import {Theme} from './Theme';
-import {Dropdown} from 'react-native-element-dropdown';
+import React, { useContext } from 'react';
+import { Pressable, Text, View } from 'react-native';
+import { Dropdown } from 'react-native-element-dropdown';
+import { ThemeContext } from '../contexts/ThemeContext';
+import { Styles } from './Styles.Styles';
+import { Theme } from './Theme';
 
 interface DateFilterProp {
   date: DateFilter;

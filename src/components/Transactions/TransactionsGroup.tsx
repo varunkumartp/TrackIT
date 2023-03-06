@@ -1,16 +1,12 @@
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import React, { Fragment, useContext } from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  TouchableHighlight,
+  FlatList, StyleSheet, Text, TouchableHighlight, View
 } from 'react-native';
-import React, {Fragment, useContext} from 'react';
-import {ThemeContext} from '../../contexts/ThemeContext';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import {Theme} from '../../globals/Theme';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {useNavigation} from '@react-navigation/native';
+import { ThemeContext } from '../../contexts/ThemeContext';
+import { Theme } from '../../globals/Theme';
 
 interface TransactionGroupProp {
   title: string;

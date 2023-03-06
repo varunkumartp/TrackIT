@@ -2,11 +2,9 @@ import SQLite from 'react-native-sqlite-storage';
 
 export const db = SQLite.openDatabase(
   {
-    name: 'TrackITv3.db',
-    createFromLocation: '~TrackITv3.db',
+    name: 'TrackITv6.db',
+    createFromLocation: '~TrackITv6.db',
   },
   () => {},
-  err => {
-    console.log(err);
-  },
+  () => {},
 );

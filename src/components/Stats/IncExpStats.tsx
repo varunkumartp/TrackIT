@@ -1,12 +1,11 @@
-import {View, Text, StyleSheet} from 'react-native';
-import React, {useContext, useEffect, useState} from 'react';
-import {getIncExpInvData} from '../../database/stats';
-import {ThemeContext} from '../../contexts/ThemeContext';
-import {Theme} from '../../globals/Theme';
-import {DateFilter} from '../../globals/DateFilter.component';
-import {Styles} from '../../globals/Styles.Styles';
-import {Dimensions} from 'react-native';
-import {BarChart} from 'react-native-chart-kit';
+import React, { useContext, useEffect, useState } from 'react';
+import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import { BarChart } from 'react-native-chart-kit';
+import { ThemeContext } from '../../contexts/ThemeContext';
+import { getIncExpInvData } from '../../database/stats';
+import { DateFilter } from '../../globals/DateFilter.component';
+import { Styles } from '../../globals/Styles.Styles';
+import { Theme } from '../../globals/Theme';
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 
@@ -19,10 +18,6 @@ const IncExpStats = () => {
     labels: [],
   });
   const [exp, setExp] = useState<IncExp>({
-    datasets: [{data: []}],
-    labels: [],
-  });
-  const [inv, setInv] = useState<IncExp>({
     datasets: [{data: []}],
     labels: [],
   });
@@ -65,7 +60,7 @@ const IncExpStats = () => {
             ...IncExpStyles.barChartStyle,
             borderColor: activeColor.text1,
           }}
-          height={screenHeight / 4}
+          height={screenHeight / 2.5}
           yAxisLabel="₹ "
           yAxisSuffix=""
           chartConfig={{
@@ -87,7 +82,7 @@ const IncExpStats = () => {
   };
 
   useEffect(() => {
-    getIncExpInvData(date, setInc, setExp, setInv);
+    getIncExpInvData(date, setInc, setExp);
   }, [date]);
   return (
     <View style={{flex: 1, backgroundColor: activeColor.background}}>
@@ -109,7 +104,6 @@ const IncExpStats = () => {
       <View style={{flex: 1}}>
         <CustomBarChart data={exp} header="Expenses" color={activeColor.red} />
         <CustomBarChart data={inc} header="Income" color={activeColor.blue} />
-        <CustomBarChart data={inv} header="Investments" color="grey" />
       </View>
     </View>
   );
