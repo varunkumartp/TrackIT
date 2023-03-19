@@ -1,4 +1,4 @@
-import { ToastAndroid } from 'react-native';
+import {ToastAndroid} from 'react-native';
 import DocPicker from 'react-native-document-picker';
 import RNFS from 'react-native-fs';
 import RNRestart from 'react-native-restart';
@@ -37,11 +37,9 @@ function formatDate() {
 
 export const backupDB = async () => {
   try {
-    const destPath =
-      RNFS.DownloadDirectoryPath + '/TrackIT_Backup_' + formatDate() + '.trit';
     await RNFS.copyFile(
       '/data/data/com.trackit/databases/TrackITv6.db',
-      destPath,
+      RNFS.DownloadDirectoryPath + '/TrackIT_Backup_' + formatDate() + '.trit',
     );
     showToastWithGravity('Data backup file downloaded to Downloads folder');
   } catch (e) {

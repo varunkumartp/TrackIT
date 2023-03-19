@@ -1,18 +1,25 @@
-import React, { useContext, useState } from 'react';
+import React, {useContext, useState} from 'react';
 import {
-  Modal, Text,
-  TouchableHighlight, TouchableOpacity, View
+  Modal,
+  Text,
+  TouchableHighlight,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import { ThemeContext } from '../../../../contexts/ThemeContext';
-import { exportExcel, incomeStatement } from '../../../../database/exportData';
-import { ConfigStyle } from '../../../../globals/Config.Styles';
+import {ThemeContext} from '../../../../contexts/ThemeContext';
+import {
+  balanceSheet,
+  exportExcel,
+  incomeStatement,
+} from '../../../../database/exportData';
+import {ConfigStyle} from '../../../../globals/Config.Styles';
 import {
   DateFilterDD,
   getFiscalYear,
-  months
+  months,
 } from '../../../../globals/DateFilter.component';
-import { ModalStyles } from '../../../../globals/Modal.Styles';
-import { Theme } from '../../../../globals/Theme';
+import {ModalStyles} from '../../../../globals/Modal.Styles';
+import {Theme} from '../../../../globals/Theme';
 
 const Reports = () => {
   const {theme} = useContext(ThemeContext);
@@ -40,6 +47,9 @@ const Reports = () => {
         break;
       case 'incomeStatement':
         incomeStatement(date, header);
+        break;
+      case 'balanceSheet':
+        balanceSheet(date, header);
         break;
       default:
         break;
@@ -74,6 +84,17 @@ const Reports = () => {
         underlayColor={activeColor.theme}>
         <Text style={{...ConfigStyle.text, color: activeColor.text1}}>
           Download Income Statement
+        </Text>
+      </TouchableHighlight>
+      <TouchableHighlight
+        style={{
+          ...ConfigStyle.touchableView,
+          borderBottomColor: activeColor.text1,
+        }}
+        onPress={() => touchableHandler('balanceSheet')}
+        underlayColor={activeColor.theme}>
+        <Text style={{...ConfigStyle.text, color: activeColor.text1}}>
+          Download Balance Sheet
         </Text>
       </TouchableHighlight>
 

@@ -3,11 +3,7 @@
   "data": [
     {
       "path": "android/app/src/main/assets/TrackITv6.db",
-<<<<<<< HEAD
-      "sha1": "48cc3c2f1b94bf561bcf6150bbea4f32ecb00b03"
-=======
-      "sha1": "0415de43cd94c1ed839c5cd1612441a4ddcf5b16"
->>>>>>> 968c41cc6042dfb9cc5b964d704c5e1c843af645
+      "sha1": "1d7fbc2a1e69792714863c2fd9f66ebf82d60bc1"
     }
   ]
 }

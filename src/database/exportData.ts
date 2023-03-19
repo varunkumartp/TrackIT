@@ -1,10 +1,11 @@
-import {incomeStatementHTML} from './generateHTML';
+import {incomeStatementHTML, balanceSheetHTML} from './generateHTML';
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
 import {db} from './database';
 import RNFS from 'react-native-fs';
 import XLSX from 'xlsx';
 import {PermissionsAndroid, ToastAndroid} from 'react-native';
 import {DateFilterString} from './dateFilter';
+import Share from 'react-native-share';
 
 const showToastWithGravity = (message: string) => {
   ToastAndroid.showWithGravity(message, ToastAndroid.LONG, ToastAndroid.CENTER);
@@ -61,18 +62,16 @@ export const exportExcel = async (date: DateFilter, header: string) => {
           header: fields,
         });
         XLSX.utils.book_append_sheet(wb, ws, 'Transactions');
-        console.log(
-          RNFS.ExternalDirectoryPath + `/Transactions ${header}.xlsx`,
-        );
         RNFS.writeFile(
-          RNFS.ExternalDirectoryPath + `/Transactions ${header}.xlsx`,
+          `${RNFS.DocumentDirectoryPath}/Transactions ${header}.xlsx`,
           XLSX.write(wb, {type: 'binary', bookType: 'xlsx'}),
           'ascii',
         )
-          .then(r => {
-            showToastWithGravity(
-              `Transactions ${header} downloaded to Documents folder`,
-            );
+          .then(async r => {
+            Share.open({
+              url: `file://${RNFS.DocumentDirectoryPath}/Transactions ${header}.xlsx`,
+              type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            }).catch(() => {});
           })
           .catch(e => {
             console.log('Error', e);
@@ -82,11 +81,13 @@ export const exportExcel = async (date: DateFilter, header: string) => {
     ),
   );
 };
+
 const permision = () => {
   PermissionsAndroid.request(
     PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
   ).then(res => console.log(res));
 };
+
 export const incomeStatement = async (date: DateFilter, header: string) => {
   permision();
   const dateFilter = DateFilterString(date);
@@ -141,27 +142,123 @@ export const incomeStatement = async (date: DateFilter, header: string) => {
         let file = await RNHTMLtoPDF.convert({
           html: incomeStatementHTML(arr, header),
           fileName: `Income Statement ${header}`,
-          directory: 'Download',
+          directory: 'Documents',
           base64: true,
         });
-        console.log(
-          RNFS.DownloadDirectoryPath + `/Income Statement ${header}.pdf`,
-        );
         RNFS.writeFile(
-          RNFS.DownloadDirectoryPath + `/Income Statement ${header}.pdf`,
+          `${RNFS.DocumentDirectoryPath}/Income-Statement-${header}.pdf`,
           file.base64 || '',
           'base64',
         )
-          .then(r => {
-            showToastWithGravity(
-              `Income Statement ${header} downloaded to Documents folder`,
-            );
+          .then(async r => {
+            Share.open({
+              url: `file://${RNFS.DocumentDirectoryPath}/Income-Statement-${header}.pdf`,
+              type: 'application/pdf',
+            }).catch(() => {});
           })
           .catch(e => {
-            console.log('Error', e);
             showToastWithGravity(`Download failed`);
           });
       },
     ),
+  );
+};
+
+export const balanceSheet = async (date: DateFilter, header: string) => {
+  const dateFilter = DateFilterString(date);
+  await db.transaction(
+    tx =>
+      tx.executeSql(
+        `select * from(
+            select 
+                a.name as NAME ,p.name as TYPE ,AMOUNT
+                from (SELECT 
+                  ACCOUNTS.PARENT_ID as PARENT_ID,
+                  sum(ACCOUNTS_LEDGERS.AMOUNT)as AMOUNT
+                  FROM ACCOUNTS
+                inner JOIN ACCOUNTS_LEDGERS
+                where ACCOUNTS.ID = ACCOUNTS_LEDGERS.ACCOUNT_ID
+                and ${dateFilter}
+                GROUP BY ACCOUNTS.PARENT_ID) as T
+                left outer join ACCOUNTS as a
+                on a.id = t.parent_id
+                left outer join accounts as p
+                on a.PARENT_ID = p.id	
+            
+        union ALL
+
+        select 'Prepaid expenses' as NAME, 
+          'Assets' as TYPE, 
+          SUM(amount) as AMOUNT 
+          from TRANSACTIONS 
+          where DEBIT in 
+          (select id from ACCOUNTS_EXPENSE 
+            union all 
+            select id from SUB_ACCOUNTS_EXPENSE)
+            and ${dateFilter}
+            
+        union ALL
+
+        select 'Other Expenses' as NAME, 
+          'Assets' as TYPE, 
+          SUM(amount) as AMOUNT 
+          from TRANSACTIONS 
+          where DEBIT in 
+          (select id from ACCOUNTS_OTHER
+            union all 
+            select id from SUB_ACCOUNTS_OTHER)
+            and ${dateFilter}
+
+        union ALL
+
+        select 'Taxes' as NAME, 
+          'Assets' as TYPE, 
+          SUM(amount) as AMOUNT 
+          from TRANSACTIONS 
+          where DEBIT in 
+          (select id from ACCOUNTS_TAX
+            union all 
+            select id from SUB_ACCOUNTS_TAX)
+            and ${dateFilter}
+            
+        union ALL
+
+        select 'Net Worth' as NAME,
+          'Equity' as TYPE,
+          sum(amount*-1) as AMOUNT 
+          from TRANSACTIONS_VIEW 
+          where TYPE='INCOME'
+          and ${dateFilter}
+        ) order by type`,
+        [],
+        async (tx, res) => {
+          let arr: transactionsIncStat[] = [];
+          for (let i = 0; i < res.rows.length; i++) {
+            arr.push(res.rows.item(i));
+          }
+          let file = await RNHTMLtoPDF.convert({
+            html: balanceSheetHTML(arr, header),
+            fileName: `Balance Sheet ${header}`,
+            directory: 'Documents',
+            base64: true,
+          });
+          RNFS.writeFile(
+            `${RNFS.DocumentDirectoryPath}/Balance Sheet ${header}.pdf`,
+            file.base64 || '',
+            'base64',
+          )
+            .then(async r => {
+              Share.open({
+                url: `file://${RNFS.DocumentDirectoryPath}/Balance Sheet ${header}.pdf`,
+                type: 'application/pdf',
+              }).catch(() => {});
+            })
+            .catch(e => {
+              console.log('Error', e);
+              showToastWithGravity(`Download failed`);
+            });
+        },
+      ),
+    err => console.log(err),
   );
 };
