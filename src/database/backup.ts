@@ -13,7 +13,7 @@ export const restoreDB = async () => {
     const filePath = rsPicker.uri;
     await RNFS.copyFile(
       filePath,
-      '/data/data/com.trackit/databases/TrackITv6.db',
+      '/data/data/com.trackit/databases/TrackIT.db',
     );
     RNRestart.restart();
     showToastWithGravity('Data restored successfully');
@@ -38,7 +38,7 @@ function formatDate() {
 export const backupDB = async () => {
   try {
     await RNFS.copyFile(
-      '/data/data/com.trackit/databases/TrackITv6.db',
+      '/data/data/com.trackit/databases/TrackIT.db',
       RNFS.DownloadDirectoryPath + '/TrackIT_Backup_' + formatDate() + '.trit',
     );
     showToastWithGravity('Data backup file downloaded to Downloads folder');
